@@ -16,17 +16,16 @@
         <a href="{% url 'index' %}"><img src="{% static "WebApp/img/logo.jpeg" %}" alt="logo"></a>
     </div>
     <ul id="navi">
-        <li class="navMenu"><a href="{% url 'honeycell' %}">HoneyCell</a></li>
-        <li class="navMenu"><a href="{% url 'honeycomb' %}">HoneyComb</a></li>
-        <li class="navMenu"><a href="{% url 'preprocess' %}">Preprocessing</a></li>
-        <li class="navMenu"><a href="{% url 'analytics' %}">Analytics</a></li>
-        <li class="navMenu"><a href="{% url 'visualization' %}">Visualization</a></li>
+        <li class="navMenu"><a href="#">HoneyCell</a></li>
+        <li class="navMenu"><a href="#">HoneyComb</a></li>
+        <li class="navMenu"><a href="#">Preprocessing</a></li>
+        <li class="navMenu"><a href="#">Analytics</a></li>
+        <li class="navMenu"><a href="#">Visualization</a></li>
         <li class="navMenu"><a href="{% url 'logout' %}">Logout</a></li>
     </ul>
 </div>
 <div id="wrap">
     <div id="contentwell">
-
         {% if check_login == True %}
             <h2>This is index page</h2>
         {% else %}
