@@ -14,3 +14,4 @@ db.sqlite3
 *.ini
 
 *.DS_Store
+*.idea
