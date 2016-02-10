@@ -68,7 +68,7 @@ def registration(request):
     login(request, new_user)
 
     # using 'redirect' function
-    return redirect(reverse('message'))
+    return redirect(reverse('index'))
 
 @login_required
 def message(request):
