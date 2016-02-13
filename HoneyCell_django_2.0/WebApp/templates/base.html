@@ -89,7 +89,7 @@
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
-        <a href="#" class="logo">
+        <a href="{% url 'index' %}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>H</b>Cell</span>
             <!-- logo for regular state and mobile devices -->
@@ -393,7 +393,7 @@
 
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="active treeview">
-                    <a href="#">
+                    <a href="{% url 'index' %}">
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                     </a>
                 </li>
@@ -405,7 +405,7 @@
                         <span class="label label-primary pull-right">4</span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> New Task</a></li>
+                        <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> History Tasks</a></li>
                     </ul>
                 </li>

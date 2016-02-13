@@ -20,4 +20,7 @@ urlpatterns = [
     # registration is normal route
     url(r'^registration/$', 'WebApp.views.registration', name='registration'),
 
+    # new task page
+    url(r'^newTask/$', 'WebApp.views.newTask', name='newTask'),
+
 ]

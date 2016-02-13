@@ -130,3 +130,11 @@ def analytics(request):
     user = request.user
     context['user'] = user
     return render(request, 'WebApp/analytics.html', context)
+
+@login_required
+def newTask(request):
+    print("in the newTask function")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/newTask.html', context)
