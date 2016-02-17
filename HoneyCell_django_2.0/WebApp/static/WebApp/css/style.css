@@ -8,3 +8,10 @@
     padding-top: 30px;
 }
 
+.slash {
+    float: left;
+    padding-top: 25px;
+    margin: 0 0px;
+    font-size: 21px;
+    color: #666;
+}

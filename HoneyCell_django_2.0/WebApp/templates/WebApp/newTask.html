@@ -27,9 +27,20 @@
           <h6 class="box-title"> Create a new Task</h6> </br>
           <h12>A task contains all information for your Algorithm</h12>
         </div><!-- /.box-header -->
+
         <!-- form start -->
         <form role="form">
           <div class="box-body">
+	          <div class="col-md-3 form-group">
+	            <label>Select Folder (optional)</label>
+	            <select class="form-control" style="width: 100%;">
+	              <option selected="selected">None</option>
+	              <option>Folder1</option>
+	              <option>Folder2</option>
+	              <option>Folder3</option>
+	            </select>
+	          </div>
+	          <span class="slash">/</span>
             <div class="col-md-6 form-group">
               <label for="taskName">Task Name</label>
               <input type="email" class="form-control" id="taskName" placeholder="Enter Name">
@@ -47,6 +58,7 @@
                 <option>Information</option>
               </select>
             </div><!-- /.form-group -->
+
             <div class="col-md-10 form-group">
               <label for="exampleInputFile">File input</label>
               <input type="file" id="exampleInputFile">
