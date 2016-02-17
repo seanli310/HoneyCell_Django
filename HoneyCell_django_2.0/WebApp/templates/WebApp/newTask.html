@@ -24,8 +24,8 @@
       <!-- general form elements -->
       <div class="box box-primary">
         <div class="box-header with-border">
-<!--           <h6 class="box-title"> Create a new Task</h6> </br>
-          <h12>A task contains all information for your Algorithm</h12> -->
+          <h6 class="box-title"> Create a new Task</h6> </br>
+          <h12>A task contains all information for your Algorithm</h12>
         </div><!-- /.box-header -->
         <!-- form start -->
         <form role="form">
@@ -39,6 +39,15 @@
               <input type="text" class="form-control" placeholder="Enter ...">
             </div>
             <div class="col-md-6 form-group">
+              <label>Select Label (optional)</label>
+              <select class="form-control" style="width: 100%;">
+                <option selected="selected">None</option>
+                <option>Important</option>
+                <option>Warning</option>
+                <option>Information</option>
+              </select>
+            </div><!-- /.form-group -->
+            <div class="col-md-10 form-group">
               <label for="exampleInputFile">File input</label>
               <input type="file" id="exampleInputFile">
               <p class="help-block">Example block-level help text here.</p>
