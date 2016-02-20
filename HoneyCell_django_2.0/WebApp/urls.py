@@ -23,4 +23,7 @@ urlpatterns = [
     # new task page
     url(r'^newTask/$', 'WebApp.views.newTask', name='newTask'),
 
+    # history tasks page
+    url(r'^historyTask/$', 'WebApp.views.historyTask', name='historyTask'),
+
 ]
