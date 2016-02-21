@@ -146,3 +146,12 @@ def historyTask(request):
     user = request.user
     context['user'] = user
     return render(request, 'WebApp/historyTask.html', context)
+
+
+@login_required
+def profile(request):
+    print("in the profile function")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/profile.html', context)
