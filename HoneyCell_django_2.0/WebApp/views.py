@@ -157,6 +157,7 @@ def profile(request):
     return render(request, 'WebApp/profile.html', context)
 
 from WebApp.forms import *
+from django.utils import timezone
 
 @login_required
 def create_new_task(request):
@@ -172,6 +173,11 @@ def create_new_task(request):
     print(request.POST['task_description'])
     print(request.POST['task_folder'])
     print(request.POST['task_label'])
+
+    print(timezone.now().date().year)
+    print(timezone.now().date().month)
+    print(timezone.now().date().day)
+
 
     form = DocumentForm(request.POST, request.FILES)
     print(form)
