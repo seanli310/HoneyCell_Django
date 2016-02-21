@@ -17,7 +17,7 @@
     </a>
     <ul class="treeview-menu">
         <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
-        <li><a href="#"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+        <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
     </ul>
 </li>
 <li class="active">
@@ -87,18 +87,13 @@
 
         <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
 
-        <hr>
-
-        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-
-
+    
       </div><!-- /.box-body -->
     </div><!-- /.box -->
+  </div><!-- /.col -->
 
 
-
- 
+  
 
 </section><!-- /.content -->
 {% endblock%}
