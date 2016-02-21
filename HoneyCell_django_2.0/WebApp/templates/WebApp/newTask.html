@@ -37,7 +37,6 @@
 {% endblock %}
 
 
-
 {% block content_area %}
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -65,11 +64,11 @@
         </div><!-- /.box-header -->
 
         <!-- form start -->
-        <form role="form">
+        <form action="{% url "create_new_task" %}" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
           <div class="box-body">
 	          <div class="col-md-3 form-group">
 	            <label>Select Folder (optional)</label>
-	            <select class="form-control" style="width: 100%;">
+	            <select class="form-control" style="width: 100%;" name="task_folder">
 	              <option selected="selected">None</option>
 	              <option>Folder1</option>
 	              <option>Folder2</option>
@@ -79,15 +78,15 @@
 	          <span class="slash">/</span>
             <div class="col-md-6 form-group">
               <label for="taskName">Task Name</label>
-              <input type="email" class="form-control" id="taskName" placeholder="Enter Name">
+              <input type="text" class="form-control" id="taskName" name="task_name" placeholder="Enter Name">
             </div>
             <div class="col-md-10 form-group">
               <label>Description (optional)</label>
-              <input type="text" class="form-control" placeholder="Enter ...">
+              <input type="text" class="form-control" name="task_description" placeholder="Enter ...">
             </div>
             <div class="col-md-6 form-group">
               <label>Select Label (optional)</label>
-              <select class="form-control" style="width: 100%;">
+              <select class="form-control" style="width: 100%;" name="task_label">
                 <option selected="selected">None</option>
                 <option>Important</option>
                 <option>Warning</option>
@@ -97,7 +96,7 @@
 
             <div class="col-md-10 form-group">
               <label for="exampleInputFile">File input</label>
-              <input type="file" id="exampleInputFile">
+              <input type="file" id="exampleInputFile" name="docfile">
               <p class="help-block">Example block-level help text here.</p>
               <p class="checkbox">
                 <label><input type="checkbox"> Check me out</label>

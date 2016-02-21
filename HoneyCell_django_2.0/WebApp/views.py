@@ -155,3 +155,38 @@ def profile(request):
     user = request.user
     context['user'] = user
     return render(request, 'WebApp/profile.html', context)
+
+from WebApp.forms import *
+
+@login_required
+def create_new_task(request):
+    print("in the create_new_task function")
+
+    errors = []
+    context = {}
+
+    context['user'] = request.user
+
+    print(request.user)
+    print(request.POST['task_name'])
+    print(request.POST['task_description'])
+    print(request.POST['task_folder'])
+    print(request.POST['task_label'])
+
+    form = DocumentForm(request.POST, request.FILES)
+    print(form)
+    if form.is_valid():
+        print("The form is valid.")
+        new_task_instance = Document(user = request.user,
+                                     name=request.POST['task_name'],
+                                     description=request.POST['task_description'],
+                                     folder=request.POST['task_folder'],
+                                     label=request.POST['task_label'],
+                                     docfile=request.FILES['docfile'])
+        new_task_instance.save()
+        print("already save the new_task_instance.")
+        return HttpResponseRedirect(reverse('newTask'))
+    else:
+        print("The form is not valid.")
+
+
