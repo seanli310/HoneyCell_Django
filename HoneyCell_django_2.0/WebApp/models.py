@@ -35,7 +35,10 @@ class User(models.Model):
 
 class Task(models.Model):
     task_id = models.AutoField(primary_key=True, blank=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(
+            User, on_delete=models.CASCADE,
+            related_name="tasks"
+    )
     TASK_IMPORTANCE = (
         ('0', 'Important'),
         ('1', 'Warning'),
