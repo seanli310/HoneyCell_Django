@@ -1,0 +1,34 @@
+
+
+user_table
++------------+-------------+------+-------+---------+-----------------------------+
+| Field      | Type        | Null | Extra | Default |           Key               |
++------------+-------------+------+-------+---------+-----------------------------+
+| user_id    | int         | NO   |       |         | Primary Key, auto_increase  |
+| user_name  | varchar(20) | YES  |       | NULL    |                             |
+| user_email | varchar(20) | YES  |       | NULL    |                             |
++------------+-------------+------+-------+---------+-----------------------------+
+
+
+task_table
++---------------------+-------------+------+-------+---------+----------------------------------+
+|        Field        | Type        | Null | Extra | Default |           Key                    |
++---------------------+-------------+------+-------+---------+----------------------------------+
+| task_id             | int         | NO   |       |         | Primary Key, auto_increase       |
+| user_id             | int         | NO   |       |         | Foregier Key of user_table       |
+| importance_id       | smallint    | NO   |       | 0       | Foregier Key of importance_table |
+| task_name           | varchar(20) | YES  |       | NULL    |                                  |
+| task_description    | text        | YES  |       | NULL    |                                  |
+| create_time         | timestamp   | YES  |       | NULL    |                                  |
+| stop_time           | timestamp   | YES  |       | NULL    |                                  |
+| input_file_address  | varchar(100)| YES  |       | NULL    |                                  |
+| output_file_address | varchar(100)| YES  |       | NULL    |                                  |
++---------------------+-------------+------+-------+---------+----------------------------------+
+
+importance_table
++---------------+-------------+------+-------+---------+-----------------------------+
+| Field         | Type        | Null | Extra | Default |           Key               |
++---------------+-------------+------+-------+---------+-----------------------------+
+| importance_id | int         | NO   |       |         | Primary Key, auto_increase  |
+| importance    | varchar(20) | YES  |       | NULL    |                             |
++---------------+-------------+------+-------+---------+-----------------------------+
