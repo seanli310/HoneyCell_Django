@@ -3,218 +3,246 @@
 
 
 {% block javascript %}
-<!-- fullCalendar 2.2.5 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-<script src="{% static "WebApp/plugins/fullcalendar/fullcalendar.min.js" %}" type="text/javascript"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="{% static "WebApp/plugins/fullcalendar/fullcalendar.min.js" %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block active_sidebar %}
-<!-- sidebar menu: : style can be found in sidebar.less -->
-<li class="treeview">
-    <a href="{% url 'index' %}">
-        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-    </a>
-</li>
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <li class="treeview">
+        <a href="{% url 'index' %}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
 
-<li class="treeview">
-    <a href="#">
-        <i class="fa fa-files-o"></i>
-        <span>Tasks</span>
-        <span class="label label-primary pull-right">4</span>
-    </a>
-    <ul class="treeview-menu">
-        <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
-        <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
-    </ul>
-</li>
-<li class="active">
-    <a href="#"><i class="fa fa-th"></i> <span>Profile</span></a>
-</li>
-<li>
-    <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
-</li>
-<li>
-    <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
-</li>
-<li>
-    <a href="#"><i class="fa fa-laptop"></i> <span>Contace Us</span></a>
-</li>
-<li>
-    <a href="#"><i class="fa fa-edit"></i> <span>Licence</span></a>
-</li>
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Tasks</span>
+            <span class="label label-primary pull-right">4</span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
+            <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+        </ul>
+    </li>
+    <li class="active">
+        <a href="#"><i class="fa fa-th"></i> <span>Profile</span></a>
+    </li>
+    <li>
+        <a href=""><i class="fa fa-book"></i> <span>Global</span></a>
+    </li>
+    <li>
+        <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-laptop"></i> <span>Contace Us</span></a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-edit"></i> <span>Licence</span></a>
+    </li>
 {% endblock %}
 
 
 {% block content_area %}
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-  <h1>
-    Profile
-    <small>Preview</small>
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Profile</li>
-  </ol>
-</section>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Profile
+            <small>Preview</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Profile</li>
+        </ol>
+    </section>
 
-<!-- Main content -->
-<section class="content">
+    <!-- Main content -->
+    <section class="content">
 
-<div class="row">
-  <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-3">
 
-    <!-- Profile Image -->
-    <div class="box box-primary">
-      <div class="box-body box-profile">
-        <img class="profile-user-img img-responsive img-circle" src="{% static "WebApp/img/user1.jpg" %}" alt="User profile picture">
-        <h3 class="profile-username text-center">{{ user.username }}</h3>
-        <p class="text-muted text-center"> username </p>
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle"
+                             src="{% static "WebApp/img/user1.jpg" %}" alt="User profile picture">
+                        <h3 class="profile-username text-center">{{ user.username }}</h3>
+                        <p class="text-muted text-center"> username </p>
 
-        <hr>
-        <strong><i class="fa fa-book margin-r-5"></i>Company</strong>
-        <p class="text-muted">Carnegie Mellon University</p>
-        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-        <p class="text-muted">Pittsburgh, PA</p>
-        <strong><i class="fa fa-envelope margin-r-5"></i> Email </strong>
-        <p class="text-muted">bic@andrew.cmu.edu</p>
-        <strong><i class="fa fa-external-link margin-r-5"></i> Website </strong>
-        <p class="text-muted">www.cmu.edu/bic</p>
-        <strong><i class="fa fa-clock-o margin-r-5"></i>Member Since </strong>
-        <p class="text-muted">Jan 1st, 2016</p>
+                        <hr>
+                        <strong><i class="fa fa-book margin-r-5"></i>Company</strong>
+                        {% if user.profile.company %}
+                            <p class="text-muted">{{ user.profile.company }}</p>
+                        {% else %}
+                            <p class="text-muted">To be determined</p>
+                        {% endif %}
+                        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                        {% if user.address %}
+                            <p class="text-muted">{{ user.address.street }} {{ user.address.city }} {{ user.address.state }}</p>
+                        {% else %}
+                            <p class="text-muted">To be determined</p>
+                        {% endif %}
+                        <strong><i class="fa fa-envelope margin-r-5"></i> Email </strong>
+                        {% if user.email %}
+                            <p class="text-muted">{{ user.email }}</p>
+                        {% else %}
+                            <p class="text-muted">To be determined</p>
+                        {% endif %}
+                        <strong><i class="fa fa-external-link margin-r-5"></i> Website </strong>
+                        {% if user.profile.website %}
+                            <p class="text-muted">{{ user.profile.website }}</p>
+                        {% else %}
+                            <p class="text-muted">To be determined</p>
+                        {% endif %}
+                        <strong><i class="fa fa-clock-o margin-r-5"></i>Member Since </strong>
+                        <p class="text-muted">{{ user.date_joined }}</p>
 
 
-        <ul class="list-group list-group-unbordered">
-          <li class="list-group-item">
-            <b>Followers</b> <a class="pull-right">124,234</a>
-          </li>
-          <li class="list-group-item">
-            <b>Following</b> <a class="pull-right">543</a>
-          </li>
-        </ul>
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b>Followers</b> <a class="pull-right">{{ followers_number }}</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Followings</b> <a class="pull-right">{{ followings_number }}</a>
+                            </li>
+                        </ul>
 
-        <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"><b>Follow</b></a>
-
-    
-      </div><!-- /.box-body -->
-    </div><!-- /.box -->
-  </div><!-- /.col -->
+                        <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-block"><b>Edit profile</b></a>
 
 
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div><!-- /.col -->
 
-    <div class="col-md-9">
-      <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
-        </ul>
-        <div class="tab-content">
-          <div class="active tab-pane" id="activity">
-            
-            <!-- Post 1-->
-            <div class="post">
-              <div class="user-block">
-                <img class="img-circle img-bordered-sm" src="{% static "WebApp/img/user2.jpg" %}" alt="user image">
+
+            <div class="col-md-9">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="activity">
+
+                            <!-- Post 1-->
+                            <div class="post">
+                                <div class="user-block">
+                                    <img class="img-circle img-bordered-sm" src="{% static "WebApp/img/user2.jpg" %}"
+                                         alt="user image">
                 <span class='username'>
                   <a href="#">CMU BIC 1</a>
                   <a href='#' class='pull-right btn-box-tool'></a>
                 </span>
-                <span class='description'>7:30 PM today</span>
-              </div><!-- /.user-block -->
-              <p>
-                Create a new task: AAAAA
-              </p>
-              <ul class="list-inline">
-                <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a></li>
-                <li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments (5)</a></li>
-              </ul>
+                                    <span class='description'>7:30 PM today</span>
+                                </div><!-- /.user-block -->
+                                <p>
+                                    Create a new task: AAAAA
+                                </p>
+                                <ul class="list-inline">
+                                    <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i>
+                                        Share</a></li>
+                                    <li><a href="#" class="link-black text-sm"><i
+                                            class="fa fa-thumbs-o-up margin-r-5"></i> Like</a></li>
+                                    <li class="pull-right"><a href="#" class="link-black text-sm"><i
+                                            class="fa fa-comments-o margin-r-5"></i> Comments (5)</a></li>
+                                </ul>
 
-             <form class='form-horizontal'>
-               <div class='form-group margin-bottom-none'>
-                 <div class='col-sm-9'>
-                   <input class="form-control input-sm" placeholder="Comments">
-                 </div>                          
-                 <div class='col-sm-3'>
-                   <button class='btn btn-primary pull-right btn-block btn-sm'>Send</button>
-                 </div>                          
-               </div>                        
-             </form> 
-            </div><!-- /.post 1-->
+                                <form class='form-horizontal'>
+                                    <div class='form-group margin-bottom-none'>
+                                        <div class='col-sm-9'>
+                                            <input class="form-control input-sm" placeholder="Comments">
+                                        </div>
+                                        <div class='col-sm-3'>
+                                            <button class='btn btn-primary pull-right btn-block btn-sm'>Send</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!-- /.post 1-->
 
-            <!-- Post 2-->
-            <div class="post">
-              <div class="user-block">
-                <img class="img-circle img-bordered-sm" src="{% static "WebApp/img/user3.jpg" %}" alt="user image">
+                            <!-- Post 2-->
+                            <div class="post">
+                                <div class="user-block">
+                                    <img class="img-circle img-bordered-sm" src="{% static "WebApp/img/user3.jpg" %}"
+                                         alt="user image">
                 <span class='username'>
                   <a href="#">CMU BIC 2</a>
                   <a href='#' class='pull-right btn-box-tool'></a>
                 </span>
-                <span class='description'>7:30 PM today</span>
-              </div><!-- /.user-block -->
-              <p>
-                Create a new task: BBBBB
-              </p>
-              <ul class="list-inline">
-                <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a></li>
-                <li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments (5)</a></li>
-              </ul>
+                                    <span class='description'>7:30 PM today</span>
+                                </div><!-- /.user-block -->
+                                <p>
+                                    Create a new task: BBBBB
+                                </p>
+                                <ul class="list-inline">
+                                    <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i>
+                                        Share</a></li>
+                                    <li><a href="#" class="link-black text-sm"><i
+                                            class="fa fa-thumbs-o-up margin-r-5"></i> Like</a></li>
+                                    <li class="pull-right"><a href="#" class="link-black text-sm"><i
+                                            class="fa fa-comments-o margin-r-5"></i> Comments (5)</a></li>
+                                </ul>
 
-             <form class='form-horizontal'>
-               <div class='form-group margin-bottom-none'>
-                 <div class='col-sm-9'>
-                   <input class="form-control input-sm" placeholder="Comments">
-                 </div>                          
-                 <div class='col-sm-3'>
-                   <button class='btn btn-primary pull-right btn-block btn-sm'>Send</button>
-                 </div>                          
-               </div>                        
-             </form> 
-            </div><!-- /.post 2-->
+                                <form class='form-horizontal'>
+                                    <div class='form-group margin-bottom-none'>
+                                        <div class='col-sm-9'>
+                                            <input class="form-control input-sm" placeholder="Comments">
+                                        </div>
+                                        <div class='col-sm-3'>
+                                            <button class='btn btn-primary pull-right btn-block btn-sm'>Send</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!-- /.post 2-->
 
-            <!-- Post 3-->
-            <div class="post">
-              <div class="user-block">
-                <img class="img-circle img-bordered-sm" src="{% static "WebApp/img/user4.jpg" %}" alt="user image">
+                            <!-- Post 3-->
+                            <div class="post">
+                                <div class="user-block">
+                                    <img class="img-circle img-bordered-sm" src="{% static "WebApp/img/user4.jpg" %}"
+                                         alt="user image">
                 <span class='username'>
                   <a href="#">CMU BIC 3</a>
                   <a href='#' class='pull-right btn-box-tool'></a>
                 </span>
-                <span class='description'>7:30 PM today</span>
-              </div><!-- /.user-block -->
-              <p>
-                Create a new task: CCCCC
-              </p>
-              <ul class="list-inline">
-                <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
-                <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a></li>
-                <li class="pull-right"><a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments (5)</a></li>
-              </ul>
+                                    <span class='description'>7:30 PM today</span>
+                                </div><!-- /.user-block -->
+                                <p>
+                                    Create a new task: CCCCC
+                                </p>
+                                <ul class="list-inline">
+                                    <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i>
+                                        Share</a></li>
+                                    <li><a href="#" class="link-black text-sm"><i
+                                            class="fa fa-thumbs-o-up margin-r-5"></i> Like</a></li>
+                                    <li class="pull-right"><a href="#" class="link-black text-sm"><i
+                                            class="fa fa-comments-o margin-r-5"></i> Comments (5)</a></li>
+                                </ul>
 
-             <form class='form-horizontal'>
-               <div class='form-group margin-bottom-none'>
-                 <div class='col-sm-9'>
-                   <input class="form-control input-sm" placeholder="Comments">
-                 </div>                          
-                 <div class='col-sm-3'>
-                   <button class='btn btn-primary pull-right btn-block btn-sm'>Send</button>
-                 </div>                          
-               </div>                        
-             </form> 
-            </div><!-- /.post 3-->
+                                <form class='form-horizontal'>
+                                    <div class='form-group margin-bottom-none'>
+                                        <div class='col-sm-9'>
+                                            <input class="form-control input-sm" placeholder="Comments">
+                                        </div>
+                                        <div class='col-sm-3'>
+                                            <button class='btn btn-primary pull-right btn-block btn-sm'>Send</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!-- /.post 3-->
 
-            <div class="see_more"><a href="#">See More Activities</a></div>
+                            <div class="see_more"><a href="#">See More Activities</a></div>
 
 
-          </div><!-- /.tab-pane -->
-        </div><!-- /.tab-content -->
-      </div><!-- /.nav-tabs-custom -->
-    </div><!-- /.col -->
-  
-  </div><!-- /.row -->
-</section><!-- /.content -->
-{% endblock%}
+                        </div><!-- /.tab-pane -->
+                    </div><!-- /.tab-content -->
+                </div><!-- /.nav-tabs-custom -->
+            </div><!-- /.col -->
+
+        </div><!-- /.row -->
+    </section><!-- /.content -->
+{% endblock %}
 
 
 

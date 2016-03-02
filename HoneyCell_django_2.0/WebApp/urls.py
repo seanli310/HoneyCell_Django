@@ -53,5 +53,9 @@ urlpatterns = [
     url(r'^other_user/(?P<user_id>\d+)$', 'WebApp.views.other_user', name='other_user'),
 
 
+    url(r'^edit_profile/$', 'WebApp.views.edit_profile', name='edit_profile'),
+
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

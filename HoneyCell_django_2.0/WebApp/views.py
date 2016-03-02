@@ -58,9 +58,15 @@ def registration(request):
     # using 'authenticate' function
     new_user = authenticate(username = request.POST['user_name'], password = request.POST['password'])
 
+    # create new Activity object
     new_activity_instance = Activity(user=new_user)
     new_activity_instance.description = new_user.username + "register an account."
     new_activity_instance.save()
+
+    new_profile_instance = Profile(user=new_user)
+    new_profile_instance.save()
+    print("Already save new_profile_instance.")
+
 
     # create default folder
     new_folder_instance = Folder(user=new_user,
@@ -143,6 +149,13 @@ def profile(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    followers_number = len(Followship.objects.filter(following=request.user))
+    context['followers_number'] = followers_number
+
+    followings_number = len(Followship.objects.filter(follower=request.user))
+    context['followings_number'] = followings_number
+
     return render(request, 'WebApp/profile.html', context)
 
 from WebApp.forms import *
@@ -323,3 +336,34 @@ def unfollow(request, user_id):
     print("The Followship object already delete.")
 
     return HttpResponseRedirect(reverse("other_user", kwargs={'user_id': other_user.id}))
+
+
+
+@login_required
+def edit_profile(request):
+    print("in the edit_profile function.")
+
+    context = {}
+    context['user'] = request.user
+
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
+    if request.method == "GET":
+        print("in the GET method of edit_profile function.")
+
+        return render(request, 'WebApp/edit_profile.html', context)
+
+    else:
+        print("in the POST method of edit_profile function.")
+
+        return HttpResponseRedirect(reverse('profile'))
+
+
+
+
+
+
+
+

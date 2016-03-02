@@ -62,27 +62,22 @@ class Activity(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
 
 
-class Address(models.Model):
-    user = models.OneToOneField(User)
-    street = models.CharField(max_length=100, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    state = models.CharField(max_length=100, blank=True)
-
-    def __unicode__(self):
-        return "%s, %s, %s" %(self.street, self.city, self.state)
-
 
 def generate_url_images(self, filename):
     url = 'images/%s/%s' %(self.user.username, filename)
     return url
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 class Profile(models.Model):
-    user = models.ForeignKey(User)
-    company = models.CharField(max_length=100)
-    website = models.CharField(max_length=100)
-    age = models.IntegerField()
-    phone = models.CharField(max_length=100)
-    short_introduction = models.TextField(max_length=1000)
+    user = models.OneToOneField(User)
+    company = models.CharField(max_length=100, blank=True)
+    website = models.CharField(max_length=100, blank=True)
+    age = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(18),
+                                                  MaxValueValidator(99)])
+    phone = models.CharField(max_length=100, blank=True)
+    location = models.CharField(max_length=200, blank=True)
+    short_introduction = models.TextField(max_length=1000, blank=True)
     image = models.ImageField(upload_to=generate_url_images)
 
 
@@ -96,3 +91,4 @@ class Comment(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User)
     text = models.TextField(max_length=1000)
+    time_created = models.DateTimeField(auto_now_add=True)
