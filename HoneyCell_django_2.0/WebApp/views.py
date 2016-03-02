@@ -200,3 +200,10 @@ def guide(request):
     print("in the guide function")
     return render(request, 'WebApp/guide.html')
 
+@login_required
+def settings(request):
+    print("in the settings function")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/settings.html', context)

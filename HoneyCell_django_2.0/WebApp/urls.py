@@ -34,6 +34,9 @@ urlpatterns = [
     # profile tasks page
     url(r'^profile/$', 'WebApp.views.profile', name='profile'),
 
+    # settings page
+    url(r'^settings/$', 'WebApp.views.settings', name='settings'),
+
     # new user guide page
     url(r'^guide/$', 'WebApp.views.guide', name='guide')
 
