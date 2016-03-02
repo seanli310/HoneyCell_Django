@@ -17,17 +17,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from WebApp.models import *
 
-
-@login_required
-def index(request):
-    print("in the index function")
-    context = {}
-    user = request.user
-    context['user'] = user
-    return render(request, 'WebApp/index.html', context)
-
-
-
 # registration is normal route, and login is login is "django.contrib.views.login"
 def registration(request):
     errors = []
@@ -70,66 +59,18 @@ def registration(request):
     # using 'redirect' function
     return redirect(reverse('index'))
 
-@login_required
-def message(request):
-    print("in the message function.")
-    context = {}
-    user = request.user
-    context['user'] = user
-    return render(request, 'WebApp/message.html', context)
-
-@login_required
-def upload(request):
-    print("in the upload function.")
-    context = {}
-    user = request.user
-    context['user'] = user
-    return render(request, 'WebApp/upload.html', context)
-
-@login_required
-def preprocess(request):
-    print("in the preprocess function.")
-    context = {}
-    user = request.user
-    context['user'] = user
-    return render(request, 'WebApp/preprocessing.html', context)
-
-@login_required
-def visualization(request):
-    print("in the visualization function.")
-    context = {}
-    user = request.user
-    context['user'] = user
-    return render(request, 'WebApp/knnresult.html', context)
-
 # def logout view
 def my_logout(request):
     logout(request)
     return redirect(reverse('index'))
 
 @login_required
-def honeycell(request):
-    print("in the honeycell function")
+def index(request):
+    print("in the index function")
     context = {}
     user = request.user
     context['user'] = user
-    return render(request, 'WebApp/honeycell.html', context)
-
-@login_required
-def honeycomb(request):
-    print("in the honeycomb function")
-    context = {}
-    user = request.user
-    context['user'] = user
-    return render(request, 'WebApp/honeycomb.html', context)
-
-@login_required
-def analytics(request):
-    print("in the analytics function")
-    context = {}
-    user = request.user
-    context['user'] = user
-    return render(request, 'WebApp/analytics.html', context)
+    return render(request, 'WebApp/index.html', context)
 
 @login_required
 def newTask(request):
@@ -203,3 +144,46 @@ def settings(request):
     user = request.user
     context['user'] = user
     return render(request, 'WebApp/settings.html', context)
+
+
+
+@login_required
+def follow(request, user_id):
+    print("in the follow function.")
+
+    print("*" * 30)
+
+    print(request)
+    print(user_id)
+
+    context = {}
+    context['current_user'] = request.user
+
+    selected_user = User.objects.get(id=user_id)
+
+    new_followship_instance = Followship(following=request.user,
+                                         follower=selected_user)
+    new_followship_instance.save()
+    print("Already save new_followship_instance.")
+
+    return HttpResponseRedirect(reverse("show_users"))
+
+
+@login_required
+def unfollow(request, user_id):
+    print("in the unfollow function.")
+
+    print(request)
+    print(user_id)
+
+    context = {}
+    context['current_user'] = request.user
+
+    selected_user = User.objects.get(id=user_id)
+
+    followship = Followship.objects.get(following=request.user,
+                                        follower=selected_user)
+    followship.delete()
+    print("The Followship object already delete.")
+
+    return HttpResponseRedirect(reverse("show_users"))

@@ -35,6 +35,13 @@ urlpatterns = [
     url(r'^profile/$', 'WebApp.views.profile', name='profile'),
 
     # settings page
-    url(r'^settings/$', 'WebApp.views.settings', name='settings')
+    url(r'^settings/$', 'WebApp.views.settings', name='settings'),
+
+    # follow other users
+    url(r'add_followship/(?P<user_id>\d+)$', 'WebApp.views.follow', name='follow'),
+
+    # unfollow other users
+    url(r'delete_followship/(?P<user_id>\d+)$', 'WebApp.views.unfollow', name='unfollow'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

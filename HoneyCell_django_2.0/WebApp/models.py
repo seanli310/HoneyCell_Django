@@ -16,11 +16,6 @@ def generate_filename(self, filename):
     url = 'documents/%s/%s/%s/%s' %(self.user.username, self.folder, self.label, filename)
     return url
 
-class User(models.Model):
-    user_id = models.AutoField(primary_key=True)
-    user_name = models.CharField(max_length=18)
-    display_name = models.CharField(max_length=18)
-    user_email = models.CharField(max_length=100)
 
 class Task(models.Model):
     task_id = models.AutoField(primary_key=True, blank=True)
@@ -39,3 +34,13 @@ class Task(models.Model):
     finish_time = models.DateTimeField(default=timezone.now)
     input_file_address = models.CharField(max_length=100)
     output_file_address = models.CharField(max_length=100)
+
+
+
+class Followship(models.Model):
+    following = models.ForeignKey(User, related_name="who_follows")
+    follower = models.ForeignKey(User, related_name="who_is_followed")
+    follow_datetime = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "%s follows %s at %s" %(self.following, self.follower, self.follow_datetime)
