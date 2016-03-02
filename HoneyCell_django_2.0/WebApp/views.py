@@ -196,3 +196,10 @@ def create_new_task(request):
         print("The form is not valid.")
 
 
+@login_required
+def settings(request):
+    print("in the settings function")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/settings.html', context)

@@ -31,7 +31,10 @@ urlpatterns = [
     # history tasks page
     url(r'^historyTask/$', 'WebApp.views.historyTask', name='historyTask'),
 
-    # profile tasks page
-    url(r'^profile/$', 'WebApp.views.profile', name='profile')
+    # profile page
+    url(r'^profile/$', 'WebApp.views.profile', name='profile'),
+
+    # settings page
+    url(r'^settings/$', 'WebApp.views.settings', name='settings')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
