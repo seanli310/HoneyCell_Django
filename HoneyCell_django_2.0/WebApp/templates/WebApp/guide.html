@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content_area %}
+<section class="content">
+
+    <div class="wrap">
+
+
+        <div class="markdown-body content-body ">
+            <p><a id="intro" title="Intro" class="toc-item"></a></p>
+
+            <h1 align="center">HoneyCell Hello Word</h1>
+            <br>
+            <br>
+
+            <p>The <strong>Hello World</strong> project is a time-honored tradition in computer programming. It is a simple exercise that gets you started when learning something new. Let&rsquo;s get started with HoneyCell!</p>
+
+            <p><strong>You&rsquo;ll learn how to:</strong></p>
+
+            <ul>
+                <li>What is HoneyCell</li>
+                <li>How to start with HoneyCell</li>
+            </ul>
+
+
+            <br>
+            <p><a id="what" title="What is HoneyCell?" class="toc-item"></a></p>
+
+            <h2>What is HoneyCell?</h2>
+
+            <p> HoneyCell is a web­based general machine learning/big data analysis services that can help you easily process and get detailed reports of your data</p>
+
+            <p> HoneyCell provides multiple analytical methods, provides data visualization of results and supports comparison between results</p>
+
+            <br>
+
+            <h2> Get Start with HoneyCell </h2>
+
+            <h3>Step 1. Create a new task</h3>
+
+            <p>A <strong>task</strong> usually represents one analytic dataset using different analytical methods. </p>
+
+
+            <p><img src="{% static "WebApp/img/task_page.png" alt="new-repo-form" %}"></p>
+
+            <a href="{% url "newTask" %}" class="h3"><strong>Click to create a new task now!</strong></a>
+
+
+            <br>
+            <br>
+
+            <h3>Celebrate!</h3>
+
+            <p>By completing this tutorial, you&rsquo;ve learned to create a project and make a pull request on HoneyCell!</p>
+
+            <p>Here&rsquo;s what you accomplished in this tutorial:</p>
+
+            <ul>
+                <li>Created an machine learning task</li>
+                <li>Get the data visualization graph for you result</li>
+                <li>Compare the results between different approaches</li>
+            </ul>
+
+            <hr />
+
+            <p class="last-updated">Last updated February, 2016</p>
+        </div>
+    </div>
+    </div>
+
+    </article>
+
+
+</section>
+
+{% endblock%}
+
+

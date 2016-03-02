@@ -49,11 +49,27 @@
 
     <!-- Main content -->
     <section class="content">
+
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <!-- small box -->
+                <div align="center" class="small-box bg-aqua">
+                    <h2 class="shelf-title">Learn how to use HoneyCell within 5 mins!</h2>
+                    <p class="shelf-lead">
+                        Using the HoneyCell guide, you’ll create a new folder, new tasks and retrieve the results
+                    </p>
+                    <!-- small box -->
+                    <a href="{% url "guide" %}" class="btn btn-primary shelf-cta" target="_blank" data-ga-click="Hello World, click, Clicked Let's get started button">Let's get started!</a>
+                </div>
+            </div><!-- ./col -->
+        </div>
+
+
         <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-6 col-xs-6">
                 <!-- small box -->
-                <div class="small-box bg-aqua">
+                <div class="small-box bg-black">
                     <div class="inner">
                         <h3>4 <sup style="font-size: 20px">Machine Learning</sup></h3>
                         <p>Methods support comparison</p>
@@ -64,7 +80,7 @@
                     <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div><!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-6 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
@@ -77,7 +93,7 @@
                     <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div><!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-6 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
@@ -90,7 +106,7 @@
                     <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div><!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-6 col-xs-6">
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
@@ -107,7 +123,7 @@
         <!-- Main row -->
         <div class="row">
             <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
+            <section class="col-lg-12 connectedSortable">
                 <!-- Custom tabs (Charts with tabs)-->
                 <div class="nav-tabs-custom">
                     <!-- Tabs within a box -->
@@ -123,78 +139,7 @@
                         <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
                     </div>
                 </div><!-- /.nav-tabs-custom -->
-
-                <hr>
-                <h1>abc</h1>
-
-                <!-- Chat box -->
-                <div class="box box-success">
-                    <div class="box-header">
-                        <i class="fa fa-comments-o"></i>
-                        <h3 class="box-title">Costomer Comments</h3>
-                        <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-                            <div class="btn-group" data-toggle="btn-toggle">
-                                <button type="button" class="btn btn-default btn-sm active"><i
-                                        class="fa fa-square text-green"></i></button>
-                                <button type="button" class="btn btn-default btn-sm"><i
-                                        class="fa fa-square text-red"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box-body chat" id="chat-box">
-                        <!-- chat item -->
-                        <div class="item">
-                            <img src="{% static "WebApp/img/user2.jpg" %}" alt="user image" class="online">
-                            <p class="message">
-                                <a href="#" class="name">
-                                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                                    Mike Doe
-                                </a>
-                                Honey Cell privid a great experience for Data Scientists who need multiple methods!
-                            </p>
-                            <div class="attachment">
-                                <h4>Attachments:</h4>
-                                <p class="filename">
-                                    Theme-thumbnail-image.jpg
-                                </p>
-                                <div class="pull-right">
-                                    <button class="btn btn-primary btn-sm btn-flat">Open</button>
-                                </div>
-                            </div><!-- /.attachment -->
-                        </div><!-- /.item -->
-                        <!-- chat item -->
-                        <div class="item">
-                            <img src="{% static "WebApp/img/user3.jpg" %}" alt="user image" class="offline">
-                            <p class="message">
-                                <a href="#" class="name">
-                                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
-                                    Alexander Pierce
-                                </a>
-                                The visualization part is great one I never experienced before!
-                            </p>
-                        </div><!-- /.item -->
-                        <!-- chat item -->
-                        <div class="item">
-                            <img src="{% static "WebApp/img/user4.jpg" %}" alt="user image" class="offline">
-                            <p class="message">
-                                <a href="#" class="name">
-                                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small>
-                                    Susan Doe
-                                </a>
-                                I love the comparision!
-                                The UI is also user friendly!
-                            </p>
-                        </div><!-- /.item -->
-                    </div><!-- /.chat -->
-                    <div class="box-footer">
-                        <div class="input-group">
-                            <input class="form-control" placeholder="Type message...">
-                            <div class="input-group-btn">
-                                <button class="btn btn-success"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- /.box (chat box) -->
+              
             </section>
         </div>
     </section>

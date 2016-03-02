@@ -162,3 +162,24 @@ table, .coMat {
 
 
 }
+
+.shelf-title{
+    margin:0;
+    font-size:30px;
+    font-weight:normal
+
+}
+
+.shelf-content{
+    width:800px;
+    margin:50px auto;
+    text-align:center
+
+}
+
+.shelf-lead{
+    margin-top:10px;
+    margin-bottom:30px;
+    font-size:18px;
+    color:#666
+}

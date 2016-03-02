@@ -31,7 +31,7 @@ urlpatterns = [
     # history tasks page
     url(r'^historyTask/$', 'WebApp.views.historyTask', name='historyTask'),
 
-    # profile page
+    # profile tasks page
     url(r'^profile/$', 'WebApp.views.profile', name='profile'),
 
     # settings page
@@ -43,5 +43,7 @@ urlpatterns = [
     # unfollow other users
     url(r'delete_followship/(?P<user_id>\d+)$', 'WebApp.views.unfollow', name='unfollow'),
 
+    # new user guide page
+    url(r'^guide/$', 'WebApp.views.guide', name='guide')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

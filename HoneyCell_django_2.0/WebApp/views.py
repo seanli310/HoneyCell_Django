@@ -136,6 +136,10 @@ def create_new_task(request):
     else:
         print("The form is not valid.")
 
+@login_required
+def guide(request):
+    print("in the guide function")
+    return render(request, 'WebApp/guide.html')
 
 @login_required
 def settings(request):
