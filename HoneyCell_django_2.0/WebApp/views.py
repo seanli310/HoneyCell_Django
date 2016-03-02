@@ -150,6 +150,14 @@ def settings(request):
     return render(request, 'WebApp/settings.html', context)
 
 
+@login_required
+def global_page(request):
+    print("in the global function.")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/global_page.html', context)
+
 
 @login_required
 def follow(request, user_id):

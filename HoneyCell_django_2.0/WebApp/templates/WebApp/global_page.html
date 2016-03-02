@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block active_sidebar %}
+<li class="treeview">
+    <a href="{% url 'index' %}">
+        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+    </a>
+</li>
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-files-o"></i>
+        <span>Tasks</span>
+        <span class="label label-primary pull-right">4</span>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
+        <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+    </ul>
+</li>
+<li>
+    <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
+</li>
+<li class="active">
+    <a href=""><i class="fa fa-book"></i> <span>Global</span></a>
+</li>
+<li>
+    <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
+</li>
+<li>
+    <a href="#"><i class="fa fa-laptop"></i> <span>Contace Us</span></a>
+</li>
+<li>
+    <a href="#"><i class="fa fa-edit"></i> <span>Licence</span></a>
+</li>
+{% endblock %}
+
+
+{% block content_area %}
+
+    <section class="content-header">
+        <h1>
+            Global
+            <small>Honey Cell</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Global</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row" align="center">
+        	<h1>This is global page.</h1>
+
+            <hr>
+
+            <div class="table-responsive">
+            	<table class="table table-hover">
+            		<thead>
+            			<tr>
+            				<th></th>
+            			</tr>
+            		</thead>
+            		<tbody>
+            			<tr>
+            				<td></td>
+            			</tr>
+            		</tbody>
+            	</table>
+            </div>
+
+        </div>
+
+
+
+
+    </section>
+</div>
+{% endblock %}

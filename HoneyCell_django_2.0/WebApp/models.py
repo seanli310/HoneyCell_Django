@@ -8,7 +8,6 @@ from django.utils import timezone
 
 
 def generate_filename(self, filename):
-
     print(self.date)
     print(self.date.date().year)
     print(self.date.date().month)
@@ -16,8 +15,6 @@ def generate_filename(self, filename):
 
     url = 'documents/%s/%s/%s/%s' %(self.user.username, self.folder, self.label, filename)
     return url
-
-
 
 class Document(models.Model):
     user = models.ForeignKey(User)
@@ -48,12 +45,20 @@ class Task(models.Model):
     output_file_address = models.CharField(max_length=100)
 
 
-
 class Followship(models.Model):
     following = models.ForeignKey(User, related_name="who_follows")
     follower = models.ForeignKey(User, related_name="who_is_followed")
     follow_datetime = models.DateTimeField(auto_now=True)
+    time_created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return "%s follows %s at %s" %(self.following, self.follower, self.follow_datetime)
+
+
+class Activity(models.Model):
+    user = models.ForeignKey(User)
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=1000)
+    time_created = models.DateTimeField(auto_now_add=True)
+
 

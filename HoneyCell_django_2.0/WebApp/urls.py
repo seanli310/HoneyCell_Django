@@ -38,12 +38,15 @@ urlpatterns = [
     url(r'^settings/$', 'WebApp.views.settings', name='settings'),
 
     # follow other users
-    url(r'add_followship/(?P<user_id>\d+)$', 'WebApp.views.follow', name='follow'),
+    url(r'^add_followship/(?P<user_id>\d+)$', 'WebApp.views.follow', name='follow'),
 
     # unfollow other users
-    url(r'delete_followship/(?P<user_id>\d+)$', 'WebApp.views.unfollow', name='unfollow'),
+    url(r'^delete_followship/(?P<user_id>\d+)$', 'WebApp.views.unfollow', name='unfollow'),
 
     # new user guide page
-    url(r'^guide/$', 'WebApp.views.guide', name='guide')
+    url(r'^guide/$', 'WebApp.views.guide', name='guide'),
+
+    # global_page
+    url(r'^global_page/$', 'WebApp.views.global_page', name='global_page'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
