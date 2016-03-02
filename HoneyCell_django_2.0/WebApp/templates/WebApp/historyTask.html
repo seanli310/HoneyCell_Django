@@ -2,39 +2,110 @@
 {% load staticfiles %}
 
 {% block active_sidebar %}
-<!-- sidebar menu: : style can be found in sidebar.less -->
-<li class="treeview">
-    <a href="{% url 'index' %}">
-        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-    </a>
-</li>
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <li class="treeview">
+        <a href="{% url 'index' %}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
 
-<li class="active treeview">
-    <a href="#">
-        <i class="fa fa-files-o"></i>
-        <span>Tasks</span>
-        <span class="label label-primary pull-right">4</span>
-    </a>
-    <ul class="treeview-menu">
-        <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
-        <li class="active"><a href="#"><i class="fa fa-circle-o"></i> History Tasks</a></li>
-    </ul>
-</li>
-<li>
-    <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
-</li>
-<li>
-    <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
-</li>
-<li>
-    <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
-</li>
-<li>
-    <a href="#"><i class="fa fa-laptop"></i> <span>Contace Us</span></a>
-</li>
-<li>
-    <a href="#"><i class="fa fa-edit"></i> <span>Licence</span></a>
-</li>
+    <li class="active treeview">
+        <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Tasks</span>
+            <span class="label label-primary pull-right">4</span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
+            <li class="active"><a href="#"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
+    </li>
+    <li>
+        <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
+    </li>
+    <li>
+        <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-laptop"></i> <span>Contace Us</span></a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-edit"></i> <span>Licence</span></a>
+    </li>
+{% endblock %}
+
+{% block content_area %}
+
+    <section class="content-header">
+        <h1>
+            History Tasks
+            <small>Honey Cell</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li>Task</li>
+            <li class="active">History Tasks</li>
+        </ol>
+    </section>
+
+    <section class="newTask_content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h6 class="box-title"> History tasks page</h6> </br>
+                        <h12>Here are all the tasks created by user.</h12>
+                    </div><!-- /.box-header -->
+
+                        <h2 align="center">This is the page to show history tasks.</h2>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover" border="3">
+                                <thead>
+                                <col width="10%">
+                                <col width="20%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="15%">
+                                <col width="15%">
+
+                                <tr>
+                                    <td><h3><b><i>Task name</i></b></h3></td>
+                                    <td><h3><b><i>Task description</i></b></h3></td>
+                                    <td><h3><b><i>Task folder</i></b></h3></td>
+                                    <td><h3><b><i>Task label</i></b></h3></td>
+                                    <td><h3><b><i>Task time created</i></b></h3></td>
+                                    <td><h3><b><i>Task time changed</i></b></h3></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for task in tasks %}
+                                    <tr>
+                                        <td>{{ task.task_name }}</td>
+                                        <td>{{ task.task_description }}</td>
+                                        <td>{{ task.task_folder.folder_name }}</td>
+                                        <td>{{ task.task_label.label_name }}</td>
+                                        <td>{{ task.task_time_created }}</td>
+                                        <td>{{ task.task_time_changed }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                </div><!-- /.box -->
+            </div>
+        </div>
+    </section>
+
+
 {% endblock %}
 
 

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block active_sidebar %}
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <li class="treeview">
+        <a href="{% url 'index' %}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li class="active treeview">
+        <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Tasks</span>
+            <span class="label label-primary pull-right">4</span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
+            <li class="active"><a href="#"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
+    </li>
+    <li>
+        <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
+    </li>
+    <li>
+        <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-laptop"></i> <span>Contace Us</span></a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-edit"></i> <span>Licence</span></a>
+    </li>
+{% endblock %}
+
+{% block content_area %}
+
+    <section class="content-header">
+        <h1>
+            History Tasks
+            <small>Honey Cell</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li>Task</li>
+            <li class="active">History Tasks</li>
+        </ol>
+    </section>
+
+    <section class="newTask_content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h6 class="box-title"> other user page</h6> </br>
+                        <h12>Here are detail information of other user.</h12>
+                    </div><!-- /.box-header -->
+
+                        <h2 align="center">This is the page to show history tasks.</h2>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover" border="3">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><label>User name: </label></td>
+                                        <td>{{ other_user.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>User first name: </label></td>
+                                        <td>{{ other_user.first_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>User last name: </label></td>
+                                        <td>{{ other_user.last_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>User time created: </label></td>
+                                        <td>{{ other_user.date_joined }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>User email: </label></td>
+                                        <td>{{ other_user.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>User task set: </label></td>
+                                        <td>{{ other_user.task_set.all }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>User followers: </label></td>
+                                        <td>{{ other_user.who_is_followed.all }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>User followings: </label></td>
+                                        <td>{{ other_user.who_follows.all }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            {% if is_followed %}
+                                                <h2 align="center"><a href="{% url 'unfollow' other_user.id %}"><button>Unfollow</button></a></h2>
+                                            {% else %}
+                                                <h2 align="center"><a href="{% url 'follow' other_user.id %}"><button>Follow</button></a></h2>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div><!-- /.box -->
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+
+

@@ -49,4 +49,9 @@ urlpatterns = [
     # global_page
     url(r'^global_page/$', 'WebApp.views.global_page', name='global_page'),
 
+    # go to other user's page
+    url(r'^other_user/(?P<user_id>\d+)$', 'WebApp.views.other_user', name='other_user'),
+
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -43,6 +43,11 @@ def registration(request):
         # error2 happens
         errors.append("Username is already taken.")
 
+    if len(User.objects.all().filter(email = request.POST['email'])):
+        print("The email already register.")
+
+        errors.append("The email already register.")
+
     if errors:
         return render(request, 'WebApp/register.html', context)
 
@@ -52,6 +57,38 @@ def registration(request):
 
     # using 'authenticate' function
     new_user = authenticate(username = request.POST['user_name'], password = request.POST['password'])
+
+    new_activity_instance = Activity(user=new_user)
+    new_activity_instance.description = new_user.username + "register an account."
+    new_activity_instance.save()
+
+    # create default folder
+    new_folder_instance = Folder(user=new_user,
+                                 folder_name="Default",
+                                 folder_description="This is default folder.",
+                                 )
+    new_folder_instance.save()
+    print("Already save new_folder_instance.")
+
+    # create three default labels at first.
+    new_label_important_instance = Label(user=new_user,
+                                        label_name="Important",
+                                        label_description="This task is important.",
+                                        )
+    new_label_important_instance.save()
+    print("Already save new_label_important_instance.")
+
+    new_label_warning_instance = Label(user=new_user,
+                                       label_name="Warning",
+                                       label_description="This task is warning.")
+    new_label_warning_instance.save()
+    print("Already save new_label_warning_instance.")
+
+    new_label_information_instance = Label(user=new_user,
+                                           label_name="Information",
+                                           label_description="This task is information.")
+    new_label_information_instance.save()
+    print("Already save new_label_information_instance.")
 
     # using 'login' function
     login(request, new_user)
@@ -78,6 +115,13 @@ def newTask(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    folders = Folder.objects.filter(user=user)
+    context['folders'] = folders
+
+    labels = Label.objects.filter(user=user)
+    context['labels'] = labels
+
     return render(request, 'WebApp/newTask.html', context)
 
 @login_required
@@ -86,6 +130,10 @@ def historyTask(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    tasks = Task.objects.filter(user=request.user)
+    context['tasks'] = tasks
+
     return render(request, 'WebApp/historyTask.html', context)
 
 
@@ -104,37 +152,78 @@ from django.utils import timezone
 def create_new_task(request):
     print("in the create_new_task function")
 
-    errors = []
     context = {}
-
     context['user'] = request.user
+
+    errors = []
+    context['errors'] = errors
 
     print(request.user)
     print(request.POST['task_name'])
     print(request.POST['task_description'])
     print(request.POST['task_folder'])
     print(request.POST['task_label'])
+    print(request.FILES['docfile'])
 
-    print(timezone.now().date().year)
-    print(timezone.now().date().month)
-    print(timezone.now().date().day)
+    user = request.user
+    task_name = request.POST['task_name']
+    task_description = request.POST['task_description']
+    task_folder = request.POST['task_folder']
+    task_label = request.POST['task_label']
+    docfile = request.FILES['docfile']
 
+    task_folder_object = Folder.objects.get(user=request.user, folder_name=task_folder)
+    task_label_object = Label.objects.get(user=request.user, label_name=task_label)
 
-    form = DocumentForm(request.POST, request.FILES)
-    print(form)
-    if form.is_valid():
-        print("The form is valid.")
-        new_task_instance = Document(user = request.user,
-                                     name=request.POST['task_name'],
-                                     description=request.POST['task_description'],
-                                     folder=request.POST['task_folder'],
-                                     label=request.POST['task_label'],
-                                     docfile=request.FILES['docfile'])
-        new_task_instance.save()
-        print("already save the new_task_instance.")
-        return HttpResponseRedirect(reverse('newTask'))
-    else:
-        print("The form is not valid.")
+    context['user'] = user
+    context['task_name'] = task_name
+    context['task_description'] = task_description
+    context['task_folder'] = task_folder
+    context['task_label'] = task_label
+    context['docfile'] = docfile
+    folders = Folder.objects.filter(user=user)
+    context['folders'] = folders
+
+    labels = Label.objects.filter(user=user)
+    context['labels'] = labels
+
+    if not task_name:
+        errors.append("Please type in the task name.")
+
+        return render(request, 'WebApp/newTask.html', context)
+
+    if not task_description:
+        errors.append('Please type in the task description.')
+
+        return render(request, 'WebApp/newTask.html', context)
+
+    if not docfile:
+        errors.append("Please upload a file for the task.")
+
+        return render(request, 'WebApp/newTask.html', context)
+
+    if len(Task.objects.filter(user=user, task_name=task_name)):
+        print("The task_name for this user already exist.")
+        errors.append("The task_name for this user already exist.")
+
+        return render(request, 'WebApp/newTask.html', context)
+
+    new_task_instance = Task(user=user,
+                             task_name=task_name,
+                             task_description=task_description,
+                             task_label=task_label_object,
+                             task_folder=task_folder_object,
+                             docfile=docfile)
+    new_task_instance.save()
+    print("Already save the new_task_instance.")
+
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = "Create a new task name: " + new_task_instance.task_name
+    new_activity_instance.save()
+
+    print("Already save new_activity_instance.")
+
+    return HttpResponseRedirect(reverse('newTask'))
 
 @login_required
 def guide(request):
@@ -156,7 +245,34 @@ def global_page(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    activities = Activity.objects.all()
+    context['activities'] = activities
+
     return render(request, 'WebApp/global_page.html', context)
+
+
+@login_required
+def other_user(request, user_id):
+    print("in the other_user function.")
+    print(request)
+    print(user_id)
+    context = {}
+    context['user'] = request.user
+    other_user = User.objects.get(id=user_id)
+    context['other_user'] = other_user
+
+    if len(Followship.objects.filter(following=request.user,
+                                     follower=other_user)):
+        is_followed = True
+        context['is_followed'] = is_followed
+    else:
+        is_followed = False
+        context['is_followed'] = is_followed
+
+    return render(request, 'WebApp/other_user.html', context)
+
+
 
 
 @login_required
@@ -171,15 +287,23 @@ def follow(request, user_id):
     context = {}
     context['current_user'] = request.user
 
-    selected_user = User.objects.get(id=user_id)
+    errors = []
+    context['errors'] = errors
+
+    other_user = User.objects.get(id=user_id)
+
+    if Followship.objects.filter(following=request.user,
+                                 follower=other_user):
+        errors.append("The followship already exist.")
+
+        return HttpResponseRedirect(reverse('global_page'))
 
     new_followship_instance = Followship(following=request.user,
-                                         follower=selected_user)
+                                         follower=other_user)
     new_followship_instance.save()
     print("Already save new_followship_instance.")
 
-    return HttpResponseRedirect(reverse("show_users"))
-
+    return HttpResponseRedirect(reverse("other_user", kwargs={'user_id': other_user.id}))
 
 @login_required
 def unfollow(request, user_id):
@@ -191,11 +315,11 @@ def unfollow(request, user_id):
     context = {}
     context['current_user'] = request.user
 
-    selected_user = User.objects.get(id=user_id)
+    other_user = User.objects.get(id=user_id)
 
     followship = Followship.objects.get(following=request.user,
-                                        follower=selected_user)
+                                        follower=other_user)
     followship.delete()
     print("The Followship object already delete.")
 
-    return HttpResponseRedirect(reverse("show_users"))
+    return HttpResponseRedirect(reverse("other_user", kwargs={'user_id': other_user.id}))

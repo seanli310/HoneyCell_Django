@@ -3,116 +3,124 @@
 
 
 {% block active_sidebar %}
-<!-- sidebar menu: : style can be found in sidebar.less -->
-<li class="treeview">
-    <a href="{% url 'index' %}">
-        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-    </a>
-</li>
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <li class="treeview">
+        <a href="{% url 'index' %}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
 
-<li class="active treeview">
-    <a href="#">
-        <i class="fa fa-files-o"></i>
-        <span>Tasks</span>
-        <span class="label label-primary pull-right">4</span>
-    </a>
-    <ul class="treeview-menu">
-        <li class="active"><a href="#"><i class="fa fa-circle-o"></i> New Task</a></li>
-        <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
-    </ul>
-</li>
-<li>
-    <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
-</li>
-<li>
-    <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
-</li>
-<li>
-    <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
-</li>
-<li>
-    <a href="#"><i class="fa fa-laptop"></i> <span>Contace Us</span></a>
-</li>
-<li>
-    <a href="#"><i class="fa fa-edit"></i> <span>Licence</span></a>
-</li>
+    <li class="active treeview">
+        <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Tasks</span>
+            <span class="label label-primary pull-right">4</span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="active"><a href="#"><i class="fa fa-circle-o"></i> New Task</a></li>
+            <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
+    </li>
+    <li>
+        <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
+    </li>
+    <li>
+        <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-laptop"></i> <span>Contace Us</span></a>
+    </li>
+    <li>
+        <a href="#"><i class="fa fa-edit"></i> <span>Licence</span></a>
+    </li>
 {% endblock %}
 
 
 {% block content_area %}
-<!-- Content Header (Page header) -->
-<section class="content-header">
-  <h1>
-    New Task
-    <small>Preview</small>
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="#">Tasks</a></li>
-    <li class="active">New Task</li>
-  </ol>
-</section>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            New Task
+            <small>Preview</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Tasks</a></li>
+            <li class="active">New Task</li>
+        </ol>
+    </section>
 
-<!-- Main content -->
-<section class="newTask_content">
-  <div class="row">
-    <!-- left column -->
-    <div class="col-md-12">
-      <!-- general form elements -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h6 class="box-title"> Create a new Task</h6> </br>
-          <h12>A task contains all information for your Algorithm</h12>
-        </div><!-- /.box-header -->
+    <!-- Main content -->
+    <section class="newTask_content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h6 class="box-title"> Create a new Task</h6> </br>
+                        <h12>A task contains all information for your Algorithm</h12>
+                    </div><!-- /.box-header -->
 
-        <!-- form start -->
-        <form action="{% url "create_new_task" %}" role="form" method="POST" enctype="multipart/form-data">{% csrf_token %}
-          <div class="box-body">
-	          <div class="col-md-3 form-group">
-	            <label>Select Folder (optional)</label>
-	            <select class="form-control" style="width: 100%;" name="task_folder">
-	              <option selected="selected">None</option>
-	              <option>Folder1</option>
-	              <option>Folder2</option>
-	              <option>Folder3</option>
-	            </select>
-	          </div>
-	          <span class="slash">/</span>
-            <div class="col-md-7 form-group">
-              <label for="taskName">Task Name</label>
-              <input type="text" class="form-control" id="taskName" name="task_name" placeholder="Enter Name">
+
+                    <!-- form start -->
+                    <form action="{% url "create_new_task" %}" role="form" method="POST"
+                          enctype="multipart/form-data">{% csrf_token %}
+                        <div class="box-body">
+                            <div class="col-md-3 form-group">
+                                <label>Select Folder (optional)</label>
+                                <select class="form-control" style="width: 100%;" name="task_folder">
+                                    {% for folder in folders %}
+                                        <option value="{{ folder.folder_name }}">{{ folder.folder_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="slash">/</span>
+                            <div class="col-md-7 form-group">
+                                <label for="taskName">Task Name</label>
+                                <input type="text" class="form-control" id="taskName" name="task_name"
+                                       placeholder="Enter Name" required>
+                            </div>
+                            <div class="col-md-10 form-group">
+                                <label>Description (optional)</label>
+                                <input type="text" class="form-control" name="task_description" placeholder="Enter ..." required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Select Label (optional)</label>
+                                <select class="form-control" style="width: 100%;" name="task_label">
+                                    {% for label in labels %}
+                                        <option value="{{ label.label_name }}">{{ label.label_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div><!-- /.form-group -->
+
+                            <div class="col-md-10 form-group">
+                                <label for="exampleInputFile">File input</label>
+                                <input type="file" id="exampleInputFile" name="docfile" required>
+                                <p class="help-block">Example block-level help text here.</p>
+                                <p class="checkbox">
+                                    <label><input type="checkbox"> Check me out</label>
+                                </p>
+                            </div>
+
+                        </div><!-- /.box-body -->
+                        <ul>
+                            {% for error in errors %}
+                                <li><p style="color: red">{{ error }}</p></li>
+                            {% endfor %}
+                            
+                        </ul>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">Create Task</button>
+                        </div>
+                    </form>
+
+
+                </div><!-- /.box -->
             </div>
-            <div class="col-md-10 form-group">
-              <label>Description (optional)</label>
-              <input type="text" class="form-control" name="task_description" placeholder="Enter ...">
-            </div>
-            <div class="col-md-6 form-group">
-              <label>Select Label (optional)</label>
-              <select class="form-control" style="width: 100%;" name="task_label">
-                <option selected="selected">None</option>
-                <option>Important</option>
-                <option>Warning</option>
-                <option>Information</option>
-              </select>
-            </div><!-- /.form-group -->
-
-            <div class="col-md-10 form-group">
-              <label for="exampleInputFile">File input</label>
-              <input type="file" id="exampleInputFile" name="docfile">
-              <p class="help-block">Example block-level help text here.</p>
-              <p class="checkbox">
-                <label><input type="checkbox"> Check me out</label>
-              </p>
-            </div>
-
-          </div><!-- /.box-body -->
-
-          <div class="box-footer">
-            <button type="submit" class="btn btn-primary">Create Task</button>
-          </div>
-        </form>
-      </div><!-- /.box -->
-    </div>
-  </div>
-</section>
+        </div>
+    </section>
 {% endblock %}
