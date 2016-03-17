@@ -88,6 +88,14 @@ def historyTask(request):
     context['user'] = user
     return render(request, 'WebApp/historyTask.html', context)
 
+@login_required
+def historyTask_folders(request):
+    print("in the historyTask function")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/historyTask_folders.html', context)
+
 
 @login_required
 def profile(request):

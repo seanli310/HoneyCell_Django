@@ -57,9 +57,9 @@
           <div class="box-header">
             <h6 class="box-title">
                 <ol class="breadcrumb box-title-customize">
-                  <li><a href="{% url 'historyTask_folders' %}"><i class="fa fa-folder-open"></i> All Folders</a></li>
+                  <li><a href="#"><i class="fa fa-folder-open"></i> All Folders</a></li>
                   <!-- <li><a href="#">Tasks</a></li> -->
-                  <li class="active">Default</li>
+                  <!-- <li class="active">Default</li> -->
                 </ol>
             </h6>
             <!-- Search Bar -->
@@ -75,103 +75,24 @@
           
           <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
+              
               <tr>
-                <th>ID</th>
-                <th>Task Name</th>
+                <th>Folder Name</th>
                 <th>User</th>
                 <th>Created Date</th>
-                <th>Status</th>
-                <th>Description</th>
                 <th>Modified Date</th>
               </tr>
               <tr>
-                <td>1</td>
-                <td>AAA</td>
+                <td><a href="{% url 'historyTask' %}">Default</a></td>
                 <td>BIC CMU</td>
                 <td>11-7-2014</td>
-                <td><span class="label label-success">Completed</span></td>
-                <td>No Description here</td>
                 <td>11-7-2014</td>
               </tr>
+            
               <tr>
-                <td>2</td>
-                <td>BBB</td>
+                <td>GiveMeAName</td>
                 <td>BIC CMU</td>
                 <td>11-7-2014</td>
-                <td><span class="label label-warning">Pending</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>CCC</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-primary">Completed</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>DDD</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>EEE</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>FFF</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>GGG</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>HHH</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>9</td>
-                <td>III</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>10</td>
-                <td>JJJ</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
                 <td>11-7-2014</td>
               </tr>
             </table>
