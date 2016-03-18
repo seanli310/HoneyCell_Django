@@ -89,12 +89,20 @@ def historyTask(request):
     return render(request, 'WebApp/historyTask.html', context)
 
 @login_required
-def historyTask_folders(request):
-    print("in the historyTask function")
+def fileManage(request):
+    print("in the fileManage function")
     context = {}
     user = request.user
     context['user'] = user
-    return render(request, 'WebApp/historyTask_folders.html', context)
+    return render(request, 'WebApp/fileManage.html', context)
+    
+@login_required
+def fileManage_tasks(request):
+    print("in the fileManage_tasks function")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/fileManage_tasks.html', context)
 
 
 @login_required

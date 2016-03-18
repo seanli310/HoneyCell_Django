@@ -415,8 +415,11 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+                        <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
                     </ul>
+                </li>
+                <li class="active">
+                  <a href="#"><i class="fa fa-folder"></i>File Management</a>
                 </li>
                 <li>
                     <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>

@@ -30,7 +30,10 @@ urlpatterns = [
 
     # history tasks page
     url(r'^historyTask/$', 'WebApp.views.historyTask', name='historyTask'),
-    url(r'^historyTask_folders/$', 'WebApp.views.historyTask_folders', name='historyTask_folders'),
+
+    # folder Management page
+    url(r'^fileManage/$', 'WebApp.views.fileManage', name='fileManage'),
+    url(r'^fileManage_tasks/$', 'WebApp.views.fileManage_tasks', name='fileManage_tasks'),
 
     # profile tasks page
     url(r'^profile/$', 'WebApp.views.profile', name='profile'),

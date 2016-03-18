@@ -53,3 +53,16 @@
     margin-bottom: 0px;
     font-size: 14px;
 }
+.btn-manage-title {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 0px;
+}
+.btn-manage {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 0px;
+}
+.checkbox-manage {
+    margin: 0px 5px;
+}

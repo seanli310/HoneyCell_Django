@@ -9,7 +9,7 @@
     </a>
 </li>
 
-<li class="active treeview">
+<li class="treeview">
     <a href="#">
         <i class="fa fa-files-o"></i>
         <span>Tasks</span>
@@ -17,11 +17,11 @@
     </a>
     <ul class="treeview-menu">
         <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
-        <li class="active"><a href="#"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+        <li class="active"><a href="{% url 'historyTask' %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
     </ul>
 </li>
-<li>
-  <a href="{% url 'fileManage' %}"><i class="fa fa-folder"></i>File Management</a>
+<li class="active">
+  <a href="#"><i class="fa fa-folder"></i>File Management</a>
 </li>
 <li>
     <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
@@ -51,11 +51,52 @@
 </section>
 
   <!-- Main content -->
-  <section class="newTask_content">
+  <section class="content">
     <div class="row">
-      <div class="col-xs-12">
+      <!-- Side bar -->
+      <div class="col-md-3">
+        <a href="#" class="btn btn-primary btn-block margin-bottom">+ New Folder</a>
+        <div class="box box-solid">
+          <div class="box-header with-border">
+            <h3 class="box-title">All Folders</h3>
+            <div class="box-tools">
+              <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+          </div>
+          <div class="box-body no-padding">
+            <ul class="nav nav-pills nav-stacked">
+              <li class="active"><a href="#"><i class="fa fa-folder-o"></i> Default </a></li>
+              <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName1 </a></li>
+              <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName2 </a></li>
+              <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName3</a></li>
+            </ul>
+          </div><!-- /.box-body -->
+        </div><!-- /. box -->
+      </div><!-- /.col -->
 
+      <!-- Main -->
+      <div class="col-xs-9">
         <div class="box">
+
+          <div class="box-header">
+            <h6 class="box-title">
+                <ol class="breadcrumb box-title-customize">
+                  <li><a href="{% url 'fileManage' %}"><i class="fa fa-folder-open"></i> All Folders</a></li>
+                  <!-- <li><a href="#">Tasks</a></li> -->
+                  <li class="active">Default</li>
+                </ol>
+            </h6>
+            <!-- Search Bar -->
+             <!--  <div class="box-tools">
+                <div class="input-group" style="width: 150px;">
+                  <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search">
+                  <div class="input-group-btn">
+                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                  </div>
+                </div>
+              </div> -->
+          </div><!-- /.box-header -->
+          
           <div class="box-body table-responsive no-padding">
             <table class="table table-hover">
               <tr>
@@ -150,24 +191,6 @@
               </tr>
               <tr>
                 <td>10</td>
-                <td>JJJ</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>11</td>
-                <td>JJJ</td>
-                <td>BIC CMU</td>
-                <td>11-7-2014</td>
-                <td><span class="label label-danger">Denied</span></td>
-                <td>No Description here</td>
-                <td>11-7-2014</td>
-              </tr>
-              <tr>
-                <td>12</td>
                 <td>JJJ</td>
                 <td>BIC CMU</td>
                 <td>11-7-2014</td>
