@@ -79,7 +79,7 @@
                   <div class="box-body">
                     <div class="form-group">
                       <label for="exampleInputEmail1">Folder Name</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                      <input class="form-control" id="folderName" placeholder="Enter folder name">
                     </div>
                     <!-- textarea -->
                     <div class="form-group">
@@ -151,7 +151,8 @@
                     <td>3-17-2014</td>
                     <td>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                      <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-pencil"></i></button>
+                      <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#editFolderInfo"><i class="fa fa-pencil"></i></button>
+                       {% include 'WebApp/editFolderInfo.html' %}
                     </td>
                   </tr>
 
@@ -164,6 +165,7 @@
                     <td>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-pencil"></i></button>
+                      {% include 'WebApp/editFolderInfo.html' %}
                     </td>
                   </tr>
                   <tr>
@@ -175,6 +177,7 @@
                     <td>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-pencil"></i></button>
+                      {% include 'WebApp/editFolderInfo.html' %}
                     </td>
                   </tr>
                   <tr>
@@ -186,6 +189,7 @@
                     <td>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-pencil"></i></button>
+                      {% include 'WebApp/editFolderInfo.html' %}
                     </td>
                   </tr>
 
