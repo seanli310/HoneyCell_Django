@@ -74,10 +74,23 @@
                 <h4 class="modal-title">Create a new folder</h4>
               </div>
               <div class="modal-body">
-                <p>Some text in the modal.</p>
+                <!-- form start -->
+                <form role="form">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Folder Name</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Description</label>
+                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                  </div><!-- /.box-body -->
+                </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
               </div>
             </div>
 
@@ -109,22 +122,20 @@
             <div class="box-title">
                 <ol class="breadcrumb box-title-customize">
                   <li><a href="#"><i class="fa fa-folder-open-o"></i> All Folders</a></li>
-                  <!-- <li><a href="#">Tasks</a></li>
-                  <!-- <li class="active">Default</li> -->
                 </ol>
             </div>
           </div><!-- /.box-header -->
 
           <div class="box-body no-padding">
-            <div class="box-body no-padding table-responsive mailbox-messages">
+            <div class="table-responsive mailbox-messages">
               <table class="table table-hover table-striped">
                 <tbody>
                  
                   <tr>
                     <th><button class="btn btn-manage-title btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button></th>
                     <th>Folder Name</th>
-                    <th>User</th>
                     <th>Created Date</th>
+                    <th>Description</th>
                     <th>Modified Date</th>
                     <th>
                       <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
@@ -134,8 +145,8 @@
                   <tr>
                     <td><input style="margin: 0px 5px;" type="checkbox"></td>
                     <td><a href="{% url 'fileManage_tasks' %}">Default</a></td>
-                    <td>BIC CMU</td>
                     <td>3-17-2014</td>
+                    <td>BIC CMU</td>
                     <td>3-17-2014</td>
                     <td>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
@@ -146,8 +157,8 @@
                   <tr>
                     <td><input style="margin: 0px 5px;" type="checkbox"></td>
                     <td>GiveMeAName1</td>
-                    <td>BIC CMU</td>
                     <td>3-17-2014</td>
+                    <td>BIC CMU</td>
                     <td>3-17-2014</td>
                     <td>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
@@ -157,8 +168,8 @@
                   <tr>
                     <td><input style="margin: 0px 5px;" type="checkbox"></td>
                     <td>GiveMeAName2</td>
-                    <td>BIC CMU</td>
                     <td>3-17-2014</td>
+                    <td>BIC CMU</td>
                     <td>3-17-2014</td>
                     <td>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
@@ -168,8 +179,8 @@
                   <tr>
                     <td><input style="margin: 0px 5px;" type="checkbox"></td>
                     <td>GiveMeAName3</td>
-                    <td>BIC CMU</td>
                     <td>3-17-2014</td>
+                    <td>BIC CMU</td>
                     <td>3-17-2014</td>
                     <td>
                       <button class="btn btn-manage btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
@@ -199,3 +210,35 @@
 {% endblock %}
 
 
+{% block javacript %} 
+<!-- iCheck -->
+<script src="{% static "WebApp/plugins/iCheck/icheck.min.js" %}"></script>
+<!-- Page Script -->
+<script>
+  $(function () {
+    //Enable iCheck plugin for checkboxes
+    //iCheck for checkbox and radio inputs
+    $('.mailbox-messages input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_flat-blue',
+      radioClass: 'iradio_flat-blue'
+    });
+
+    //Enable check and uncheck all functionality
+    $(".checkbox-toggle").click(function () {
+      var clicks = $(this).data('clicks');
+      if (clicks) {
+        //Uncheck all checkboxes
+        console.log("Hello");
+        $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+      } else {
+        //Check all checkboxes
+        $(".mailbox-messages input[type='checkbox']").iCheck("check");
+        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+      }
+      $(this).data("clicks", !clicks);
+    });
+
+  });
+</script>
+{% endblock %}
