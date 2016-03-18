@@ -42,19 +42,20 @@
 {% endblock %}
 
 
-{% block content_area %}
 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-  <h1>
+
+{% block content_header %}
     Profile
-    <small>Preview</small>
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Profile</li>
-  </ol>
-</section>
+{% endblock content_header %}
+
+{% block content_breadcrumb %}
+<li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
+<li class="active">Profile</li>
+{% endblock content_breadcrumb %}
+
+
+
+{% block content_area %}
 
 <!-- Main content -->
 <section class="content">

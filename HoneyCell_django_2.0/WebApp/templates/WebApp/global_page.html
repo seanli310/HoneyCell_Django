@@ -33,18 +33,18 @@
 {% endblock %}
 
 
-{% block content_area %}
 
-    <section class="content-header">
-        <h1>
-            Global
-            <small>Honey Cell</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Global</li>
-        </ol>
-    </section>
+{% block content_header %}
+    Global
+{% endblock content_header %}
+
+{% block content_breadcrumb %}
+<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+<li class="active">Global</li>
+{% endblock content_breadcrumb %}
+
+
+{% block content_area %}
 
     <!-- Main content -->
     <section class="content">

@@ -358,7 +358,7 @@
                 <li>
                     <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
                 </li>
-                {% endblock %}
+                {% endblock active_sidebar %}
 
 
                 <li class="header">LABELS</li>
@@ -374,8 +374,23 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper content-wrapper-style">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            {% block content_header %}
+                Titile
+            {% endblock content_header %}
+            <small>Preview</small>
+          </h1>
+          <ol class="breadcrumb">
+            {% block content_breadcrumb %}
+            <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
+            {% endblock content_breadcrumb %}
+          </ol>
+        </section>
+
         {% block content_area %}
-        {% endblock %}
+        {% endblock content_area %}
     </div><!-- ./wrapper -->
 
 

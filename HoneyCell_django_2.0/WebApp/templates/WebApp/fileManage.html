@@ -37,21 +37,18 @@
 {% endblock %}
 
 
+{% block content_header %}
+    History Management
+{% endblock content_header %}
+
+{% block content_breadcrumb %}
+<li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
+<li><a href="#">Tasks</a></li>
+<li class="active">History Tasks</li>
+{% endblock content_breadcrumb %}
+
 
 {% block content_area %} 
-<!-- Content Header (Page header) -->
-<section class="content-header">
-  <h1>
-    History Management
-    <small>Preview</small>
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="#">Tasks</a></li>
-    <li class="active">History Tasks</li>
-  </ol>
-</section>
-
   <!-- Main content -->
   <section class="content">
     <div class="row">
