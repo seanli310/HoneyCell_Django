@@ -7,18 +7,15 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-def generate_filename(self, filename):
-    url = 'documents/%s/%s/%s/%s' %(self.user.username, self.folder, self.label, filename)
-    return url
 
-class Document(models.Model):
-    user = models.ForeignKey(User)
-    name = models.CharField(max_length=100)
-    folder = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=100, blank=True)
-    label = models.CharField(max_length=100, blank=True)
-    docfile = models.FileField(upload_to=generate_filename)
-    date = models.DateTimeField(default=timezone.now)
+# class Document(models.Model):
+#     user = models.ForeignKey(User)
+#     name = models.CharField(max_length=100)
+#     folder = models.CharField(max_length=100, blank=True)
+#     description = models.CharField(max_length=100, blank=True)
+#     label = models.CharField(max_length=100, blank=True)
+#     docfile = models.FileField(upload_to=generate_filename)
+#     date = models.DateTimeField(default=timezone.now)
 
 class Folder(models.Model):
     user = models.ForeignKey(User)
@@ -34,6 +31,11 @@ class Label(models.Model):
     label_time_created = models.DateTimeField(auto_now_add=True)
     label_time_changed = models.DateTimeField(auto_now=True)
 
+
+def generate_filename(self, filename):
+    url = 'documents/%s/%s/%s/%s' %(self.user.username, self.task_folder.folder_name, self.task_label.label_name, filename)
+    return url
+
 class Task(models.Model):
     user = models.ForeignKey(User)
     task_name = models.CharField(max_length=100)
@@ -43,8 +45,8 @@ class Task(models.Model):
     docfile = models.FileField(upload_to=generate_filename)
     task_time_created = models.DateTimeField(auto_now_add=True)
     task_time_changed = models.DateTimeField(auto_now=True)
-    input_file_address = models.CharField(default=None, max_length=100)
-    output_file_address = models.CharField(default=None, max_length=100)
+    input_file_address = models.CharField(default="", max_length=100)
+    output_file_address = models.CharField(default="", max_length=100)
 
     def __unicode__(self):
         return "%s by %s" %(self.task_name, self.user.username)
