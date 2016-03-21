@@ -455,3 +455,10 @@ def change_password(request):
         return HttpResponseRedirect(reverse('settings'))
 
 
+@login_required
+def taskDetail(request):
+    print("in the taskDetail function")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/taskDetail.html', context)

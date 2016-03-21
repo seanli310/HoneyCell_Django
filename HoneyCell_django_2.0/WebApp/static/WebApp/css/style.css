@@ -1,10 +1,13 @@
-.newTask_content {
+.newTask-content {
     min-height: 250px;
     padding: 15px;
     margin-right: auto;
     margin-left: auto;
     padding-left: 100px;
     padding-right: 100px;
+    /*padding-top: 30px;*/
+}
+.content-top {
     padding-top: 30px;
 }
 .settings_content {
@@ -65,4 +68,9 @@
 }
 .checkbox-manage {
     margin: 0px 5px;
+}
+
+.text-overflow {
+    overflow: scroll;
+    word-wrap: break-word;
 }

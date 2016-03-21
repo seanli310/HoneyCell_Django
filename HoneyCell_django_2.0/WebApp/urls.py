@@ -60,7 +60,8 @@ urlpatterns = [
 
     url(r'^change_password/$', 'WebApp.views.change_password', name='change_password'),
 
-
+    # task detail page
+    url(r'^taskDetail/$', 'WebApp.views.taskDetail', name='taskDetail'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
