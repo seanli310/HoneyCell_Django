@@ -168,8 +168,17 @@ def profile(request):
     user = request.user
     context['user'] = user
 
+    # check own profile
+    context['self'] = True
+
     profile = Profile.objects.get(user=user)
     context['profile'] = profile
+
+    number_of_followers = len(Followship.objects.filter(follower=request.user))
+    number_of_followings = len(Followship.objects.filter(following=request.user))
+
+    context['number_of_followers'] = number_of_followers
+    context['number_of_followings'] = number_of_followings
 
     return render(request, 'WebApp/profile.html', context)
 
