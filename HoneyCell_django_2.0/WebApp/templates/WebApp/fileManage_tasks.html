@@ -7,11 +7,14 @@
         <li><a href="{% url 'fileManage_tasks' folder.id %}"><i class="fa fa-folder-o"></i> {{ folder.folder_name }}
         </a></li>
     {% endfor %}
-    {#    <li class="active"><a href="{% url 'fileManage_tasks' folder.id %}"><i class="fa fa-folder-o"></i> Default </a></li>#}
-    {#    <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName1 </a></li>#}
-    {#    <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName2 </a></li>#}
-    {#    <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName3</a></li>#}
 {% endblock fileManage_active_sidebar %}
+
+
+{% block content_breadcrumb %}
+    <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home </a></li>
+    <li><a href="{% url 'fileManage' %}">File Management</a></li>
+    <li class="active"><a href="#">File Manage Tasks</a></li>
+{% endblock content_breadcrumb %}
 
 
 
