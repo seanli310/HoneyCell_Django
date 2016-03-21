@@ -181,6 +181,9 @@ def fileManage(request):
     user = request.user
     context['user'] = user
 
+    all_folders = Folder.objects.filter(user=request.user)
+    context['all_folders'] = all_folders
+
     folders = Folder.objects.filter(user=request.user)
     paginator = Paginator(folders, 3)
     page = request.GET.get('page')
@@ -650,7 +653,20 @@ def delete_folder(request, folder_id):
     print("in the delete_folder function.")
     context = {}
     context['user'] = request.user
-    
+
+    folder = Folder.objects.get(id=folder_id)
+    context['folder'] = folder
+
+    tasks_inside_folder = Task.objects.filter(task_folder=folder)
+
+    for task in tasks_inside_folder:
+        task.delete()
+        print("Successfully delete one task inside folder.")
+
+    folder.delete()
+    print("Successfully delete the folder.")
+
+    return HttpResponseRedirect(reverse('fileManage'))
 
 
 

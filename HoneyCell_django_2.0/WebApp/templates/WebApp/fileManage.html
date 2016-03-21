@@ -111,7 +111,7 @@
                     <div class="box-body no-padding">
                         <ul class="nav nav-pills nav-stacked">
                             {% block fileManage_active_sidebar %}
-                                {% for folder in folders %}
+                                {% for folder in all_folders %}
                                     <li><a href="{% url 'fileManage_tasks' folder.id %}"><i
                                             class="fa fa-folder-o"></i> {{ folder.folder_name }} </a></li>
                                 {% endfor %}

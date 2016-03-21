@@ -60,7 +60,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Task Name</th>
-                                <th>User</th>
+                                <th>Folder</th>
                                 <th>Created Date</th>
                                 <th>Status</th>
                                 <th>Description</th>
@@ -70,7 +70,7 @@
                                 <tr>
                                     <td><a href="{% url 'taskDetail' task.id %}">{{ task.id }}</a></td>
                                     <td><a href="{% url 'taskDetail' task.id %}">{{ task.task_name }}</a></td>
-                                    <td><a href="{% url 'profile' %}">{{ task.user.username }}</a></td>
+                                    <td><a href="{% url 'fileManage_tasks' task.task_folder.id %}">{{ task.task_folder.folder_name }}</a></td>
                                     <td>{{ task.task_time_created }}</td>
                                     <td>{{ task.task_status }}</td>
                                     <td>{{ task.task_description }}</td>
