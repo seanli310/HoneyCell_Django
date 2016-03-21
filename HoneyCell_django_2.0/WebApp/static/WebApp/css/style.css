@@ -78,3 +78,11 @@
     width: 60px;
     height: 60px;
 }
+
+.text-overflow {
+    overflow: scroll;
+    word-wrap: break-word;
+}
+.task-detail-height {
+    height: 450px;
+}
