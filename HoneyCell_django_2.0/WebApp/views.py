@@ -180,6 +180,10 @@ def fileManage(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    folders = Folder.objects.filter(user=request.user)
+    context['folders'] = folders
+
     return render(request, 'WebApp/fileManage.html', context)
 
 @login_required
@@ -487,9 +491,95 @@ def change_password(request):
 
 
 @login_required
-def taskDetail(request):
+def taskDetail(request, task_id):
     print("in the taskDetail function")
     context = {}
     user = request.user
     context['user'] = user
+
+    task = Task.objects.get(id=task_id)
+    context['task'] = task
+
+    print(task)
+
+
     return render(request, 'WebApp/taskDetail.html', context)
+
+
+
+
+@login_required
+def update_task(request, task_id):
+    print("in the update_task function.")
+    context = {}
+    context['user'] = request.user
+
+    errors = []
+    context['errors'] = errors
+
+    task = Task.objects.get(id=task_id)
+    context['task'] = task
+
+    task_name = request.POST['task_name']
+    task_description = request.POST['task_description']
+
+
+    if ( task.task_name != task_name and len(Task.objects.filter(task_name=task_name))):
+        errors.append("The task name already exist, please type in another task name.")
+        print("The task name already exist, please type in another task name.")
+        return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': task_id}))
+
+
+    if ( task.task_description != task_description and len(Task.objects.filter(task_description=task_description)) ):
+        errors.append("The task description already exist, please type in another task description.")
+        print("The task description already exist, please type in another task description.")
+        return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': task_id}))
+
+    task.task_name = task_name
+    task.task_description = task_description
+    task.save()
+    print("Already update task's information.")
+
+    return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': task_id}))
+
+
+
+@login_required
+def new_folder(request):
+    print("in the new_folder function.")
+
+    context = {}
+    context['user'] = request.user
+
+    errors = []
+    context['errors'] = errors
+
+    folder_name = request.POST['folder_name']
+    folder_description = request.POST['folder_description']
+
+    if(Folder.objects.filter(folder_name=folder_name)):
+        errors.append("This folder name already exist, please type in another folder name.")
+        print("This folder name already exist, please type in another folder name.")
+        return HttpResponseRedirect(reverse('fileManage'))
+
+
+    if (Folder.objects.filter(folder_description=folder_description)):
+        errors.append("This folder description already exist, please type in another folder description.")
+        print("This folder description already exist, please type in another folder description.")
+        return HttpResponseRedirect(reverse('fileManage'))
+
+    new_folder_instance = Folder(user=request.user,
+                                 folder_name=folder_name,
+                                 folder_description=folder_description)
+    new_folder_instance.save()
+    print("Already save the new_folder_instance.")
+
+    return HttpResponseRedirect(reverse('fileManage'))
+
+
+
+
+
+
+
+

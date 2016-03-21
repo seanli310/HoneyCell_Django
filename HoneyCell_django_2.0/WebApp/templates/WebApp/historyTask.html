@@ -68,16 +68,15 @@
                             </tr>
                             {% for task in tasks %}
                                 <tr>
-                                    <td>{{ task.id }}</td>
-                                    <td>{{ task.task_name }}</td>
-                                    <td>{{ task.user.username }}</td>
+                                    <td><a href="{% url 'taskDetail' task.id %}">{{ task.id }}</a></td>
+                                    <td><a href="{% url 'taskDetail' task.id %}">{{ task.task_name }}</a></td>
+                                    <td><a href="{% url 'profile' %}">{{ task.user.username }}</a></td>
                                     <td>{{ task.task_time_created }}</td>
                                     <td>{{ task.task_status }}</td>
                                     <td>{{ task.task_description }}</td>
                                     <td>{{ task.task_time_changed }}</td>
                                 </tr>
                             {% endfor %}
-
                             {#                            <tr>#}
                             {#                                <td>1</td>#}
                             {#                                <td>AAA</td>#}

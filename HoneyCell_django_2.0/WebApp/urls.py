@@ -61,7 +61,13 @@ urlpatterns = [
     url(r'^change_password/$', 'WebApp.views.change_password', name='change_password'),
 
     # task detail page
-    url(r'^taskDetail/$', 'WebApp.views.taskDetail', name='taskDetail'),
+    url(r'^taskDetail/(?P<task_id>\d+)$', 'WebApp.views.taskDetail', name='taskDetail'),
+
+    url(r'^update_task/(?P<task_id>\d+)$', 'WebApp.views.update_task', name='update_task'),
+
+    url(r'^new_folder/$', 'WebApp.views.new_folder', name='new_folder'),
+
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
