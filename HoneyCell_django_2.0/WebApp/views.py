@@ -52,11 +52,16 @@ def registration(request):
         return render(request, 'WebApp/register.html', context)
 
     # create a new user from the valid form data, using create_user function with 2 arguments, 'username' and 'password'
-    new_user = User.objects.create_user(username=request.POST['user_name'], password=request.POST['password'], first_name=request.POST['first_name'], last_name=request.POST['last_name'])
+    new_user = User.objects.create_user(username=request.POST['user_name'],
+                                        password=request.POST['password'],
+                                        first_name=request.POST['first_name'],
+                                        last_name=request.POST['last_name'],
+                                        email=request.POST['email'])
     new_user.save()
 
     # using 'authenticate' function
-    new_user = authenticate(username = request.POST['user_name'], password = request.POST['password'])
+    new_user = authenticate(username = request.POST['user_name'],
+                            password = request.POST['password'],)
 
     new_activity_instance = Activity(user=new_user)
     new_activity_instance.description = new_user.username + " register an account."
@@ -162,6 +167,10 @@ def profile(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    profile = Profile.objects.get(user=user)
+    context['profile'] = profile
+
     return render(request, 'WebApp/profile.html', context)
 
 from WebApp.forms import *
@@ -297,7 +306,6 @@ def other_user(request, user_id):
 
 
 
-
 @login_required
 def follow(request, user_id):
     print("in the follow function.")
@@ -354,6 +362,7 @@ from mimetypes import guess_type
 # get back the user picture
 @login_required
 def get_user_picture(request, user_id):
+    print("in the get_user_picture function.")
     context = {}
     errors = []
     context['errors'] = errors
@@ -364,3 +373,40 @@ def get_user_picture(request, user_id):
         errors.append("profile not existed")
     content_type = guess_type(profile.image.name)
     return HttpResponse(profile.image, content_type=content_type)
+
+
+
+
+@login_required
+def update_profile(request):
+    print("in the update_profile function.")
+    context = {}
+    errors = []
+    context['errors'] = errors
+
+    context['user'] = request.user
+    profile = Profile.objects.get(user=request.user)
+
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
+    email = request.POST['email']
+    company = request.POST['company']
+    location = request.POST['location']
+    website = request.POST['website']
+
+    request.user.first_name = first_name
+    request.user.last_name = last_name
+    request.user.email = email
+
+    profile.company = company
+    profile.location = location
+    profile.website = website
+
+    profile.save()
+    print("Already update the profile.")
+
+    return HttpResponseRedirect(reverse('profile'))
+
+
+
+

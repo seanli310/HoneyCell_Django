@@ -72,7 +72,7 @@
                     <div class="tab-content tab-profile">
                         <div class="active tab-pane" id="public_profile">
 
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" action="{% url 'update_profile' %}" method="POST">{% csrf_token %}
                                 <div class="form-group">
                                     <label for="#" class="col-sm-2 control-label">Picture</label>
                                     <div class="col-sm-2">
@@ -98,35 +98,39 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+                                    <label for="inputName" class="col-sm-2 control-label">First name</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        <input type="text" name="first_name" class="form-control" placeholder="First name" value="{{ user.first_name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputName" class="col-sm-2 control-label">Last name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="last_name" class="form-control" placeholder="Last name" value="{{ user.last_name }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputEmail" class="col-sm-2 control-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                        <input type="email" name="email" class="form-control" placeholder="Email" value="{{ user.email }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputCompany" class="col-sm-2 control-label">Company</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputCompany" placeholder="Compay">
+                                        <input type="text" name="company" class="form-control" placeholder="Compay" value="{{ profile.company }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputLocation" class="col-sm-2 control-label">Location</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputCompany"
-                                               placeholder="Location">
+                                        <input type="text" name="location" class="form-control" placeholder="Location" value="{{ profile.location }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputWebsite" class="col-sm-2 control-label">Website</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="inputWebsite"
-                                               placeholder="Website URL">
+                                        <input type="text" name="website" class="form-control" id="inputWebsite" placeholder="Website URL" value="{{ profile.website }}">
                                     </div>
                                 </div>
                                 <!--  <div class="form-group">

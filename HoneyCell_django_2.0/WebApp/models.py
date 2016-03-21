@@ -58,14 +58,14 @@ class Activity(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
 
 
-class Address(models.Model):
-    user = models.OneToOneField(User)
-    street = models.CharField(max_length=100, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    state = models.CharField(max_length=100, blank=True)
-
-    def __unicode__(self):
-        return "%s, %s, %s" %(self.street, self.city, self.state)
+# class Address(models.Model):
+#     user = models.OneToOneField(User)
+#     street = models.CharField(max_length=100, blank=True)
+#     city = models.CharField(max_length=100, blank=True)
+#     state = models.CharField(max_length=100, blank=True)
+#
+#     def __unicode__(self):
+#         return "%s, %s, %s" %(self.street, self.city, self.state)
 
 
 def generate_url_images(self, filename):
@@ -75,11 +75,14 @@ def generate_url_images(self, filename):
 class Profile(models.Model):
     user = models.ForeignKey(User)
     company = models.CharField(blank=True, max_length=100)
+    location = models.CharField(blank=True, max_length=100)
     website = models.CharField(blank=True, max_length=100)
     age = models.IntegerField(default=0)
     phone = models.CharField(max_length=100)
     short_introduction = models.TextField(blank=True, max_length=1000)
     image = models.ImageField(blank=True, upload_to=generate_url_images)
+    time_created = models.DateTimeField(auto_now_add=True)
+    time_changed = models.DateTimeField(auto_now=True)
 
 class Comment(models.Model):
     user = models.ForeignKey(User)

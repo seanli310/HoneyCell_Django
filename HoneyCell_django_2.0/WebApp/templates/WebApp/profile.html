@@ -71,16 +71,16 @@
         <p class="text-muted text-center"> username </p>
 
         <hr>
-        <strong><i class="fa fa-book margin-r-5"></i>Company</strong>
-        <p class="text-muted">Carnegie Mellon University</p>
-        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
-        <p class="text-muted">Pittsburgh, PA</p>
+        <strong><i class="fa fa-book margin-r-5"></i> Company </strong>
+        <p class="text-muted">{{ profile.company }}</p>
+        <strong><i class="fa fa-map-marker margin-r-5"></i> Location </strong>
+        <p class="text-muted">{{ profile.location }}</p>
         <strong><i class="fa fa-envelope margin-r-5"></i> Email </strong>
-        <p class="text-muted">bic@andrew.cmu.edu</p>
+        <p class="text-muted">{{ user.email }}</p>
         <strong><i class="fa fa-external-link margin-r-5"></i> Website </strong>
-        <p class="text-muted">www.cmu.edu/bic</p>
-        <strong><i class="fa fa-clock-o margin-r-5"></i>Member Since </strong>
-        <p class="text-muted">Jan 1st, 2016</p>
+        <p class="text-muted">{{ profile.website }}</p>
+        <strong><i class="fa fa-clock-o margin-r-5"></i> Member Since </strong>
+        <p class="text-muted">{{ profile }}</p>
 
 
         <ul class="list-group list-group-unbordered">

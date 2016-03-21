@@ -56,5 +56,10 @@ urlpatterns = [
 
     url(r'^get_user_picture/(?P<user_id>\d+)$', 'WebApp.views.get_user_picture', name='get_user_picture'),
 
+    url(r'^update_profile/$', 'WebApp.views.update_profile', name='update_profile'),
+
+
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
