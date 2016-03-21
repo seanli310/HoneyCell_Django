@@ -98,6 +98,22 @@ def registration(request):
     new_label_information_instance.save()
     print("Already save new_label_information_instance.")
 
+    new_status_completed_instance = Status(user=new_user,
+                                           status_name="Completed",
+                                           status_description="This task is completed.")
+    new_status_completed_instance.save()
+    print("Already save new_status_completed_instance.")
+    new_status_pending_instance = Status(user=new_user,
+                                           status_name="Pending",
+                                           status_description="This task is pending.")
+    new_status_pending_instance.save()
+    print("Already save new_status_pending_instance.")
+    new_status_denied_instance = Status(user=new_user,
+                                           status_name="Denied",
+                                           status_description="This task is denied.")
+    new_status_denied_instance.save()
+    print("Already save new_status_denied_instance.")
+
     # using 'login' function
     login(request, new_user)
 
@@ -132,6 +148,9 @@ def newTask(request):
 
     return render(request, 'WebApp/newTask.html', context)
 
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 @login_required
 def historyTask(request):
     print("in the historyTask function")
@@ -140,6 +159,17 @@ def historyTask(request):
     context['user'] = user
 
     tasks = Task.objects.filter(user=request.user)
+
+    paginator = Paginator(tasks, 3)
+    page = request.GET.get('page')
+
+    try:
+        tasks = paginator.page(page)
+    except PageNotAnInteger:
+        tasks = paginator.page(1)
+    except EmptyPage:
+        tasks = paginator.page(paginator.num_pages)
+
     context['tasks'] = tasks
 
     return render(request, 'WebApp/historyTask.html', context)
@@ -250,7 +280,8 @@ def create_new_task(request):
                              task_description=task_description,
                              task_label=task_label_object,
                              task_folder=task_folder_object,
-                             docfile=docfile)
+                             docfile=docfile,
+                             task_status=Status.objects.get(user=request.user, status_name="Pending"))
     new_task_instance.save()
     print("Already save the new_task_instance.")
 

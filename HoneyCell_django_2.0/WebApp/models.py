@@ -31,6 +31,11 @@ class Label(models.Model):
     label_time_created = models.DateTimeField(auto_now_add=True)
     label_time_changed = models.DateTimeField(auto_now=True)
 
+class Status(models.Model):
+    # Later we need to change this status, not bind to user
+    user = models.ForeignKey(User)
+    status_name = models.CharField(max_length=100)
+    status_description = models.CharField(max_length=1000)
 
 def generate_filename(self, filename):
     url = 'documents/%s/%s/%s/%s' %(self.user.username, self.task_folder.folder_name, self.task_label.label_name, filename)
@@ -42,6 +47,7 @@ class Task(models.Model):
     task_description = models.TextField(max_length=1000)
     task_folder = models.ForeignKey(Folder)
     task_label = models.ForeignKey(Label)
+    task_status = models.ForeignKey(Status)
     docfile = models.FileField(upload_to=generate_filename)
     task_time_created = models.DateTimeField(auto_now_add=True)
     task_time_changed = models.DateTimeField(auto_now=True)
