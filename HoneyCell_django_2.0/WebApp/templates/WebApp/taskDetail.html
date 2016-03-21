@@ -51,75 +51,47 @@
     <section class="content">
 
         <div class="row">
-            <div class="col-md-4">
 
-              <div class="info-box bg-yellow info-box-customized">
-                <span class="info-box-icon info-box-icon-customized"><i class="ion ion-ios-pricetag-outline"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-number">Task Name</span>
-                  <span class="progress-description">
-                    AAA
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
+            <div class="col-md-3">
 
+              <!-- Profile Image -->
+              <div class="box box-primary">
+                <div class="box-body box-profile">
+                  <h3 class="profile-username text-center">{{ user.username }}</h3>
+                  <p class="text-muted text-center"> username </p>
 
-              <div class="info-box bg-green info-box-customized">
-                <span class="info-box-icon info-box-icon-customized"><i class="ion ion-ios-heart-outline"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-number">User created</span>
-                  <span class="progress-description">
-                    CMU BIC
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
+                  <hr>
+                  <strong><i class="fa fa-book margin-r-5"></i>Company</strong>
+                  <p class="text-muted">Carnegie Mellon University</p>
+                  <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                  <p class="text-muted">Pittsburgh, PA</p>
+                  <strong><i class="fa fa-envelope margin-r-5"></i> Email </strong>
+                  <p class="text-muted">bic@andrew.cmu.edu</p>
+                  <strong><i class="fa fa-external-link margin-r-5"></i> Website </strong>
+                  <p class="text-muted">www.cmu.edu/bic</p>
+                  <strong><i class="fa fa-clock-o margin-r-5"></i>Member Since </strong>
+                  <p class="text-muted">Jan 1st, 2016</p>
+
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div><!-- /.col -->
              
-              <div class="info-box bg-red info-box-customized">
-                <span class="info-box-icon info-box-icon-customized"><i class="ion ion-ios-cloud-download-outline"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-number">Status</span>
-                  <span class="progress-description">
-                    Completed
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
-             
-              
-              <div class="info-box bg-blue info-box-customized">
-                <span class="info-box-icon info-box-icon-customized"><i class="ion ion-ios-chatbubble-outline"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-number">Created Date</span>
-                  <span class="progress-description">
-                    3-20-2016
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
-
-              <div class="info-box bg-aqua">
-                <span class="info-box-icon info-box-icon-customized"><i class="ion ion-ios-chatbubble-outline"></i></span>
-                <div class="info-box-content">
-                  <span class="info-box-number">Description</span>
-                  <span class="progress-description">
-                    aaaaaabbbbbbbbcccccccdddddddsssssssffffffs
-                  </span>
-                </div><!-- /.info-box-content -->
-              </div><!-- /.info-box -->
-             
-            </div>
 
             <!-- Custom tabs (Charts with tabs)-->
-            <div class="col-lg-7 nav-tabs-custom connectedSortable">
-              <!-- Tabs within a box -->
-              <ul class="nav nav-tabs pull-right">
-                <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-                <li class="pull-left header"><i class="fa fa-inbox"></i> D3.js </li>
-              </ul>
-              <div class="tab-content no-padding">
-                <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-              </div>
+            <div class="col-md-9">
+             <div class=" nav-tabs-custom">
+                  <!-- Tabs within a box -->
+                  <ul class="nav nav-tabs pull-right">
+                    <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
+                    <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
+                    <li class="pull-left header"><i class="fa fa-inbox"></i> D3.js </li>
+                  </ul>
+                  <div class="tab-content no-padding">
+                    <!-- Morris chart - D3.js -->
+                    <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
+                    <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
+                  </div>
+             </div>
             </div><!-- /.nav-tabs-custom -->
 
         </div>

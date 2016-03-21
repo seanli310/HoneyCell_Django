@@ -68,13 +68,13 @@
 }
 
 .info-box-customized {
-    min-height: 50px;
-    height: 50px;
-    width: 80%;
+    min-height: 60px;
+    height: 60px;
+    /*width: 80%;*/
 }
 
 .info-box-icon-customized {
-    line-height: 50px;
-    width: 50px;
-    height: 50px;
+    line-height: 60px;
+    width: 60px;
+    height: 60px;
 }
