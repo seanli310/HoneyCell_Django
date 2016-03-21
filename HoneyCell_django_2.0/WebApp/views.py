@@ -339,3 +339,13 @@ def unfollow(request, user_id):
     print("The Followship object already delete.")
 
     return HttpResponseRedirect(reverse("other_user", kwargs={'user_id': other_user.id}))
+
+
+
+@login_required
+def taskDetail(request):
+    print("in the taskDetail function")
+    context = {}
+    user = request.user
+    context['user'] = user
+    return render(request, 'WebApp/taskDetail.html', context)

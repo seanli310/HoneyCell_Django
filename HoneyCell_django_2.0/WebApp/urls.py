@@ -53,4 +53,7 @@ urlpatterns = [
     # global_page
     url(r'^global_page/$', 'WebApp.views.global_page', name='global_page'),
 
+    # task detail page
+    url(r'^taskDetail/$', 'WebApp.views.taskDetail', name='taskDetail'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
