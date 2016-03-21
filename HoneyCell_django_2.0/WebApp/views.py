@@ -52,15 +52,25 @@ def registration(request):
         return render(request, 'WebApp/register.html', context)
 
     # create a new user from the valid form data, using create_user function with 2 arguments, 'username' and 'password'
-    new_user = User.objects.create_user(username=request.POST['user_name'], password=request.POST['password'], first_name=request.POST['first_name'], last_name=request.POST['last_name'])
+    new_user = User.objects.create_user(username=request.POST['user_name'],
+                                        password=request.POST['password'],
+                                        first_name=request.POST['first_name'],
+                                        last_name=request.POST['last_name'],
+                                        email=request.POST['email'])
     new_user.save()
 
     # using 'authenticate' function
-    new_user = authenticate(username = request.POST['user_name'], password = request.POST['password'])
+    new_user = authenticate(username = request.POST['user_name'],
+                            password = request.POST['password'],)
 
     new_activity_instance = Activity(user=new_user)
-    new_activity_instance.description = new_user.username + "register an account."
+    new_activity_instance.description = new_user.username + " register an account."
     new_activity_instance.save()
+
+    # create Profile object for the user
+    new_profile_instance = Profile(user=new_user,
+                                   )
+    new_profile_instance.save()
 
     # create default folder
     new_folder_instance = Folder(user=new_user,
@@ -77,13 +87,11 @@ def registration(request):
                                         )
     new_label_important_instance.save()
     print("Already save new_label_important_instance.")
-
     new_label_warning_instance = Label(user=new_user,
                                        label_name="Warning",
                                        label_description="This task is warning.")
     new_label_warning_instance.save()
     print("Already save new_label_warning_instance.")
-
     new_label_information_instance = Label(user=new_user,
                                            label_name="Information",
                                            label_description="This task is information.")
@@ -159,6 +167,19 @@ def profile(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    # check own profile
+    context['self'] = True
+
+    profile = Profile.objects.get(user=user)
+    context['profile'] = profile
+
+    number_of_followers = len(Followship.objects.filter(follower=request.user))
+    number_of_followings = len(Followship.objects.filter(following=request.user))
+
+    context['number_of_followers'] = number_of_followers
+    context['number_of_followings'] = number_of_followings
+
     return render(request, 'WebApp/profile.html', context)
 
 from WebApp.forms import *
@@ -252,6 +273,10 @@ def settings(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     return render(request, 'WebApp/settings.html', context)
 
 
@@ -287,7 +312,6 @@ def other_user(request, user_id):
         context['is_followed'] = is_followed
 
     return render(request, 'WebApp/other_user.html', context)
-
 
 
 
@@ -339,6 +363,59 @@ def unfollow(request, user_id):
     print("The Followship object already delete.")
 
     return HttpResponseRedirect(reverse("other_user", kwargs={'user_id': other_user.id}))
+
+
+from django.http import Http404
+from mimetypes import guess_type
+
+# get back the user picture
+@login_required
+def get_user_picture(request, user_id):
+    print("in the get_user_picture function.")
+    context = {}
+    errors = []
+    context['errors'] = errors
+    try:
+        user = User.objects.get(id=user_id)
+        profile = Profile.objects.get(user=user)
+    except Exception:
+        errors.append("profile not existed")
+    content_type = guess_type(profile.image.name)
+    return HttpResponse(profile.image, content_type=content_type)
+
+
+
+
+@login_required
+def update_profile(request):
+    print("in the update_profile function.")
+    context = {}
+    errors = []
+    context['errors'] = errors
+
+    context['user'] = request.user
+    profile = Profile.objects.get(user=request.user)
+
+    first_name = request.POST['first_name']
+    last_name = request.POST['last_name']
+    email = request.POST['email']
+    company = request.POST['company']
+    location = request.POST['location']
+    website = request.POST['website']
+
+    request.user.first_name = first_name
+    request.user.last_name = last_name
+    request.user.email = email
+
+    profile.company = company
+    profile.location = location
+    profile.website = website
+
+    profile.save()
+    print("Already update the profile.")
+
+    return HttpResponseRedirect(reverse('profile'))
+
 
 
 

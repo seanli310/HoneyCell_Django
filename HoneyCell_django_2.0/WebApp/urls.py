@@ -53,7 +53,14 @@ urlpatterns = [
     # global_page
     url(r'^global_page/$', 'WebApp.views.global_page', name='global_page'),
 
+
+    url(r'^get_user_picture/(?P<user_id>\d+)$', 'WebApp.views.get_user_picture', name='get_user_picture'),
+
+    url(r'^update_profile/$', 'WebApp.views.update_profile', name='update_profile'),
+
     # task detail page
     url(r'^taskDetail/$', 'WebApp.views.taskDetail', name='taskDetail'),
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
