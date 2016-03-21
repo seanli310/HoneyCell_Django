@@ -69,7 +69,9 @@ urlpatterns = [
 
     url(r'^new_folder/$', 'WebApp.views.new_folder', name='new_folder'),
 
+    url(r'^update_folder/(?P<folder_id>\d+)$', 'WebApp.views.update_folder', name='update_folder'),
 
+    url(r'^delete_folder/(?P<folder_id>\d+)$', 'WebApp.views.delete_folder', name='delete_folder'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

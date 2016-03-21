@@ -552,12 +552,14 @@ def update_task(request, task_id):
 
 
     if ( task.task_name != task_name and len(Task.objects.filter(task_name=task_name))):
+        # The way to return back the error message needs to be changed later
         errors.append("The task name already exist, please type in another task name.")
         print("The task name already exist, please type in another task name.")
         return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': task_id}))
 
 
     if ( task.task_description != task_description and len(Task.objects.filter(task_description=task_description)) ):
+        # The way to return back the error message needs to be changed later
         errors.append("The task description already exist, please type in another task description.")
         print("The task description already exist, please type in another task description.")
         return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': task_id}))
@@ -585,12 +587,14 @@ def new_folder(request):
     folder_description = request.POST['folder_description']
 
     if(Folder.objects.filter(folder_name=folder_name)):
+        # The way to return back the error message needs to be changed later
         errors.append("This folder name already exist, please type in another folder name.")
         print("This folder name already exist, please type in another folder name.")
         return HttpResponseRedirect(reverse('fileManage'))
 
 
     if (Folder.objects.filter(folder_description=folder_description)):
+        # The way to return back the error message needs to be changed later
         errors.append("This folder description already exist, please type in another folder description.")
         print("This folder description already exist, please type in another folder description.")
         return HttpResponseRedirect(reverse('fileManage'))
@@ -602,6 +606,52 @@ def new_folder(request):
     print("Already save the new_folder_instance.")
 
     return HttpResponseRedirect(reverse('fileManage'))
+
+
+
+@login_required
+def update_folder(request, folder_id):
+    print("in the update_folder function.")
+    context = {}
+    context['user'] = request.user
+
+    errors = []
+    context['errors'] = errors
+
+    folder = Folder.objects.get(id=folder_id)
+
+    folder_name = request.POST['folder_name']
+    folder_description = request.POST['folder_description']
+
+    if ( (folder.folder_name != folder_name) and len(Folder.objects.filter(folder_name=folder_name)) ):
+        # The way to return back the error message needs to be changed later
+        errors.append("The folder name already exists, please type in another folder name.")
+        print("The folder name already exists, please type in another folder name.")
+        return HttpResponseRedirect(reverse('fileManage'))
+
+
+    if ( (folder.folder_description != folder_description) and len(Folder.objects.filter(folder_description=folder_description)) ):
+        # The way to return back the error message needs to be changed later
+        errors.append("The folder description already exists, please type in another folder description.")
+        print("The folder description already exists, please type in another folder description.")
+        return HttpResponseRedirect(reverse('fileManage'))
+
+    folder.folder_name = folder_name
+    folder.folder_description = folder_description
+    folder.save()
+    print("Already update folder's information")
+
+    return HttpResponseRedirect(reverse('fileManage'))
+
+
+
+@login_required
+def delete_folder(request, folder_id):
+    print("in the delete_folder function.")
+    context = {}
+    context['user'] = request.user
+    
+
 
 
 
