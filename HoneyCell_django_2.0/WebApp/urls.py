@@ -33,7 +33,9 @@ urlpatterns = [
 
     # folder Management page
     url(r'^fileManage/$', 'WebApp.views.fileManage', name='fileManage'),
-    url(r'^fileManage_tasks/$', 'WebApp.views.fileManage_tasks', name='fileManage_tasks'),
+
+    # go to specific folder
+    url(r'^fileManage_tasks/(?P<folder_id>\d+)$', 'WebApp.views.fileManage_tasks', name='fileManage_tasks'),
 
     # profile tasks page
     url(r'^profile/$', 'WebApp.views.profile', name='profile'),

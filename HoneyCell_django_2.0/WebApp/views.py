@@ -182,16 +182,43 @@ def fileManage(request):
     context['user'] = user
 
     folders = Folder.objects.filter(user=request.user)
+    paginator = Paginator(folders, 3)
+    page = request.GET.get('page')
+    try:
+        folders = paginator.page(page)
+    except PageNotAnInteger:
+        folders = paginator.page(1)
+    except EmptyPage:
+        folders = paginator.page(paginator.num_pages)
     context['folders'] = folders
 
     return render(request, 'WebApp/fileManage.html', context)
 
 @login_required
-def fileManage_tasks(request):
+def fileManage_tasks(request, folder_id):
     print("in the fileManage_tasks function")
     context = {}
     user = request.user
     context['user'] = user
+
+    folders = Folder.objects.filter(user=request.user)
+    context['folders'] = folders
+
+    folder = Folder.objects.get(id=folder_id)
+    context['folder'] = folder
+
+    tasks = Task.objects.filter(task_folder=folder)
+    paginator = Paginator(tasks, 3)
+    page = request.GET.get('page')
+
+    try:
+        tasks = paginator.page(page)
+    except PageNotAnInteger:
+        tasks = paginator.page(1)
+    except EmptyPage:
+        tasks = paginator.page(paginator.num_pages)
+    context['tasks'] = tasks
+
     return render(request, 'WebApp/fileManage_tasks.html', context)
 
 

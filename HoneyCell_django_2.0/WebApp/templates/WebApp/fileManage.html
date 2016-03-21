@@ -42,7 +42,7 @@
 {% endblock content_header %}
 
 {% block content_breadcrumb %}
-    <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home </a></li>
     <li><a href="#">Tasks</a></li>
     <li class="active">History Tasks</li>
 {% endblock content_breadcrumb %}
@@ -112,13 +112,9 @@
                         <ul class="nav nav-pills nav-stacked">
                             {% block fileManage_active_sidebar %}
                                 {% for folder in folders %}
-                                    <li><a href="#"><i class="fa fa-folder-o"></i> {{ folder.folder_name }} </a></li>
+                                    <li><a href="{% url 'fileManage_tasks' folder.id %}"><i
+                                            class="fa fa-folder-o"></i> {{ folder.folder_name }} </a></li>
                                 {% endfor %}
-{#                                <li><a href="{% url 'fileManage_tasks' %}"><i class="fa fa-folder-o"></i> Default </a>#}
-{#                                </li>#}
-{#                                <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName1 </a></li>#}
-{#                                <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName2 </a></li>#}
-{#                                <li><a href="#"><i class="fa fa-folder-o"></i> GiveMeAName3</a></li>#}
                             {% endblock fileManage_active_sidebar %}
                         </ul>
                     </div><!-- /.box-body -->
@@ -158,72 +154,27 @@
                                         </th>
                                     </tr>
 
-                                    <tr>
-                                        <td><input style="margin: 0px 5px;" type="checkbox"></td>
-                                        <td><a href="{% url 'fileManage_tasks' %}">Default</a></td>
-                                        <td>3-17-2014</td>
-                                        <td>BIC CMU</td>
-                                        <td>3-17-2014</td>
-                                        <td>
-                                            <button type="button" class="btn btn-manage btn-default btn-sm"
-                                                    data-toggle="modal" data-target="#deleteFolder"><i
-                                                    class="fa fa-trash-o"></i></button>
-                                            {% include 'WebApp/fileManage_deleteFolder.html' %}
-                                            <button type="button" class="btn btn-manage btn-default btn-sm"
-                                                    data-toggle="modal" data-target="#editFolderInfo"><i
-                                                    class="fa fa-pencil"></i></button>
-                                            {% include 'WebApp/fileManage_editFolderInfo.html' %}
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><input style="margin: 0px 5px;" type="checkbox"></td>
-                                        <td>GiveMeAName1</td>
-                                        <td>3-17-2014</td>
-                                        <td>BIC CMU</td>
-                                        <td>3-17-2014</td>
-                                        <td>
-                                            <button type="button" class="btn btn-manage btn-default btn-sm"
-                                                    data-toggle="modal" data-target="#deleteFolder"><i
-                                                    class="fa fa-trash-o"></i></button>
-                                            {% include 'WebApp/fileManage_deleteFolder.html' %}
-                                            <button class="btn btn-manage btn-default btn-sm"><i
-                                                    class="fa fa-pencil"></i></button>
-                                            {% include 'WebApp/fileManage_editFolderInfo.html' %}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input style="margin: 0px 5px;" type="checkbox"></td>
-                                        <td>GiveMeAName2</td>
-                                        <td>3-17-2014</td>
-                                        <td>BIC CMU</td>
-                                        <td>3-17-2014</td>
-                                        <td>
-                                            <button type="button" class="btn btn-manage btn-default btn-sm"
-                                                    data-toggle="modal" data-target="#deleteFolder"><i
-                                                    class="fa fa-trash-o"></i></button>
-                                            {% include 'WebApp/fileManage_deleteFolder.html' %}
-                                            <button class="btn btn-manage btn-default btn-sm"><i
-                                                    class="fa fa-pencil"></i></button>
-                                            {% include 'WebApp/fileManage_editFolderInfo.html' %}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><input style="margin: 0px 5px;" type="checkbox"></td>
-                                        <td>GiveMeAName3</td>
-                                        <td>3-17-2014</td>
-                                        <td>BIC CMU</td>
-                                        <td>3-17-2014</td>
-                                        <td>
-                                            <button type="button" class="btn btn-manage btn-default btn-sm"
-                                                    data-toggle="modal" data-target="#deleteFolder"><i
-                                                    class="fa fa-trash-o"></i></button>
-                                            {% include 'WebApp/fileManage_deleteFolder.html' %}
-                                            <button class="btn btn-manage btn-default btn-sm"><i
-                                                    class="fa fa-pencil"></i></button>
-                                            {% include 'WebApp/fileManage_editFolderInfo.html' %}
-                                        </td>
-                                    </tr>
+                                    {% for folder in folders %}
+                                        <tr>
+                                            <td><input style="margin: 0px 5px;" type="checkbox"></td>
+                                            <td>
+                                                <a href="{% url 'fileManage_tasks' folder.id %}">{{ folder.folder_name }}</a>
+                                            </td>
+                                            <td>{{ folder.folder_time_created.date }}</td>
+                                            <td>{{ folder.folder_description }}</td>
+                                            <td>{{ folder.folder_time_changed.date }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-manage btn-default btn-sm"
+                                                        data-toggle="modal" data-target="#deleteFolder"><i
+                                                        class="fa fa-trash-o"></i></button>
+                                                {% include 'WebApp/fileManage_deleteFolder.html' %}
+                                                <button type="button" class="btn btn-manage btn-default btn-sm"
+                                                        data-toggle="modal" data-target="#editFolderInfo"><i
+                                                        class="fa fa-pencil"></i></button>
+                                                {% include 'WebApp/fileManage_editFolderInfo.html' %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 {% endblock fileManage_table %}
                                 </tbody>
 
@@ -231,15 +182,31 @@
                         </div><!-- /.mail-box-messages -->
                     </div><!-- /.box-body -->
 
-                    <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <li><a href="#">&laquo;</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">&raquo;</a></li>
-                        </ul>
-                    </div>
+                    {% block fileManage_pagination %}
+                        <div class="box-footer clearfix">
+                            <ul class="pagination pagination-sm no-margin pull-right">
+                                {% if folders.has_previous %}
+                                    <li><a href="?page={{ folders.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                    <li><a href="">&laquo;</a></li>
+                                {% endif %}
+
+                                {% for num in folders.paginator.page_range %}
+                                    {% ifequal num folders.number %}
+                                        <li class="current"><a href="#"><b>{{ num }}</b></a></li>
+                                    {% else %}
+                                        <li><a href="?page={{ num }}"> {{ num }}</a></li>
+                                    {% endifequal %}
+                                {% endfor %}
+
+                                {% if folders.has_next %}
+                                    <li><a href="?page={{ folders.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                    <li><a href="#">&raquo;</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    {% endblock %}
 
                 </div><!-- /. box -->
             </div><!-- /.col -->
