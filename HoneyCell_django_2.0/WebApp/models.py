@@ -6,17 +6,6 @@ from django.contrib.auth.models import User
 
 from django.utils import timezone
 
-
-
-# class Document(models.Model):
-#     user = models.ForeignKey(User)
-#     name = models.CharField(max_length=100)
-#     folder = models.CharField(max_length=100, blank=True)
-#     description = models.CharField(max_length=100, blank=True)
-#     label = models.CharField(max_length=100, blank=True)
-#     docfile = models.FileField(upload_to=generate_filename)
-#     date = models.DateTimeField(default=timezone.now)
-
 class Folder(models.Model):
     user = models.ForeignKey(User)
     folder_name = models.CharField(max_length=100)
@@ -63,17 +52,6 @@ class Activity(models.Model):
     description = models.TextField(max_length=1000)
     time_created = models.DateTimeField(auto_now_add=True)
 
-
-# class Address(models.Model):
-#     user = models.OneToOneField(User)
-#     street = models.CharField(max_length=100, blank=True)
-#     city = models.CharField(max_length=100, blank=True)
-#     state = models.CharField(max_length=100, blank=True)
-#
-#     def __unicode__(self):
-#         return "%s, %s, %s" %(self.street, self.city, self.state)
-
-
 def generate_url_images(self, filename):
     url = 'images/%s/%s' %(self.user.username, filename)
     return url
@@ -105,4 +83,3 @@ class Followship(models.Model):
 
     def __unicode__(self):
         return "%s follows %s at %s" %(self.following, self.follower, self.follow_datetime)
-
