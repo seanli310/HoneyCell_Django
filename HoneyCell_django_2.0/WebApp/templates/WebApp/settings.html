@@ -62,128 +62,272 @@
             <div class="col-md-12">
                 <div class="nav-tabs-custom">
 
-                    <!-- tab navigator -->
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#public_profile" data-toggle="tab">Public Profile</a></li>
-                        <li><a href="#password" data-toggle="tab">Change Password</a></li>
-                    </ul>
+                    {% if public_profile %}
+                        <!-- tab navigator -->
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#public_profile" data-toggle="tab">Public Profile</a></li>
+                            <li><a href="#password" data-toggle="tab">Change Password</a></li>
+                        </ul>
 
-                    <!-- tab content -->
-                    <div class="tab-content tab-profile">
-                        <div class="active tab-pane" id="public_profile">
+                        <!-- tab content -->
+                        <div class="tab-content tab-profile">
+                            <div class="active tab-pane" id="public_profile">
 
-                            <form class="form-horizontal" action="{% url 'update_profile' %}" method="POST">{% csrf_token %}
-                                <div class="form-group">
-                                    <label for="#" class="col-sm-2 control-label">Picture</label>
-                                    <div class="col-sm-2">
-                                        {% if profile.image %}
-                                            <img class="profile-user-img img-responsive img-circle"
-                                             src="{% url 'get_user_picture' profile.user.id %}" alt="User profile picture">
+                                <form class="form-horizontal" action="{% url 'update_profile' %}"
+                                      method="POST">{% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="#" class="col-sm-2 control-label">Picture</label>
+                                        <div class="col-sm-2">
+                                            {% if profile.image %}
+                                                <img class="profile-user-img img-responsive img-circle"
+                                                     src="{% url 'get_user_picture' profile.user.id %}"
+                                                     alt="User profile picture">
                                             {% else %}
-                                            <img class="profile-user-img img-responsive img-circle"
-                                             src="{% static "WebApp/img/anonymous_user.jpg" %}" alt="User profile picture">
-                                        {% endif %}
+                                                <img class="profile-user-img img-responsive img-circle"
+                                                     src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                     alt="User profile picture">
+                                            {% endif %}
 
+                                        </div>
+                                        <div class="col-sm-4 upload_profile_pic">
+                                            <label for="pictureInput">upload new picture</label>
+                                            <input type="file" id="pictureInput" name="docfile">
+                                        </div>
                                     </div>
-                                    <div class="col-sm-4 upload_profile_pic">
-                                        <label for="pictureInput">upload new picture</label>
-                                        <input type="file" id="pictureInput" name="docfile">
+                                    <div class="form-group">
+                                        <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" placeholder="{{ user.username }}"
+                                                   disabled>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputUsername" class="col-sm-2 control-label">Username</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="{{ user.username }}"
-                                               disabled>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">First name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="first_name" class="form-control"
+                                                   placeholder="First name" value="{{ user.first_name }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">First name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="first_name" class="form-control" placeholder="First name" value="{{ user.first_name }}">
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Last name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="last_name" class="form-control"
+                                                   placeholder="Last name" value="{{ user.last_name }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputName" class="col-sm-2 control-label">Last name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="last_name" class="form-control" placeholder="Last name" value="{{ user.last_name }}">
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                        <div class="col-sm-9">
+                                            <input type="email" name="email" class="form-control" placeholder="Email"
+                                                   value="{{ user.email }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-                                    <div class="col-sm-9">
-                                        <input type="email" name="email" class="form-control" placeholder="Email" value="{{ user.email }}">
+                                    <div class="form-group">
+                                        <label for="inputCompany" class="col-sm-2 control-label">Company</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="company" class="form-control" placeholder="Compay"
+                                                   value="{{ profile.company }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputCompany" class="col-sm-2 control-label">Company</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="company" class="form-control" placeholder="Compay" value="{{ profile.company }}">
+                                    <div class="form-group">
+                                        <label for="inputLocation" class="col-sm-2 control-label">Location</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="location" class="form-control"
+                                                   placeholder="Location" value="{{ profile.location }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputLocation" class="col-sm-2 control-label">Location</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="location" class="form-control" placeholder="Location" value="{{ profile.location }}">
+                                    <div class="form-group">
+                                        <label for="inputWebsite" class="col-sm-2 control-label">Website</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="website" class="form-control" id="inputWebsite"
+                                                   placeholder="Website URL" value="{{ profile.website }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputWebsite" class="col-sm-2 control-label">Website</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="website" class="form-control" id="inputWebsite" placeholder="Website URL" value="{{ profile.website }}">
+                                    <!--  <div class="form-group">
+                                       <div class="col-sm-offset-2 col-sm-10">
+                                         <div class="checkbox">
+                                           <label>
+                                             <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                           </label>
+                                         </div>
+                                       </div>
+                                     </div> -->
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <!--  <div class="form-group">
-                                   <div class="col-sm-offset-2 col-sm-10">
-                                     <div class="checkbox">
-                                       <label>
-                                         <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                       </label>
-                                     </div>
-                                   </div>
-                                 </div> -->
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Update Profile</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div><!-- /.tab-pane -->
+                                </form>
+                            </div><!-- /.tab-pane -->
 
 
-                        <div class="tab-pane" id="password">
-                            <form class="form-horizontal">
-                                <div class="form-group">
-                                    <label for="oldPassword" class="col-sm-2 control-label">Old Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="oldPassword"
-                                               placeholder="Old Password">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="newPassword" class="col-sm-2 control-label">New Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="newPassword"
-                                               placeholder="New Password">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="confirmPassword" class="col-sm-2 control-label">Confirm New
-                                        Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="confirmPassword"
-                                               placeholder="Confirm New Password">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Update Password</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="password">
 
-                    </div><!-- /.tab-content -->
+                                <p style="color: red;" align="center">{{ errors }}</p>
+
+                                <form class="form-horizontal" action="{% url 'change_password' %}"
+                                      method="POST">{% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="newPassword" class="col-sm-2 control-label">New Password</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="new_password1" class="form-control"
+                                                   placeholder="New Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirmPassword" class="col-sm-2 control-label">Confirm New
+                                            Password</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="new_password2" class="form-control"
+                                                   placeholder="Confirm New Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger">Update Password</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!-- /.tab-pane -->
+
+                        </div><!-- /.tab-content -->
+
+                    {% endif %}
+
+                    {% if password %}
+                        <!-- tab navigator -->
+                        <ul class="nav nav-tabs">
+                            <li><a href="#public_profile" data-toggle="tab">Public Profile</a></li>
+                            <li class="active"><a href="#password" data-toggle="tab">Change Password</a></li>
+                        </ul>
+
+                        <!-- tab content -->
+                        <div class="tab-content tab-profile">
+                            <div class="tab-pane" id="public_profile">
+
+                                <form class="form-horizontal" action="{% url 'update_profile' %}"
+                                      method="POST">{% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="#" class="col-sm-2 control-label">Picture</label>
+                                        <div class="col-sm-2">
+                                            {% if profile.image %}
+                                                <img class="profile-user-img img-responsive img-circle"
+                                                     src="{% url 'get_user_picture' profile.user.id %}"
+                                                     alt="User profile picture">
+                                            {% else %}
+                                                <img class="profile-user-img img-responsive img-circle"
+                                                     src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                     alt="User profile picture">
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="col-sm-4 upload_profile_pic">
+                                            <label for="pictureInput">upload new picture</label>
+                                            <input type="file" id="pictureInput" name="docfile">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" placeholder="{{ user.username }}"
+                                                   disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">First name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="first_name" class="form-control"
+                                                   placeholder="First name" value="{{ user.first_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputName" class="col-sm-2 control-label">Last name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="last_name" class="form-control"
+                                                   placeholder="Last name" value="{{ user.last_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                        <div class="col-sm-9">
+                                            <input type="email" name="email" class="form-control" placeholder="Email"
+                                                   value="{{ user.email }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputCompany" class="col-sm-2 control-label">Company</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="company" class="form-control" placeholder="Compay"
+                                                   value="{{ profile.company }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputLocation" class="col-sm-2 control-label">Location</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="location" class="form-control"
+                                                   placeholder="Location" value="{{ profile.location }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputWebsite" class="col-sm-2 control-label">Website</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="website" class="form-control" id="inputWebsite"
+                                                   placeholder="Website URL" value="{{ profile.website }}">
+                                        </div>
+                                    </div>
+                                    <!--  <div class="form-group">
+                                       <div class="col-sm-offset-2 col-sm-10">
+                                         <div class="checkbox">
+                                           <label>
+                                             <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                           </label>
+                                         </div>
+                                       </div>
+                                     </div> -->
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!-- /.tab-pane -->
+
+
+                            <div class="active tab-pane" id="password">
+
+                                <p style="color: red;" align="center">{{ errors }}</p>
+
+                                <form class="form-horizontal" action="{% url 'change_password' %}"
+                                      method="POST">{% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="newPassword" class="col-sm-2 control-label">New Password</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="new_password1" class="form-control"
+                                                   placeholder="New Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirmPassword" class="col-sm-2 control-label">Confirm New
+                                            Password</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="new_password2" class="form-control"
+                                                   placeholder="Confirm New Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger">Update Password</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div><!-- /.tab-pane -->
+
+                        </div><!-- /.tab-content -->
+
+
+                    {% endif %}
+
+
                 </div><!-- /.nav-tabs-custom -->
             </div><!-- /.col -->
 

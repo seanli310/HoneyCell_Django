@@ -277,6 +277,9 @@ def settings(request):
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
+    context['public_profile'] = True
+    context['password'] = False
+
     return render(request, 'WebApp/settings.html', context)
 
 
@@ -417,5 +420,38 @@ def update_profile(request):
     return HttpResponseRedirect(reverse('profile'))
 
 
+@login_required
+def change_password(request):
+    print("in the change_password function.")
+    context = {}
+
+    user = request.user
+    context['user'] = user
+
+    errors = []
+    context['errors'] = errors
+
+    new_password1 = request.POST['new_password1']
+    new_password2 = request.POST['new_password2']
+
+    print("%" * 30)
+    print(request.user.password)
+    print(new_password1)
+    print(new_password2)
+    print("%" * 30)
+
+    if new_password1 != new_password2:
+        errors.append("Two password did not match, please type in again.")
+        context['public_profile'] = False
+        context['password'] = True
+        return render(request, 'WebApp/settings.html', context)
+    else:
+        user.set_password(new_password1)
+        user.save()
+        print("Already reset the password.")
+        user = authenticate(username = user.username,
+                            password = new_password1,)
+        login(request, user)
+        return HttpResponseRedirect(reverse('settings'))
 
 

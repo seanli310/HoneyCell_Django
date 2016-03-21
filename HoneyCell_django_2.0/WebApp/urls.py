@@ -58,6 +58,7 @@ urlpatterns = [
 
     url(r'^update_profile/$', 'WebApp.views.update_profile', name='update_profile'),
 
+    url(r'^change_password/$', 'WebApp.views.change_password', name='change_password'),
 
 
 
