@@ -1,10 +1,13 @@
-.newTask_content {
+.newTask-content {
     min-height: 250px;
     padding: 15px;
     margin-right: auto;
     margin-left: auto;
     padding-left: 100px;
     padding-right: 100px;
+    /*padding-top: 30px;*/
+}
+.content-top {
     padding-top: 30px;
 }
 .settings_content {
@@ -67,22 +70,7 @@
     margin: 0px 5px;
 }
 
-.info-box-customized {
-    min-height: 60px;
-    height: 60px;
-    /*width: 80%;*/
-}
-
-.info-box-icon-customized {
-    line-height: 60px;
-    width: 60px;
-    height: 60px;
-}
-
 .text-overflow {
     overflow: scroll;
     word-wrap: break-word;
-}
-.task-detail-height {
-    height: 450px;
 }

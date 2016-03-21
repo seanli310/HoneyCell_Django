@@ -48,7 +48,7 @@
 {% block content_area %}
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content content-top">
 
         <div class="row">
 
@@ -70,7 +70,8 @@
                   <strong><i class="fa fa-external-link margin-r-5"></i> Description </strong>
                   <div class="text-muted text-overflow">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
                   <hr>
-                  <a class="btn btn-primary btn-block"><b>Modify</b></a>
+                  <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modifyTaskDetail"><b>Modify</b></button>
+                  {% include 'WebApp/taskDetail_modify.html'%}
 
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
