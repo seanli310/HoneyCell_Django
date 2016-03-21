@@ -53,4 +53,8 @@ urlpatterns = [
     # global_page
     url(r'^global_page/$', 'WebApp.views.global_page', name='global_page'),
 
+
+    url(r'^get_user_picture/(?P<user_id>\d+)$', 'WebApp.views.get_user_picture', name='get_user_picture'),
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

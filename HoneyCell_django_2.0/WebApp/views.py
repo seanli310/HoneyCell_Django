@@ -59,8 +59,13 @@ def registration(request):
     new_user = authenticate(username = request.POST['user_name'], password = request.POST['password'])
 
     new_activity_instance = Activity(user=new_user)
-    new_activity_instance.description = new_user.username + "register an account."
+    new_activity_instance.description = new_user.username + " register an account."
     new_activity_instance.save()
+
+    # create Profile object for the user
+    new_profile_instance = Profile(user=new_user,
+                                   )
+    new_profile_instance.save()
 
     # create default folder
     new_folder_instance = Folder(user=new_user,
@@ -77,13 +82,11 @@ def registration(request):
                                         )
     new_label_important_instance.save()
     print("Already save new_label_important_instance.")
-
     new_label_warning_instance = Label(user=new_user,
                                        label_name="Warning",
                                        label_description="This task is warning.")
     new_label_warning_instance.save()
     print("Already save new_label_warning_instance.")
-
     new_label_information_instance = Label(user=new_user,
                                            label_name="Information",
                                            label_description="This task is information.")
@@ -252,6 +255,10 @@ def settings(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     return render(request, 'WebApp/settings.html', context)
 
 
@@ -339,3 +346,21 @@ def unfollow(request, user_id):
     print("The Followship object already delete.")
 
     return HttpResponseRedirect(reverse("other_user", kwargs={'user_id': other_user.id}))
+
+
+from django.http import Http404
+from mimetypes import guess_type
+
+# get back the user picture
+@login_required
+def get_user_picture(request, user_id):
+    context = {}
+    errors = []
+    context['errors'] = errors
+    try:
+        user = User.objects.get(id=user_id)
+        profile = Profile.objects.get(user=user)
+    except Exception:
+        errors.append("profile not existed")
+    content_type = guess_type(profile.image.name)
+    return HttpResponse(profile.image, content_type=content_type)

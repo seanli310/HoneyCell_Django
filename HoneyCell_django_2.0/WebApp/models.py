@@ -74,12 +74,12 @@ def generate_url_images(self, filename):
 
 class Profile(models.Model):
     user = models.ForeignKey(User)
-    company = models.CharField(max_length=100)
-    website = models.CharField(max_length=100)
-    age = models.IntegerField()
+    company = models.CharField(blank=True, max_length=100)
+    website = models.CharField(blank=True, max_length=100)
+    age = models.IntegerField(default=0)
     phone = models.CharField(max_length=100)
-    short_introduction = models.TextField(max_length=1000)
-    image = models.ImageField(upload_to=generate_url_images)
+    short_introduction = models.TextField(blank=True, max_length=1000)
+    image = models.ImageField(blank=True, upload_to=generate_url_images)
 
 class Comment(models.Model):
     user = models.ForeignKey(User)
