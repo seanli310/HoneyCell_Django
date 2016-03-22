@@ -4,7 +4,7 @@ This project is going build a our HoneyCell project based on Django framework.
 
 ###Basic requirement
 * install [Python 2](https://www.python.org/downloads/)
-* install [Django](https://www.djangoproject.com/download/)
+* install [Django](https://www.djangoproject.com/download/), version 1.9.4
 
 
 ###Instruction
