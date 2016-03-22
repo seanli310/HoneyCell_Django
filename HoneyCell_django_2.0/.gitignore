@@ -10,6 +10,9 @@ local_settings.py
 #Exclude everything in migrations folder
 */migrations/*
 
+#Exclude everything in documents folder
+*/media/documents/*
+
 # Django's SQL Lite Database File
 db.sqlite3
 
