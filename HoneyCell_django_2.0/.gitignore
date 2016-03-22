@@ -8,9 +8,6 @@ local_settings.py
 *~
 *#
 
-#Exclude everything in migrations folder
-*/migrations/*
-
 #Exclude everything in documents folder
 */media/documents/*
 
