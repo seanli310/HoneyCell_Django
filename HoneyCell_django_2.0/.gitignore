@@ -2,6 +2,7 @@
 *.pot
 *.pyc
 *.iml
+*.pyc
 local_settings.py
 
 # Editor backup files
