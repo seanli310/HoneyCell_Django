@@ -11,6 +11,7 @@ urlpatterns = [
     # empty url
     url(r'^$', 'WebApp.views.index', name='index'),
 
+    # index page
     url(r'^index/$', 'WebApp.views.index', name='index'),
 
     # new argument 'template_name'
@@ -55,22 +56,28 @@ urlpatterns = [
     # global_page
     url(r'^global_page/$', 'WebApp.views.global_page', name='global_page'),
 
-
+    # to get user's picture
     url(r'^get_user_picture/(?P<user_id>\d+)$', 'WebApp.views.get_user_picture', name='get_user_picture'),
 
+    # to update user's profile
     url(r'^update_profile/$', 'WebApp.views.update_profile', name='update_profile'),
 
+    # to change user's password
     url(r'^change_password/$', 'WebApp.views.change_password', name='change_password'),
 
     # task detail page
     url(r'^taskDetail/(?P<task_id>\d+)$', 'WebApp.views.taskDetail', name='taskDetail'),
 
+    # to update the task's name and description
     url(r'^update_task/(?P<task_id>\d+)$', 'WebApp.views.update_task', name='update_task'),
 
+    # to create a new folder
     url(r'^new_folder/$', 'WebApp.views.new_folder', name='new_folder'),
 
+    # to update folder's name and description
     url(r'^update_folder/(?P<folder_id>\d+)$', 'WebApp.views.update_folder', name='update_folder'),
 
+    # to delete the folder
     url(r'^delete_folder/(?P<folder_id>\d+)$', 'WebApp.views.delete_folder', name='delete_folder'),
 
 
