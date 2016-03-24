@@ -101,6 +101,7 @@
                             <div class="col-md-4 form-group">
                                 <label>Select Label</label>
                                 <select class="form-control" style="width: 100%;" name="task_label" required>
+                                    <option selected="selected">None</option>
                                     {% for label in labels %}
                                         <option value="{{ label.label_name }}">{{ label.label_name }}</option>
                                     {% endfor %}
