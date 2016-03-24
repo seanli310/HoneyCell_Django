@@ -74,3 +74,7 @@
     overflow: scroll;
     word-wrap: break-word;
 }
+
+.btn-newFolder{
+    padding: 3px;
+}

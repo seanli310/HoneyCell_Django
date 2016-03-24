@@ -1,0 +1,23 @@
+
+*.log
+*.pot
+*.pyc
+*.iml
+*.pyc
+local_settings.py
+
+# Editor backup files
+*~
+*#
+
+#Exclude everything in documents folder
+*/media/documents/*
+
+# Django's SQL Lite Database File
+db.sqlite3
+
+# Secret config parameters
+*.ini
+
+*.DS_Store
+*.idea

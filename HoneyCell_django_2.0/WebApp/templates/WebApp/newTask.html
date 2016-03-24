@@ -66,8 +66,10 @@
                     <form action="{% url "create_new_task" %}" role="form" method="POST"
                           enctype="multipart/form-data">{% csrf_token %}
                         <div class="box-body">
-                            <div class="col-md-3 form-group">
-                                <label>Select Folder (optional)</label>
+                            <div class="col-md-4 form-group">
+                                <label>Select Folder </label>
+                            
+                                <a style="submit" class="btn btn-primary btn-xs" href="{% url 'fileManage'%}"> + New Folder</a>
                                 <select class="form-control" style="width: 100%;" name="task_folder">
                                     {% for folder in folders %}
                                         <option value="{{ folder.folder_name }}">{{ folder.folder_name }}</option>
@@ -76,16 +78,26 @@
                             </div>
                             <span class="slash">/</span>
                             <div class="col-md-7 form-group">
-                                <label for="taskName">Task Name</label>
-                                <input type="text" class="form-control" id="taskName" name="task_name"
-                                       placeholder="Enter Name">
+                                <label for="taskName" >Task Name </label>
+                                <input type="text" class="form-control" id="taskName" name="task_name" placeholder="Enter Name" required>
                             </div>
-                            <div class="col-md-10 form-group">
+
+                            <div class="col-md-11 form-group">
+                                <label>Choose Machine Learning Algorithm</label>
+                                <select class="form-control" style="width: 100%;" name="task_label">
+                                    <option selected="selected">None</option>
+                                    <option>Algorithm 1</option>
+                                    <option>Algorithm 2</option>
+                                    <option>Algorithm 3</option>
+                                </select>
+                            </div><!-- /.form-group -->
+
+                            <div class="col-md-11 form-group">
                                 <label>Description (optional)</label>
-                                <input type="text" class="form-control" name="task_description" placeholder="Enter ...">
+                                <textarea class="form-control" rows="3" cols="200" placeholder="Maximum 150 words" name="task_description"></textarea>
                             </div>
-                            <div class="col-md-6 form-group">
-                                <label>Select Label (optional)</label>
+                            <div class="col-md-4 form-group">
+                                <label>Select Label</label>
                                 <select class="form-control" style="width: 100%;" name="task_label">
                                     <option selected="selected">None</option>
                                     <option>Important</option>
@@ -98,16 +110,17 @@
                                 <label for="exampleInputFile">File input</label>
                                 <input type="file" id="exampleInputFile" name="docfile">
                                 <p class="help-block">Example block-level help text here.</p>
-                                <p class="checkbox">
+                                <!-- <p class="checkbox">
                                     <label><input type="checkbox"> Check me out</label>
-                                </p>
+                                </p> -->
                             </div>
 
                         </div><!-- /.box-body -->
 
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary">Create Task</button>
+                            <button type="submit" class="btn btn-primary"> Create Task </button>
                         </div>
+
                     </form>
                 </div><!-- /.box -->
             </div>
