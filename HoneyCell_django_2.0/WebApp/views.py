@@ -114,6 +114,33 @@ def registration(request):
     new_status_denied_instance.save()
     print("Already save new_status_denied_instance.")
 
+    new_algorithm_KNN_instance = Algorithm(user=new_user,
+                                       algorithm_name="KNN",
+                                       algorithm_description="This is KNN algorithm.")
+    new_algorithm_KNN_instance.save()
+    print("Already save new_algorithm_KNN_instance.")
+
+    new_algorithm_linear_regression_instance = Algorithm(user=new_user,
+                                                         algorithm_name="Linear regression",
+                                                         algorithm_description="This is linear regression algorithm.")
+    new_algorithm_linear_regression_instance.save()
+    print("Already save new_algorithm_linear_regression_instance.")
+
+    new_algorithm_decision_tree_instance = Algorithm(user=new_user,
+                                                     algorithm_name="Decision tree",
+                                                     algorithm_description="This is decision tree algorithm.")
+    new_algorithm_decision_tree_instance.save()
+    print("Already save new_algorithm_decision_tree_instance.")
+
+    new_algorithm_neural_network_instance = Algorithm(user=new_user,
+                                                      algorithm_name="Neural network",
+                                                      algorithm_description="This is neural network algorithm.")
+    new_algorithm_neural_network_instance.save()
+    print("Already save new_algorithm_neural_network_instance.")
+
+
+
+
     # using 'login' function
     login(request, new_user)
 
@@ -145,6 +172,9 @@ def newTask(request):
 
     labels = Label.objects.filter(user=user)
     context['labels'] = labels
+
+    algorithms = Algorithm.objects.filter(user=user)
+    context['algorithms'] = algorithms
 
     return render(request, 'WebApp/newTask.html', context)
 
@@ -259,48 +289,51 @@ def create_new_task(request):
     errors = []
     context['errors'] = errors
 
-    print(request.user)
-    print(request.POST['task_name'])
-    print(request.POST['task_description'])
-    print(request.POST['task_folder'])
-    print(request.POST['task_label'])
-    print(request.FILES['docfile'])
-
     user = request.user
     task_name = request.POST['task_name']
+    task_algorithm = request.POST['task_algorithm']
     task_description = request.POST['task_description']
     task_folder = request.POST['task_folder']
     task_label = request.POST['task_label']
     docfile = request.FILES['docfile']
-
     task_folder_object = Folder.objects.get(user=request.user, folder_name=task_folder)
-    task_label_object = Label.objects.get(user=request.user, label_name=task_label)
 
     context['user'] = user
     context['task_name'] = task_name
+    context['task_algorithm'] = task_algorithm
     context['task_description'] = task_description
     context['task_folder'] = task_folder
     context['task_label'] = task_label
     context['docfile'] = docfile
-    folders = Folder.objects.filter(user=user)
-    context['folders'] = folders
+    context['folders'] = Folder.objects.filter(user=request.user)
+    context['labels'] = Label.objects.filter(user=user)
+    context['algorithms'] = Algorithm.objects.filter(user=request.user)
+    context['labels'] = Label.objects.filter(user=request.user)
 
-    labels = Label.objects.filter(user=user)
-    context['labels'] = labels
+    # Do not select a task algorithm
+    if task_algorithm == "None":
+        errors.append("Please select the task algorithm.")
+
+    if task_label == "None":
+        errors.append("Please select the task label.")
+
+    if errors:
+        return render(request, 'WebApp/newTask.html', context)
+
+
+    task_label_object = Label.objects.get(user=request.user, label_name=task_label)
+    task_algorithm_object = Algorithm.objects.get(user=request.user, algorithm_name=task_algorithm)
 
     if not task_name:
         errors.append("Please type in the task name.")
-
         return render(request, 'WebApp/newTask.html', context)
 
     if not task_description:
         errors.append('Please type in the task description.')
-
         return render(request, 'WebApp/newTask.html', context)
 
     if not docfile:
         errors.append("Please upload a file for the task.")
-
         return render(request, 'WebApp/newTask.html', context)
 
     if len(Task.objects.filter(user=user, task_name=task_name)):
@@ -311,15 +344,19 @@ def create_new_task(request):
 
     new_task_instance = Task(user=user,
                              task_name=task_name,
+                             task_algorithm = task_algorithm_object,
                              task_description=task_description,
                              task_label=task_label_object,
                              task_folder=task_folder_object,
                              docfile=docfile,
+                             # default status is pending
                              task_status=Status.objects.get(user=request.user, status_name="Pending"))
     new_task_instance.save()
     print("Already save the new_task_instance.")
 
-    new_activity_instance = Activity(user=request.user)
+    new_activity_instance = Activity(user=request.user,
+                                     task=new_activity_instance,
+                                     )
     new_activity_instance.description = "Create a new task name: " + new_task_instance.task_name
     new_activity_instance.save()
 
