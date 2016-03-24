@@ -728,6 +728,30 @@ def important_tasks(request):
     return render(request, 'WebApp/label_task.html', context)
 
 
+@login_required
+def warning_tasks(request):
+    print("in the warning_tasks function.")
+    context = {}
+    context['user'] = request.user
+
+    context['warning_label'] = True
+
+    task_label_warning = Label.objects.get(user=request.user, label_name="Warning")
+    context['label'] = task_label_warning
+
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_warning)
+    paginator = Paginator(tasks, 3)
+    page = request.GET.get('page')
+    try:
+        tasks = paginator.page(page)
+    except PageNotAnInteger:
+        tasks = paginator.page(1)
+    except EmptyPage:
+        tasks = paginator.page(paginator.num_pages)
+    context['tasks'] = tasks
+
+    return render(request, 'WebApp/label_task.html', context)
+
 
 
 

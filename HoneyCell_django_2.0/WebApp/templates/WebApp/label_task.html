@@ -35,13 +35,18 @@
 
 {% block label_task %}
     <li class="header">LABELS</li>
-    
-    {% if important_label %}
-        <li class="active"><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+    {% if important_label == True %}
+        <li class="active"><a href="{% url 'important_tasks' %}"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
     {% else %}
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+        <li><a href="{% url 'important_tasks' %}"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
     {% endif %}
-    <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+
+    {% if warning_label == True %}
+        <li class="active"><a href="{% url 'warning_tasks' %}"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+    {% else %}
+        <li><a href="{% url 'warning_tasks' %}"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+    {% endif %}
+
     <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
 {% endblock %}
 
@@ -54,7 +59,7 @@
 {% block content_breadcrumb %}
     <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="#">Tasks</a></li>
-    <li>History Tasks</li>
+    <li>{{ label.label_name }} Tasks</li>
 {% endblock content_breadcrumb %}
 
 
