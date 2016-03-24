@@ -68,8 +68,11 @@
                         <div class="box-body">
                             <div class="col-md-4 form-group">
                                 <label>Select Folder </label>
-                            
-                                <a class="btn btn-primary btn-xs" href="{% url 'fileManage'%}"> + New Folder</a>
+
+                                    <!-- <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#newFolder">+ New Folder</button> -->
+                                    {% include 'WebApp/fileManage_newFolder.html' %} 
+                                    
+                                    <a class="btn btn-primary btn-xs" href="{% url 'fileManage'%}"> + New Folder</a>
                                 <select class="form-control" style="width: 100%;" name="task_folder">
                                     {% for folder in folders %}
                                         <option value="{{ folder.folder_name }}">{{ folder.folder_name }}</option>
