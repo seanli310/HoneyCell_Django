@@ -75,12 +75,17 @@ def registration(request):
     # create default folder
     new_folder_instance = Folder(user=new_user,
                                  folder_name="Default",
-                                 folder_description="This is default folder.",
                                  )
     new_folder_instance.save()
     print("Already save new_folder_instance.")
 
-    # create three default labels at first.
+    # create four default labels at first.
+    new_label_none_instance = Label(user=new_user,
+                                    label_name="None",
+                                    label_description="This label is None."
+                                    )
+    new_label_none_instance.save()
+    print("Already save new_label_none_instance.")
     new_label_important_instance = Label(user=new_user,
                                         label_name="Important",
                                         label_description="This task is important.",
@@ -225,6 +230,15 @@ def fileManage(request):
         folders = paginator.page(paginator.num_pages)
     context['folders'] = folders
 
+    print("%" * 30)
+    print(folders)
+    for folder in folders:
+        print(folder)
+        print(folder.folder_name)
+        print(folder.id)
+        print("*" * 10)
+    print("%" * 30)
+
     return render(request, 'WebApp/fileManage.html', context)
 
 @login_required
@@ -310,12 +324,18 @@ def create_new_task(request):
     context['algorithms'] = Algorithm.objects.filter(user=request.user)
     context['labels'] = Label.objects.filter(user=request.user)
 
+    if not task_name:
+        errors.append("Please type in the task name.")
+
+    if not docfile:
+        errors.append("Please upload a file for the task.")
+
+    if len(Task.objects.filter(user=user, task_name=task_name)):
+        errors.append("The task_name for this user already exist.")
+
     # Do not select a task algorithm
     if task_algorithm == "None":
         errors.append("Please select the task algorithm.")
-
-    if task_label == "None":
-        errors.append("Please select the task label.")
 
     if errors:
         return render(request, 'WebApp/newTask.html', context)
@@ -323,23 +343,6 @@ def create_new_task(request):
     task_label_object = Label.objects.get(user=request.user, label_name=task_label)
     task_algorithm_object = Algorithm.objects.get(user=request.user, algorithm_name=task_algorithm)
 
-    if not task_name:
-        errors.append("Please type in the task name.")
-        return render(request, 'WebApp/newTask.html', context)
-
-    if not task_description:
-        errors.append('Please type in the task description.')
-        return render(request, 'WebApp/newTask.html', context)
-
-    if not docfile:
-        errors.append("Please upload a file for the task.")
-        return render(request, 'WebApp/newTask.html', context)
-
-    if len(Task.objects.filter(user=user, task_name=task_name)):
-        print("The task_name for this user already exist.")
-        errors.append("The task_name for this user already exist.")
-
-        return render(request, 'WebApp/newTask.html', context)
 
     new_task_instance = Task(user=user,
                              task_name=task_name,
@@ -625,7 +628,6 @@ def new_folder(request):
     context['errors'] = errors
 
     folder_name = request.POST['folder_name']
-    folder_description = request.POST['folder_description']
 
     if(Folder.objects.filter(folder_name=folder_name)):
         # The way to return back the error message needs to be changed later
@@ -633,16 +635,8 @@ def new_folder(request):
         print("This folder name already exist, please type in another folder name.")
         return HttpResponseRedirect(reverse('fileManage'))
 
-
-    if (Folder.objects.filter(folder_description=folder_description)):
-        # The way to return back the error message needs to be changed later
-        errors.append("This folder description already exist, please type in another folder description.")
-        print("This folder description already exist, please type in another folder description.")
-        return HttpResponseRedirect(reverse('fileManage'))
-
     new_folder_instance = Folder(user=request.user,
-                                 folder_name=folder_name,
-                                 folder_description=folder_description)
+                                 folder_name=folder_name)
     new_folder_instance.save()
     print("Already save the new_folder_instance.")
 
