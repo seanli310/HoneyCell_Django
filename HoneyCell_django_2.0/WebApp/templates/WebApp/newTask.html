@@ -69,7 +69,7 @@
                             <div class="col-md-4 form-group">
                                 <label>Select Folder </label>
                             
-                                <a style="submit" class="btn btn-primary btn-xs" href="{% url 'fileManage'%}"> + New Folder</a>
+                                <a class="btn btn-primary btn-xs" href="{% url 'fileManage'%}"> + New Folder</a>
                                 <select class="form-control" style="width: 100%;" name="task_folder">
                                     {% for folder in folders %}
                                         <option value="{{ folder.folder_name }}">{{ folder.folder_name }}</option>
@@ -84,11 +84,11 @@
 
                             <div class="col-md-11 form-group">
                                 <label>Choose Machine Learning Algorithm</label>
-                                <select class="form-control" style="width: 100%;" name="task_label" required>
-                                    <option selected="selected">None</option>
-                                    <option>Algorithm 1</option>
-                                    <option>Algorithm 2</option>
-                                    <option>Algorithm 3</option>
+                                <select class="form-control" style="width: 100%;" name="task_algorithm" required>
+                                    <option selected="selected" value="None">None</option>
+                                    {% for algorithm in algorithms %}
+                                        <option value="{{ algorithm.algorithm_name }}">{{ algorithm.algorithm_name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div><!-- /.form-group -->
 
@@ -100,9 +100,10 @@
                                 <label>Select Label</label>
                                 <select class="form-control" style="width: 100%;" name="task_label" required>
                                     <option selected="selected">None</option>
-                                    <option>Important</option>
-                                    <option>Warning</option>
-                                    <option>Information</option>
+                                    {% for label in labels %}
+                                        <option value="{{ label.label_name }}">{{ label.label_name }}</option>
+                                    {% endfor %}
+                                    
                                 </select>
                             </div><!-- /.form-group -->
 
@@ -116,6 +117,16 @@
                             </div>
 
                         </div><!-- /.box-body -->
+
+                        <div>
+                            <ul>
+                                {% for error in errors %}
+                                    <li style="color: red">
+                                        {{ error }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
 
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary"> Create Task </button>

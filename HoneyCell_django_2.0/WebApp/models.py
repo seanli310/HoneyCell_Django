@@ -20,11 +20,17 @@ class Label(models.Model):
     label_time_created = models.DateTimeField(auto_now_add=True)
     label_time_changed = models.DateTimeField(auto_now=True)
 
+# Later we need to change this status, not bind to user
 class Status(models.Model):
-    # Later we need to change this status, not bind to user
     user = models.ForeignKey(User)
     status_name = models.CharField(max_length=100)
     status_description = models.CharField(max_length=1000)
+
+# Later we need to change this status, not bind to user
+class Algorithm(models.Model):
+    user = models.ForeignKey(User)
+    algorithm_name = models.CharField(max_length=100)
+    algorithm_description = models.TextField(max_length=1000)
 
 def generate_filename(self, filename):
     url = 'documents/%s/%s/%s/%s' %(self.user.username, self.task_folder.folder_name, self.task_label.label_name, filename)
@@ -33,6 +39,7 @@ def generate_filename(self, filename):
 class Task(models.Model):
     user = models.ForeignKey(User)
     task_name = models.CharField(max_length=100)
+    task_algorithm = models.ForeignKey(Algorithm)
     task_description = models.TextField(max_length=1000)
     task_folder = models.ForeignKey(Folder)
     task_label = models.ForeignKey(Label)
@@ -50,6 +57,8 @@ class Task(models.Model):
 class Activity(models.Model):
     user = models.ForeignKey(User)
     description = models.TextField(max_length=1000)
+    # Activity object has foreign key Task object, and the foreign key can be null
+    task = models.OneToOneField(Task, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
 def generate_url_images(self, filename):
