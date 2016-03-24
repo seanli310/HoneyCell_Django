@@ -703,6 +703,30 @@ def delete_folder(request, folder_id):
 
 
 
+@login_required
+def important_tasks(request):
+    print("in the important_tasks function.")
+    context = {}
+    context['user'] = request.user
+
+    context['important_label'] = True
+
+    task_label_important = Label.objects.get(user=request.user, label_name="Important")
+    context['label'] = task_label_important
+
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_important)
+    paginator = Paginator(tasks, 3)
+    page = request.GET.get('page')
+    try:
+        tasks = paginator.page(page)
+    except PageNotAnInteger:
+        tasks = paginator.page(1)
+    except EmptyPage:
+        tasks = paginator.page(paginator.num_pages)
+    context['tasks'] = tasks
+
+    return render(request, 'WebApp/label_task.html', context)
+
 
 
 

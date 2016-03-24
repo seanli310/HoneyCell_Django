@@ -80,5 +80,13 @@ urlpatterns = [
     # to delete the folder
     url(r'^delete_folder/(?P<folder_id>\d+)$', 'WebApp.views.delete_folder', name='delete_folder'),
 
+    url(r'^important_tasks/$', 'WebApp.views.important_tasks', name='important_tasks'),
+
+    # url(r'^warning_tasks/$', 'WebApp.views.warning_tasks', name='warning_tasks'),
+
+    # url(r'information_tasks/$', 'WebApp.views.information_tasks', name='information_tasks'),
+
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
