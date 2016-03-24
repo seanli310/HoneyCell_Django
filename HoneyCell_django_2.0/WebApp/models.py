@@ -9,7 +9,6 @@ from django.utils import timezone
 class Folder(models.Model):
     user = models.ForeignKey(User)
     folder_name = models.CharField(max_length=100)
-    folder_description = models.TextField(max_length=1000)
     folder_time_created = models.DateTimeField(auto_now_add=True)
     folder_time_changed = models.DateTimeField(auto_now=True)
 
@@ -40,9 +39,9 @@ class Task(models.Model):
     user = models.ForeignKey(User)
     task_name = models.CharField(max_length=100)
     task_algorithm = models.ForeignKey(Algorithm)
-    task_description = models.TextField(max_length=1000)
+    task_description = models.TextField(max_length=1000, null=True, blank=True)
     task_folder = models.ForeignKey(Folder)
-    task_label = models.ForeignKey(Label)
+    task_label = models.ForeignKey(Label, null=True, blank=True)
     task_status = models.ForeignKey(Status)
     docfile = models.FileField(upload_to=generate_filename)
     task_time_created = models.DateTimeField(auto_now_add=True)

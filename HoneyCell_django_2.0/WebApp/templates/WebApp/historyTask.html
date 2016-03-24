@@ -72,7 +72,7 @@
                                     <td><a href="{% url 'taskDetail' task.id %}">{{ task.task_name }}</a></td>
                                     <td><a href="{% url 'fileManage_tasks' task.task_folder.id %}">{{ task.task_folder.folder_name }}</a></td>
                                     <td>{{ task.task_time_created }}</td>
-                                    <td>{{ task.task_status }}</td>
+                                    <td>{{ task.task_status.status_name }}</td>
                                     <td>{{ task.task_description }}</td>
                                     <td>{{ task.task_time_changed }}</td>
                                 </tr>
