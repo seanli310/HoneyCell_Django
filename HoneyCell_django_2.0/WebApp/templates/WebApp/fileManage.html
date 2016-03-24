@@ -55,9 +55,12 @@
             <!-- Side bar -->
             <div class="col-md-3">
 
+                {% block newButton %}
                 <!-- Trigger the modal with a button -->
                 <button type="button" class="btn btn-primary btn-block margin-bottom" data-toggle="modal" data-target="#newFolder">+ New Folder</button>
                 {% include 'WebApp/fileManage_newFolder.html' %}
+                
+                {% endblock newButton%}
 
                 <div class="box box-solid">
                     <div class="box-header with-border">

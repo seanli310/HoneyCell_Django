@@ -26,6 +26,9 @@
 {% endblock fileManage_breadcrumb %}
 
 
+{% block newButton %}
+<a href="{% url 'newTask' %}" class="btn btn-primary btn-block margin-bottom">+ New Task</a>
+{% endblock newButton %}
 
 {% block fileManage_table %}
     <tr>

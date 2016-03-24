@@ -71,7 +71,7 @@
 
                                     <!-- <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#newFolder">+ New Folder</button> -->
                                     
-                                    <a class="btn btn-primary btn-xs" href="{% url 'fileManage'%}"> + New Folder</a>
+                                    <a class="btn btn-primary btn-xs" href="{% url 'fileManage'%}"> + Folder Management </a>
                                 <select class="form-control" style="width: 100%;" name="task_folder">
                                     {% for folder in folders %}
                                         <option value="{{ folder.folder_name }}">{{ folder.folder_name }}</option>
