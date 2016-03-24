@@ -29,6 +29,7 @@
 
 {% block fileManage_table %}
     <tr>
+        <th></th>
         <th>ID</th>
         <th>Task Name</th>
         <th>Created Date</th>
@@ -38,6 +39,7 @@
     </tr>
     {% for task in tasks %}
         <tr>
+            <td><input class="selectedId" style="margin: 0px 5px;" type="checkbox"></td>
             <td><a href="{% url 'taskDetail' task.id %}">{{ task.id }}</a></td>
             <td><a href="{% url 'taskDetail' task.id %}">{{ task.task_name }}</a></td>
             <td>{{ task.task_time_created }}</td>

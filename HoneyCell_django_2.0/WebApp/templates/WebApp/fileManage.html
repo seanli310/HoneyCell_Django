@@ -100,7 +100,7 @@
 
                 <div class="box box-solid">
                     <div class="box-header with-border">
-                        <h3 class="box-title">All Folders</h3>
+                        <h3 class="box-title"><a href="{% url 'fileManage' %}">All Folders</a></h3>
                         <div class="box-tools">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         </div>
@@ -138,20 +138,20 @@
                                 {% block fileManage_table %}
                                     <tr>
                                         <th>
-                                            <button id="selectAll" class="btn btn-manage-title btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
+                                            <!-- <button id="selectAll" class="btn btn-manage-title btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button> -->
                                         </th>
                                         <th>Folder Name</th>
                                         <th>Created Date</th>
                                         <th>Modified Date</th>
                                         <th>
-                                            <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>
-                                            </button>
+                                           <!--  <button id="deleteMultiple" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>
+                                            </button> -->
                                         </th>
                                     </tr>
 
                                     {% for folder in folders %}
                                         <tr>
-                                            <td><input id="selectedId" style="margin: 0px 5px;" type="checkbox"></td>
+                                            <td><input class="selectedId" style="margin: 0px 5px;" type="checkbox"></td>
                                             <td>
                                                 <a href="{% url 'fileManage_tasks' folder.id %}">{{ folder.folder_name }}</a>
                                             </td>
@@ -210,48 +210,16 @@
 <script src="{% static "WebApp/plugins/iCheck/icheck.min.js" %}" type="text/javascript"></script>
 
 <script>
-  $(function () {
-    //Enable iCheck plugin for checkboxes
-    //iCheck for checkbox and radio inputs
-    $('.mailbox-messages input[type="checkbox"]').iCheck({
-      checkboxClass: 'icheckbox_flat-blue',
-      radioClass: 'iradio_flat-blue'
-    });
+  $(document).ready(function () {
+      $('#selectAll').click(function () {
+          $('.selectedId').prop('checked', this.checked);
+          console.log("yes");
+      });
 
-    //Enable check and uncheck all functionality
-    $(".checkbox-toggle").click(function () {
-      var clicks = $(this).data('clicks');
-      if (clicks) {
-        //Uncheck all checkboxes
-        $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
-        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
-      } else {
-        //Check all checkboxes
-        $(".mailbox-messages input[type='checkbox']").iCheck("check");
-        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
-      }
-      $(this).data("clicks", !clicks);
-    });
-
-    //Handle starring for glyphicon and font awesome
-    $(".mailbox-star").click(function (e) {
-      e.preventDefault();
-      //detect type
-      var $this = $(this).find("a > i");
-      var glyph = $this.hasClass("glyphicon");
-      var fa = $this.hasClass("fa");
-
-      //Switch states
-      if (glyph) {
-        $this.toggleClass("glyphicon-star");
-        $this.toggleClass("glyphicon-star-empty");
-      }
-
-      if (fa) {
-        $this.toggleClass("fa-star");
-        $this.toggleClass("fa-star-o");
-      }
-    });
+      $('.selectedId').change(function () {
+          var check = ($('.selectedId').filter(":checked").length == $('.selectedId').length);
+          $('#selectall').prop("checked", check);
+      });
   });
 </script>
 
