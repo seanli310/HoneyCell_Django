@@ -40,8 +40,9 @@
 {% endblock content_header %}
 
 {% block content_breadcrumb %}
-    <li><a href="{% url 'index' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Task Detail</li>
+    <li><a href="{% url 'index' %}"><i class="fa fa-dashboard"></i>Home</a></li>
+    <li class="active"><a href="{% url 'fileManage'%}">File Management</a></li>
+    <li class="active">{{ folder.foler_name }}</li>
 {% endblock content_breadcrumb %}
 
 
