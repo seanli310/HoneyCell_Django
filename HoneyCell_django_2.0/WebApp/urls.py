@@ -84,7 +84,7 @@ urlpatterns = [
 
     url(r'^warning_tasks/$', 'WebApp.views.warning_tasks', name='warning_tasks'),
 
-    # url(r'information_tasks/$', 'WebApp.views.information_tasks', name='information_tasks'),
+    url(r'information_tasks/$', 'WebApp.views.information_tasks', name='information_tasks'),
 
 
 

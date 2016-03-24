@@ -754,5 +754,30 @@ def warning_tasks(request):
 
 
 
+@login_required
+def information_tasks(request):
+    print("in the information_tasks function.")
+    context = {}
+    context['user'] = request.user
+
+    context['information_label'] = True
+
+    task_label_information = Label.objects.get(user=request.user, label_name="Information")
+    context['label'] = task_label_information
+
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_information)
+    paginator = Paginator(tasks, 3)
+    page = request.GET.get('page')
+    try:
+        tasks = paginator.page(page)
+    except PageNotAnInteger:
+        tasks = paginator.page(1)
+    except EmptyPage:
+        tasks = paginator.page(paginator.num_pages)
+    context['tasks'] = tasks
+
+    return render(request, 'WebApp/label_task.html', context)
+
+
 
 

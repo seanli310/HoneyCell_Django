@@ -47,7 +47,11 @@
         <li><a href="{% url 'warning_tasks' %}"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
     {% endif %}
 
-    <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+    {% if information_label %}
+        <li class="active"><a href="{% url 'information_tasks' %}"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+    {% else %}
+        <li><a href="{% url 'information_tasks' %}"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+    {% endif %}
 {% endblock %}
 
 
