@@ -16,12 +16,12 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Task Name</label>
-                            <input name="task_name" class="form-control" id="folderName" placeholder="{{ task.task_name }}">
+                            <input name="task_name" class="form-control" id="folderName" value="{{ task.task_name }}">
                         </div>
                         <!-- textarea -->
                         <div class="form-group">
                             <label>Description (optional)</label>
-                            <textarea name="task_description" class="form-control" rows="3" placeholder="{{ task.task_description }}"></textarea>
+                            <textarea name="task_description" class="form-control" rows="3"placeholder="Maximum 150 words"> {{ task.task_description }}</textarea>
                         </div>
                     </div><!-- /.box-body -->
                 </div>
