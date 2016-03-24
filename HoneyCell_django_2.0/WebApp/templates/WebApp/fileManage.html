@@ -80,12 +80,11 @@
                                             <input type="text" name="folder_name" class="form-control" id="folderName"
                                                    placeholder="Enter folder name">
                                         </div>
-                                        <!-- textarea -->
-                                        <div class="form-group">
+                                       <!-- textarea -->
+                                         <!--  <div class="form-group">
                                             <label>Description (optional)</label>
-                                            <textarea name="folder_description" class="form-control" rows="3"
-                                                      placeholder="Enter ..."></textarea>
-                                        </div>
+                                            <textarea name="folder_description" class="form-control" rows="3"placeholder="Enter ..."></textarea>
+                                        </div> -->
                                     </div><!-- /.box-body -->
                                 </div>
                                 <div class="modal-footer">
@@ -144,7 +143,6 @@
                                         </th>
                                         <th>Folder Name</th>
                                         <th>Created Date</th>
-                                        <th>Description</th>
                                         <th>Modified Date</th>
                                         <th>
                                             <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i>
@@ -159,7 +157,6 @@
                                                 <a href="{% url 'fileManage_tasks' folder.id %}">{{ folder.folder_name }}</a>
                                             </td>
                                             <td>{{ folder.folder_time_created.date }}</td>
-                                            <td>{{ folder.folder_description }}</td>
                                             <td>{{ folder.folder_time_changed.date }}</td>
                                             <td>
                                                 <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#deleteFolder"><i class="fa fa-trash-o"></i></button>
