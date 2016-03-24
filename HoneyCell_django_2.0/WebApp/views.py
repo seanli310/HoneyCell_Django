@@ -320,7 +320,6 @@ def create_new_task(request):
     if errors:
         return render(request, 'WebApp/newTask.html', context)
 
-
     task_label_object = Label.objects.get(user=request.user, label_name=task_label)
     task_algorithm_object = Algorithm.objects.get(user=request.user, algorithm_name=task_algorithm)
 
@@ -351,15 +350,17 @@ def create_new_task(request):
                              docfile=docfile,
                              # default status is pending
                              task_status=Status.objects.get(user=request.user, status_name="Pending"))
+
     new_task_instance.save()
     print("Already save the new_task_instance.")
 
+    print(new_task_instance)
+
     new_activity_instance = Activity(user=request.user,
-                                     task=new_activity_instance,
+                                     task=new_task_instance,
                                      )
     new_activity_instance.description = "Create a new task name: " + new_task_instance.task_name
     new_activity_instance.save()
-
     print("Already save new_activity_instance.")
 
     return HttpResponseRedirect(reverse('newTask'))
