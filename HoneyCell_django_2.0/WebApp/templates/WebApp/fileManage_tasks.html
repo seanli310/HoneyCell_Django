@@ -31,6 +31,7 @@
         <th>Created Date</th>
         <th>Status</th>
         <th>Modified Date</th>
+        <th></th>
     </tr>
     {% for task in tasks %}
         <tr>
@@ -45,6 +46,12 @@
                 <td><span class="label label-danger">{{ task.task_status.status_name }}</span></td>
             {% endif %}
             <td>{{ task.task_time_changed }}</td>
+            <td>
+                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#modifyTaskDetail"><i class="fa fa-pencil"></i></button>
+                {% include 'WebApp/taskDetail_editTask.html' %}
+                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#deleteFolder"><i class="fa fa-trash-o"></i></button>
+                {% include 'WebApp/fileManage_deleteFolder.html' %}
+            </td>
         </tr>
     {% endfor %}
 {% endblock fileManage_table %}
