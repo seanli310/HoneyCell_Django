@@ -3,9 +3,12 @@
 
 
 {% block fileManage_active_sidebar %}
-    {% for folder in folders %}
-        <li><a href="{% url 'fileManage_tasks' folder.id %}"><i class="fa fa-folder-o"></i> {{ folder.folder_name }}
-        </a></li>
+    {% for folderList in folders %}
+        {% if folder == folderList %}
+            <li class="active"><a href="{% url 'fileManage_tasks' folderList.id %}"><i class="fa fa-folder-o"></i> {{ folderList.folder_name }}</a></li>
+        {% else %}
+            <li><a href="{% url 'fileManage_tasks' folderList.id %}"><i class="fa fa-folder-o"></i> {{ folderList.folder_name }}</a></li>
+        {% endif %}
     {% endfor %}
 {% endblock fileManage_active_sidebar %}
 
@@ -19,7 +22,7 @@
 
 {% block fileManage_breadcrumb %}
     <li><a href="{% url 'fileManage' %}"><i class="fa fa-folder-open"></i> All Folders</a></li>
-    <li class="active">Default</li>
+    <li class="active"> {{ folder.folder_name }} </li>
 {% endblock fileManage_breadcrumb %}
 
 
