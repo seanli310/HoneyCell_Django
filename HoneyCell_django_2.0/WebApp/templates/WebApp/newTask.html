@@ -84,7 +84,7 @@
 
                             <div class="col-md-11 form-group">
                                 <label>Choose Machine Learning Algorithm</label>
-                                <select class="form-control" style="width: 100%;" name="task_label">
+                                <select class="form-control" style="width: 100%;" name="task_label" required>
                                     <option selected="selected">None</option>
                                     <option>Algorithm 1</option>
                                     <option>Algorithm 2</option>
@@ -94,11 +94,11 @@
 
                             <div class="col-md-11 form-group">
                                 <label>Description (optional)</label>
-                                <textarea class="form-control" rows="3" cols="200" placeholder="Maximum 150 words" name="task_description"></textarea>
+                                <textarea class="form-control" rows="3" cols="200" placeholder="Maximum 150 words" name="task_description" required></textarea>
                             </div>
                             <div class="col-md-4 form-group">
                                 <label>Select Label</label>
-                                <select class="form-control" style="width: 100%;" name="task_label">
+                                <select class="form-control" style="width: 100%;" name="task_label" required>
                                     <option selected="selected">None</option>
                                     <option>Important</option>
                                     <option>Warning</option>
@@ -108,7 +108,7 @@
 
                             <div class="col-md-10 form-group">
                                 <label for="exampleInputFile">File input</label>
-                                <input type="file" id="exampleInputFile" name="docfile">
+                                <input type="file" id="exampleInputFile" name="docfile" required>
                                 <p class="help-block">Example block-level help text here.</p>
                                 <!-- <p class="checkbox">
                                     <label><input type="checkbox"> Check me out</label>
