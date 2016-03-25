@@ -91,3 +91,8 @@
     overflow: scroll;
     word-wrap: break-word;
 }
+
+.global-head {
+    display: block;
+    text-align: center;
+}
