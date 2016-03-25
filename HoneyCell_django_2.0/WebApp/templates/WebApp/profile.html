@@ -87,10 +87,10 @@
                         <ul class="list-group list-group-unbordered">
                             {% if self %}
                                 <li class="list-group-item">
-                                    <b><a href="">Followers</a></b> <a class="pull-right">{{ number_of_followers }}</a>
+                                    <b><a href="{% url 'profile_allFollowers' %}">Followers</a></b> <a class="pull-right">{{ number_of_followers }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b><a href="">Following</a></b> <a class="pull-right">{{ number_of_followings }}</a>
+                                    <b><a href="{% url 'profile_allFollowings'%}">Following</a></b> <a class="pull-right">{{ number_of_followings }}</a>
                                 </li>
                             {% else %}
                                 <li class="list-group-item">

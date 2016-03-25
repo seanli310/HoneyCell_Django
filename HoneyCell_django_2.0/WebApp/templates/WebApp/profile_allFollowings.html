@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block active_sidebar %}
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <li class="treeview">
+        <a href="{% url 'index' %}">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Tasks</span>
+            <span class="label label-primary pull-right">4</span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i> New Task</a></li>
+            <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+        </ul>
+    </li>
+    <li>
+        <a href="{% url 'fileManage' %}"><i class="fa fa-folder"></i>File Management</a>
+    </li>
+    <li class="active">
+        <a href="{% url "profile" %}" ><i class="fa fa-th"></i> <span>Profile</span></a>
+    </li>
+    <li>
+        <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
+    </li>
+    <li>
+        <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
+    </li>
+{% endblock %}
+
+
+
+{% block content_header %}
+    Following
+{% endblock content_header %}
+
+{% block content_breadcrumb %}
+    <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Following</li>
+{% endblock content_breadcrumb %}
+
+
+
+{% block content_area %}
+    <section class="content content-top">
+        <div class="row">
+            <div class="col-md-12">
+            <div class="box box-primary">
+        
+                <!-- column -->
+                <div class="col-md-4">
+                  <div class="box box-widget widget-user-2">
+                    <div class="followship-header" >
+                      <div class="widget-user-image">
+                        <img class="img-circle" src="{% static "WebApp/img/user5.jpg" %}"  alt="User Avatar">
+                      </div>
+                      <h3 class="widget-user-username"><a href="#">Nadia Carmichael </a></h3>
+                      <h5 class="widget-user-desc">cmu@andrew.cmu.edu</h5>
+                    </div>
+                  </div>
+                </div><!-- /.col -->
+
+                <!-- column -->
+                <div class="col-md-4">
+                  <div class="box box-widget widget-user-2">
+                    <div class="followship-header" >
+                      <div class="widget-user-image">
+                        <img class="img-circle" src="{% static "WebApp/img/user5.jpg" %}"  alt="User Avatar">
+                      </div>
+                      <h3 class="widget-user-username"><a href="#">Nadia Carmichael </a></h3>
+                      <h5 class="widget-user-desc">cmu@andrew.cmu.edu</h5>
+                    </div>
+                  </div>
+                </div><!-- /.col -->
+
+                 <!-- column -->
+                <div class="col-md-4">
+                  <div class="box box-widget widget-user-2">
+                    <div class="followship-header" >
+                      <div class="widget-user-image">
+                        <img class="img-circle" src="{% static "WebApp/img/user5.jpg" %}"  alt="User Avatar">
+                      </div>
+                      <h3 class="widget-user-username"><a href="#">Nadia Carmichael </a></h3>
+                      <h5 class="widget-user-desc">cmu@andrew.cmu.edu</h5>
+                    </div>
+                  </div>
+                </div><!-- /.col -->
+
+            
+                <div class="box-footer clearfix">
+                  <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                  </ul>
+                </div>
+         </div> <!-- box -->
+         </div>  
+        </div>   <!-- row -->
+    </section>
+
+
+
+{% endblock content_area %}
