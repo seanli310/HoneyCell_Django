@@ -68,20 +68,34 @@
                     <div class="box-body box-profile">
                         <img class="profile-user-img img-responsive img-circle"
                              src="{% static "WebApp/img/user1.jpg" %}" alt="User profile picture">
-                        <h3 class="profile-username text-center">{{ user.username }}</h3>
-                        <p class="text-muted text-center"> username </p>
+                        <h3 class="profile-username text-center"> {{user.first_name}} {{user.last_name}}</h3>
+                        <p class="text-muted text-center"> {{ user.username }} </p>
 
                         <hr>
-                        <strong><i class="fa fa-book margin-r-5"></i> Company </strong>
-                        <p class="text-muted">{{ profile.company }}</p>
-                        <strong><i class="fa fa-map-marker margin-r-5"></i> Location </strong>
-                        <p class="text-muted">{{ profile.location }}</p>
-                        <strong><i class="fa fa-envelope margin-r-5"></i> Email </strong>
-                        <p class="text-muted">{{ user.email }}</p>
+                        {% if profile.company %}
+                            <strong><i class="fa fa-book margin-r-5"></i> Company </strong>
+                            <p class="text-muted">{{ profile.company }}</p>
+                        {% endif %}
+                        
+                        {% if profile.location%}
+                            <strong><i class="fa fa-map-marker margin-r-5"></i> Location </strong>
+                            <p class="text-muted">{{ profile.location }}</p>
+                        {% endif %}
+
+                        {% if profile.email %}
+                            <strong><i class="fa fa-envelope margin-r-5"></i> Email </strong>
+                            <p class="text-muted">{{ user.email }}</p>
+                        {% endif %}
+
+                        {% if profile.website %}
                         <strong><i class="fa fa-external-link margin-r-5"></i> Website </strong>
                         <p class="text-muted">{{ profile.website }}</p>
+                        {% endif %}
+
+                        {% if profile.time_created %}
                         <strong><i class="fa fa-clock-o margin-r-5"></i> Member Since </strong>
                         <p class="text-muted">{{ profile.time_created }}</p>
+                        {% endif %}
 
 
                         <ul class="list-group list-group-unbordered">
@@ -168,7 +182,7 @@
 
 
                             <div class="see_more"><a href="#">See More Activities</a></div>
-                            
+
                         </div><!-- /.tab-pane -->
                     </div><!-- /.tab-content -->
                 </div><!-- /.nav-tabs-custom -->
