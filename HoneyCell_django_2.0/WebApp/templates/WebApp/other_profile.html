@@ -68,20 +68,20 @@
                     <div class="box-body box-profile">
                         <img class="profile-user-img img-responsive img-circle"
                              src="{% static "WebApp/img/user1.jpg" %}" alt="User profile picture">
-                        <h3 class="profile-username text-center">{{ user.username }}</h3>
+                        <h3 class="profile-username text-center">{{ other_user.username }}</h3>
                         <p class="text-muted text-center"> username </p>
 
                         <hr>
                         <strong><i class="fa fa-book margin-r-5"></i> Company </strong>
-                        <p class="text-muted">{{ profile.company }}</p>
+                        <p class="text-muted">{{ other_user_profile.company }}</p>
                         <strong><i class="fa fa-map-marker margin-r-5"></i> Location </strong>
-                        <p class="text-muted">{{ profile.location }}</p>
+                        <p class="text-muted">{{ other_user_profile.location }}</p>
                         <strong><i class="fa fa-envelope margin-r-5"></i> Email </strong>
-                        <p class="text-muted">{{ user.email }}</p>
+                        <p class="text-muted">{{ other_user.email }}</p>
                         <strong><i class="fa fa-external-link margin-r-5"></i> Website </strong>
-                        <p class="text-muted">{{ profile.website }}</p>
+                        <p class="text-muted">{{ other_user_profile.website }}</p>
                         <strong><i class="fa fa-clock-o margin-r-5"></i> Member Since </strong>
-                        <p class="text-muted">{{ profile.time_created }}</p>
+                        <p class="text-muted">{{ other_user_profile.time_created }}</p>
 
 
                         <ul class="list-group list-group-unbordered">
@@ -107,10 +107,10 @@
                         </ul>
 
                         {% if self %}
-                            <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"
+                            <a href="{% url 'follow' other_user.id %}" class="btn btn-primary btn-block"
                                disabled="disable"><b>Follow</b></a>
                         {% else %}
-                            <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"><b>Follow</b></a>
+                            <a href="{% url 'follow' other_user.id %}" class="btn btn-primary btn-block"><b>Follow</b></a>
                         {% endif %}
 
 

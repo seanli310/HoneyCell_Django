@@ -25,7 +25,7 @@
         <a href="{% url 'fileManage' %}"><i class="fa fa-folder"></i>File Management</a>
     </li>
     <li class="active">
-        <a href="{% url "profile" %}" ><i class="fa fa-th"></i> <span>Profile</span></a>
+        <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
     </li>
     <li>
         <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
@@ -52,59 +52,37 @@
     <section class="content content-top">
         <div class="row">
             <div class="col-md-12">
-            <div class="box box-primary">
-        
-                <!-- column -->
-                <div class="col-md-4">
-                  <div class="box box-widget widget-user-2">
-                    <div class="followship-header" >
-                      <div class="widget-user-image">
-                        <img class="img-circle" src="{% static "WebApp/img/user5.jpg" %}"  alt="User Avatar">
-                      </div>
-                      <h3 class="widget-user-username"><a href="#">Nadia Carmichael </a></h3>
-                      <h5 class="widget-user-desc">cmu@andrew.cmu.edu</h5>
-                    </div>
-                  </div>
-                </div><!-- /.col -->
+                <div class="box box-primary">
 
-                <!-- column -->
-                <div class="col-md-4">
-                  <div class="box box-widget widget-user-2">
-                    <div class="followship-header" >
-                      <div class="widget-user-image">
-                        <img class="img-circle" src="{% static "WebApp/img/user5.jpg" %}"  alt="User Avatar">
-                      </div>
-                      <h3 class="widget-user-username"><a href="#">Nadia Carmichael </a></h3>
-                      <h5 class="widget-user-desc">cmu@andrew.cmu.edu</h5>
-                    </div>
-                  </div>
-                </div><!-- /.col -->
+                    {% for follower in followers %}
+                        <!-- column -->
+                        <div class="col-md-4">
+                            <div class="box box-widget widget-user-2">
+                                <div class="followship-header">
+                                    <div class="widget-user-image">
+                                        <img class="img-circle" src="{% static "WebApp/img/user5.jpg" %}" alt="User Avatar">
+                                    </div>
+                                    <h3 class="widget-user-username"><a href="#">{{ follower.username }}</a></h3>
+                                    <h5 class="widget-user-desc">{{ follower.first_name }}</h5>
+                                    <h5 class="widget-user-desc">{{ followers.last_name }}</h5>
+                                    <h5 class="widget-user-desc">{{ follower.email }}</h5>
+                                </div>
+                            </div>
+                        </div><!-- /.col -->
+                    {% endfor %}
 
-                 <!-- column -->
-                <div class="col-md-4">
-                  <div class="box box-widget widget-user-2">
-                    <div class="followship-header" >
-                      <div class="widget-user-image">
-                        <img class="img-circle" src="{% static "WebApp/img/user5.jpg" %}"  alt="User Avatar">
-                      </div>
-                      <h3 class="widget-user-username"><a href="#">Nadia Carmichael </a></h3>
-                      <h5 class="widget-user-desc">cmu@andrew.cmu.edu</h5>
-                    </div>
-                  </div>
-                </div><!-- /.col -->
 
-            
-                <div class="box-footer clearfix">
-                  <ul class="pagination pagination-sm no-margin pull-right">
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                  </ul>
-                </div>
-         </div> <!-- box -->
-         </div>  
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li><a href="#">&laquo;</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">&raquo;</a></li>
+                        </ul>
+                    </div>
+                </div> <!-- box -->
+            </div>
         </div>   <!-- row -->
     </section>
 

@@ -87,7 +87,18 @@ urlpatterns = [
 
     url(r'^warning_tasks/$', 'WebApp.views.warning_tasks', name='warning_tasks'),
 
-    url(r'information_tasks/$', 'WebApp.views.information_tasks', name='information_tasks'),
+    url(r'^information_tasks/$', 'WebApp.views.information_tasks', name='information_tasks'),
+
+    url(r'^followers/$', 'WebApp.views.followers', name='followers'),
+
+    url(r'^followings/$', 'WebApp.views.followings', name='followings'),
+
+    url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
+
+    url(r'^other_profile/(?P<user_id>\d+)$', 'WebApp.views.other_profile', name='other_profile'),
+
+
+
 
 
 

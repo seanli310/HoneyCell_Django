@@ -338,6 +338,8 @@ def create_new_task(request):
     docfile = request.FILES['docfile']
     task_folder_object = Folder.objects.get(user=request.user, folder_name=task_folder)
 
+
+
     context['user'] = user
     context['task_name'] = task_name
     context['task_algorithm'] = task_algorithm
@@ -420,7 +422,9 @@ def global_page(request):
     print("in the global function.")
     context = {}
     user = request.user
-    context['user'] = user
+
+    users = User.objects.all()
+    context['users'] = users
 
     activities = Activity.objects.all()
     context['activities'] = activities
@@ -803,6 +807,78 @@ def information_tasks(request):
     context['tasks'] = tasks
 
     return render(request, 'WebApp/label_task.html', context)
+
+
+
+
+@login_required
+def followers(request):
+    print("in the followers function.")
+    context = {}
+    context['user'] = request.user
+
+    followers = Followship.objects.filter(following=request.user)
+    context['followers'] = followers
+
+
+
+
+    return render(request, 'WebApp/profile_allFollowers.html', context)
+
+
+
+@login_required
+def followings(request):
+    print("in the followings function.")
+    context = {}
+    context['user'] = request.user
+
+    followings = Followship.objects.filter(follower=request.user)
+    context['followings'] = followings
+
+    return render(request, 'WebApp/profile_allFollowings.html', context)
+
+
+
+def task_finished(request):
+    print("in the task_finished function.")
+
+    return render(request, 'WebApp/index.html', {})
+
+
+
+@login_required
+def other_profile(request, user_id):
+    print("in the other_profile function.")
+    context = {}
+    context['user'] = request.user
+
+    other_user = User.objects.get(id=user_id)
+    context['other_user'] = other_user
+
+    other_user_profile = Profile.objects.get(user=other_user)
+    context['other_user_profile'] = other_user_profile
+
+
+    if len(Followship.objects.filter(following=request.user,
+                                     follower=other_user)):
+        is_followed = True
+        context['is_followed'] = is_followed
+    else:
+        is_followed = False
+        context['is_followed'] = is_followed
+
+    return render(request, 'WebApp/other_profile.html', context)
+
+
+
+
+
+
+
+
+
+
 
 
 
