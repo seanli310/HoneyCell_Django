@@ -121,8 +121,7 @@
                         </ul>
 
                         {% if self %}
-                            <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"
-                               disabled="disable"><b>Follow</b></a>
+                            <a class="btn btn-primary btn-block" disabled="disable"><b>Follow</b></a>
                         {% else %}
                             <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"><b>Follow</b></a>
                         {% endif %}
@@ -203,10 +202,6 @@
                                     </div>
                                 </form>
                             </div><!-- /.post-->
-
-                          
-
-
 
 
 
