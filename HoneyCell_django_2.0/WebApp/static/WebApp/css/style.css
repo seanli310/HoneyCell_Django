@@ -96,3 +96,9 @@
     display: block;
     text-align: center;
 }
+
+.index-title-style {
+    text-align: center;
+    padding: 5px 10px;
+    
+}
