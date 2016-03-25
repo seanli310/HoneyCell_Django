@@ -312,6 +312,8 @@ def create_new_task(request):
     docfile = request.FILES['docfile']
     task_folder_object = Folder.objects.get(user=request.user, folder_name=task_folder)
 
+
+
     context['user'] = user
     context['task_name'] = task_name
     context['task_algorithm'] = task_algorithm
@@ -777,6 +779,53 @@ def information_tasks(request):
     context['tasks'] = tasks
 
     return render(request, 'WebApp/label_task.html', context)
+
+
+
+
+@login_required
+def followers(request):
+    print("in the followers function.")
+    context = {}
+    context['user'] = request.user
+
+    followers = Followship.objects.filter(following=request.user)
+    context['followers'] = followers
+
+
+    return render(request, 'WebApp/followers.html', context)
+
+
+
+@login_required
+def followings(request):
+    print("in the followings function.")
+    context = {}
+    context['user'] = request.user
+
+    followings = Followship.objects.filter(follower=request.user)
+    context['followings'] = followings
+
+    return render(request, 'WebApp/followings.html', context)
+
+
+
+
+
+@login_required
+def task_finished(request):
+    print("in the task_finished function.")
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -87,27 +87,31 @@
                         <ul class="list-group list-group-unbordered">
                             {% if self %}
                                 <li class="list-group-item">
-                                    <b><a href="">Followers</a></b> <a class="pull-right">{{ number_of_followers }}</a>
+                                    <b><a href="{% url 'followings' %}">Following</a></b> <a
+                                        class="pull-right">{{ number_of_followings }}</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <b><a href="">Following</a></b> <a class="pull-right">{{ number_of_followings }}</a>
+                                    <b><a href="{% url 'followers' %}">Followers</a></b> <a
+                                        class="pull-right">{{ number_of_followers }}</a>
                                 </li>
                             {% else %}
                                 <li class="list-group-item">
-                                    <b>Followers</b> <p class="pull-right">{{ number_of_followers }}</p>
+                                    <b>Followers</b>
+                                    <p class="pull-right">{{ number_of_followers }}</p>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Following</b> <p class="pull-right">{{ number_of_followings }}</p>
+                                    <b>Following</b>
+                                    <p class="pull-right">{{ number_of_followings }}</p>
                                 </li>
                             {% endif %}
                         </ul>
 
                         {% if self %}
-                            <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block" disabled="disable"><b>Follow</b></a>
+                            <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"
+                               disabled="disable"><b>Follow</b></a>
                         {% else %}
                             <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"><b>Follow</b></a>
                         {% endif %}
-
 
 
                     </div><!-- /.box-body -->
@@ -229,8 +233,6 @@
                             </div><!-- /.post 3-->
 
                             <div class="see_more"><a href="#">See More Activities</a></div>
-
-
                         </div><!-- /.tab-pane -->
                     </div><!-- /.tab-content -->
                 </div><!-- /.nav-tabs-custom -->
