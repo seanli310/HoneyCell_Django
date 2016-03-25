@@ -86,3 +86,8 @@
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
 }
+
+.comment-style {
+    overflow: scroll;
+    word-wrap: break-word;
+}
