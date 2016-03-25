@@ -55,9 +55,9 @@
             {% endif %}
             <td>{{ task.task_time_changed }}</td>
             <td>
-                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#modifyTaskDetail"><i class="fa fa-pencil"></i></button>
+                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#modifyTaskDetail{{task.id}}"><i class="fa fa-pencil"></i></button>
                 {% include 'WebApp/taskDetail_editTask.html' %}
-                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#deleteTask"><i class="fa fa-trash-o"></i></button>
+                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#deleteTask{{task.id}}"><i class="fa fa-trash-o"></i></button>
                 {% include 'WebApp/taskDetail_deleteTask.html' %}
             </td>
         </tr>
