@@ -122,7 +122,7 @@
                                             <td>{{ folder.folder_time_created.date }}</td>
                                             <td>{{ folder.folder_time_changed.date }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#editFolderInfo"><i class="fa fa-pencil"></i></button>
+                                                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#editFolderInfo{{folder.id}}"><i class="fa fa-pencil"></i></button>
                                                 {% include 'WebApp/fileManage_editFolderInfo.html' %}
                                                 <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#deleteFolder"><i class="fa fa-trash-o"></i></button>
                                                 {% include 'WebApp/fileManage_deleteFolder.html' %}

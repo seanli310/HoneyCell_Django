@@ -677,6 +677,7 @@ def new_folder(request):
 @login_required
 def update_folder(request, folder_id):
     print("in the update_folder function.")
+    print("folder_id: " + folder_id);
     context = {}
     context['user'] = request.user
 
@@ -686,7 +687,7 @@ def update_folder(request, folder_id):
     folder = Folder.objects.get(id=folder_id)
 
     folder_name = request.POST['folder_name']
-    folder_description = request.POST['folder_description']
+    # folder_description = request.POST['folder_description']
 
     if ( (folder.folder_name != folder_name) and len(Folder.objects.filter(folder_name=folder_name)) ):
         # The way to return back the error message needs to be changed later
@@ -695,14 +696,14 @@ def update_folder(request, folder_id):
         return HttpResponseRedirect(reverse('fileManage'))
 
 
-    if ( (folder.folder_description != folder_description) and len(Folder.objects.filter(folder_description=folder_description)) ):
+    # if ( (folder.folder_description != folder_description) and len(Folder.objects.filter(folder_description=folder_description)) ):
         # The way to return back the error message needs to be changed later
-        errors.append("The folder description already exists, please type in another folder description.")
-        print("The folder description already exists, please type in another folder description.")
-        return HttpResponseRedirect(reverse('fileManage'))
+        # errors.append("The folder description already exists, please type in another folder description.")
+        # print("The folder description already exists, please type in another folder description.")
+        # return HttpResponseRedirect(reverse('fileManage'))
 
     folder.folder_name = folder_name
-    folder.folder_description = folder_description
+    # folder.folder_description = folder_description
     folder.save()
     print("Already update folder's information")
 
