@@ -7,6 +7,12 @@ local_settings.py
 *~
 *#
 
+
+
+#Exclude everything in documents folder
+*/media/*
+
+
 # Django's SQL Lite Database File
 db.sqlite3
 
