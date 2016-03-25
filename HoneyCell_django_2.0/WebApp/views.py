@@ -290,6 +290,32 @@ def profile(request):
 
     return render(request, 'WebApp/profile.html', context)
 
+@login_required
+def profile_allFollowers(request):
+    print("in the profile_allFollowers function.")
+    context = {}
+    user = request.user
+    context['user'] = user
+
+    activities = Activity.objects.all()
+    context['activities'] = activities
+
+    return render(request, 'WebApp/profile_allFollowers.html', context)
+
+@login_required
+def profile_allFollowings(request):
+    print("in the profile_allFollowings function.")
+    context = {}
+    user = request.user
+    context['user'] = user
+
+    activities = Activity.objects.all()
+    context['activities'] = activities
+
+    return render(request, 'WebApp/profile_allFollowings.html', context)
+
+
+
 from WebApp.forms import *
 from django.utils import timezone
 

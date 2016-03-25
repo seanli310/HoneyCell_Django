@@ -40,6 +40,9 @@ urlpatterns = [
 
     # profile tasks page
     url(r'^profile/$', 'WebApp.views.profile', name='profile'),
+    url(r'^profile_allFollowers/$', 'WebApp.views.profile_allFollowers', name='profile_allFollowers'),
+    url(r'^profile_allFollowings/$', 'WebApp.views.profile_allFollowings', name='profile_allFollowings'),
+
 
     # settings page
     url(r'^settings/$', 'WebApp.views.settings', name='settings'),

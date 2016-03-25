@@ -78,3 +78,11 @@
 .btn-newFolder{
     padding: 3px;
 }
+
+.followship-header {
+    margin: 10px 0px;
+    padding: 8px;
+    background-color: rgba(0,0,0,.075);
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}

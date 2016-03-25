@@ -98,7 +98,7 @@
                                 <label>Description (optional)</label>
                                 <textarea class="form-control" rows="3" cols="200" placeholder="Maximum 150 words" name="task_description"></textarea>
                             </div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-11 form-group">
                                 <label>Select Label</label>
                                 <select class="form-control" style="width: 100%;" name="task_label" required>
                                     {% for label in labels %}
@@ -108,8 +108,19 @@
                                 </select>
                             </div><!-- /.form-group -->
 
-                            <div class="col-md-10 form-group">
-                                <label for="exampleInputFile">File input</label>
+                           
+
+                            <div class="col-md-6 form-group">
+                                <label for="exampleInputFile">Upload Training Data</label>
+                                <input type="file" id="exampleInputFile" name="docfile" required>
+                                <p class="help-block">Example block-level help text here.</p>
+                                <!-- <p class="checkbox">
+                                    <label><input type="checkbox"> Check me out</label>
+                                </p> -->
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label for="exampleInputFile">Upload Testing Data</label>
                                 <input type="file" id="exampleInputFile" name="docfile" required>
                                 <p class="help-block">Example block-level help text here.</p>
                                 <!-- <p class="checkbox">
