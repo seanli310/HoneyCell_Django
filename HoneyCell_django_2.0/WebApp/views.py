@@ -394,7 +394,10 @@ def create_new_task(request):
     new_activity_instance.save()
     print("Already save new_activity_instance.")
 
-    return HttpResponseRedirect(reverse('newTask'))
+    # return HttpResponseRedirect(reverse('newTask'))
+
+    return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
+
 
 @login_required
 def guide(request):
