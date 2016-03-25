@@ -95,6 +95,9 @@ urlpatterns = [
 
     url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
 
+    url(r'^other_profile/(?P<user_id>\d+)$', 'WebApp.views.other_profile', name='other_profile'),
+
+
 
 
 

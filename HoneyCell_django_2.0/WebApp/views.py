@@ -422,7 +422,9 @@ def global_page(request):
     print("in the global function.")
     context = {}
     user = request.user
-    context['user'] = user
+
+    users = User.objects.all()
+    context['users'] = users
 
     activities = Activity.objects.all()
     context['activities'] = activities
@@ -819,7 +821,9 @@ def followers(request):
     context['followers'] = followers
 
 
-    return render(request, 'WebApp/followers.html', context)
+
+
+    return render(request, 'WebApp/profile_allFollowers.html', context)
 
 
 
@@ -832,16 +836,39 @@ def followings(request):
     followings = Followship.objects.filter(follower=request.user)
     context['followings'] = followings
 
-    return render(request, 'WebApp/followings.html', context)
+    return render(request, 'WebApp/profile_allFollowings.html', context)
 
 
+
+def task_finished(request):
+    print("in the task_finished function.")
+
+    return render(request, 'WebApp/index.html', {})
 
 
 
 @login_required
-def task_finished(request):
-    print("in the task_finished function.")
+def other_profile(request, user_id):
+    print("in the other_profile function.")
+    context = {}
+    context['user'] = request.user
 
+    other_user = User.objects.get(id=user_id)
+    context['other_user'] = other_user
+
+    other_user_profile = Profile.objects.get(user=other_user)
+    context['other_user_profile'] = other_user_profile
+
+
+    if len(Followship.objects.filter(following=request.user,
+                                     follower=other_user)):
+        is_followed = True
+        context['is_followed'] = is_followed
+    else:
+        is_followed = False
+        context['is_followed'] = is_followed
+
+    return render(request, 'WebApp/other_profile.html', context)
 
 
 
