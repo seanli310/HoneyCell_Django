@@ -42,7 +42,7 @@
 {% block content_breadcrumb %}
     <li><a href="{% url 'index' %}"><i class="fa fa-dashboard"></i>Home</a></li>
     <li class="active"><a href="{% url 'fileManage'%}">File Management</a></li>
-    <li class="active">{{ folder.foler_name }}</li>
+    <li class="active">{{ task.task_folder.folder_name }}</li>
 {% endblock content_breadcrumb %}
 
 
