@@ -10,7 +10,7 @@ local_settings.py
 *#
 
 #Exclude everything in documents folder
-*/media/documents/*
+*HoneyCell_django_2.0/media/*
 
 # Django's SQL Lite Database File
 db.sqlite3
