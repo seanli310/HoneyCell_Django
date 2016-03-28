@@ -269,26 +269,7 @@ def fileManage_tasks(request, folder_id):
     return render(request, 'WebApp/fileManage_tasks.html', context)
 
 
-@login_required
-def profile(request):
-    print("in the profile function")
-    context = {}
-    user = request.user
-    context['user'] = user
 
-    # check own profile
-    context['self'] = True
-
-    profile = Profile.objects.get(user=user)
-    context['profile'] = profile
-
-    number_of_followers = len(Followship.objects.filter(follower=request.user))
-    number_of_followings = len(Followship.objects.filter(following=request.user))
-
-    context['number_of_followers'] = number_of_followers
-    context['number_of_followings'] = number_of_followings
-
-    return render(request, 'WebApp/profile.html', context)
 
 @login_required
 def profile_allFollowers(request):
@@ -432,36 +413,49 @@ def global_page(request):
     activities = Activity.objects.all()
     context['activities'] = activities
 
+    print("%" * 30)
+    for activity in activities:
+        print(activity.description)
+        print(activity.comment_set)
+    print("%" * 30)
+
+    print("%" * 30)
+    print(Comment.objects.all())
+    for comment in Comment.objects.all():
+        print(comment.user)
+        print(comment.activity.description)
+        print(comment.text)
+    print("%" * 30)
+
+
     return render(request, 'WebApp/global_page.html', context)
 
 
-@login_required
-def other_user(request, user_id):
-    print("in the other_user function.")
-    print(request)
-    print(user_id)
-    context = {}
-    context['user'] = request.user
-    other_user = User.objects.get(id=user_id)
-    context['other_user'] = other_user
-
-    if len(Followship.objects.filter(following=request.user,
-                                     follower=other_user)):
-        is_followed = True
-        context['is_followed'] = is_followed
-    else:
-        is_followed = False
-        context['is_followed'] = is_followed
-
-    return render(request, 'WebApp/other_user.html', context)
+# @login_required
+# def other_user(request, user_id):
+#     print("in the other_user function.")
+#     print(request)
+#     print(user_id)
+#     context = {}
+#     context['user'] = request.user
+#     other_user = User.objects.get(id=user_id)
+#     context['other_user'] = other_user
+#
+#     if len(Followship.objects.filter(following=request.user,
+#                                      follower=other_user)):
+#         is_followed = True
+#         context['is_followed'] = is_followed
+#     else:
+#         is_followed = False
+#         context['is_followed'] = is_followed
+#
+#     return render(request, 'WebApp/other_user.html', context)
 
 
 
 @login_required
 def follow(request, user_id):
     print("in the follow function.")
-
-    print("*" * 30)
 
     print(request)
     print(user_id)
@@ -485,7 +479,7 @@ def follow(request, user_id):
     new_followship_instance.save()
     print("Already save new_followship_instance.")
 
-    return HttpResponseRedirect(reverse("other_user", kwargs={'user_id': other_user.id}))
+    return HttpResponseRedirect(reverse("other_profile", kwargs={'user_id': other_user.id}))
 
 @login_required
 def unfollow(request, user_id):
@@ -504,7 +498,7 @@ def unfollow(request, user_id):
     followship.delete()
     print("The Followship object already delete.")
 
-    return HttpResponseRedirect(reverse("other_user", kwargs={'user_id': other_user.id}))
+    return HttpResponseRedirect(reverse("other_profile", kwargs={'user_id': other_user.id}))
 
 
 from django.http import Http404
@@ -735,8 +729,6 @@ def delete_folder(request, folder_id):
     return HttpResponseRedirect(reverse('fileManage'))
 
 
-
-
 @login_required
 def important_tasks(request):
     print("in the important_tasks function.")
@@ -825,8 +817,6 @@ def followers(request):
     context['followers'] = followers
 
 
-
-
     return render(request, 'WebApp/profile_allFollowers.html', context)
 
 
@@ -850,6 +840,27 @@ def task_finished(request):
     return render(request, 'WebApp/index.html', {})
 
 
+@login_required
+def profile(request):
+    print("in the profile function")
+    context = {}
+    user = request.user
+    context['user'] = user
+
+    # check own profile
+    context['self'] = True
+
+    profile = Profile.objects.get(user=user)
+    context['profile'] = profile
+
+    number_of_followers = len(Followship.objects.filter(follower=request.user))
+    number_of_followings = len(Followship.objects.filter(following=request.user))
+
+    context['number_of_followers'] = number_of_followers
+    context['number_of_followings'] = number_of_followings
+
+    return render(request, 'WebApp/profile.html', context)
+
 
 @login_required
 def other_profile(request, user_id):
@@ -858,21 +869,54 @@ def other_profile(request, user_id):
     context['user'] = request.user
 
     other_user = User.objects.get(id=user_id)
-    context['other_user'] = other_user
 
-    other_user_profile = Profile.objects.get(user=other_user)
-    context['other_user_profile'] = other_user_profile
+    if(request.user == other_user):
+        print("Enter myself profile page.")
 
+        # check own profile
+        context['self'] = True
 
-    if len(Followship.objects.filter(following=request.user,
-                                     follower=other_user)):
-        is_followed = True
-        context['is_followed'] = is_followed
+        profile = Profile.objects.get(user=request.user)
+        context['profile'] = profile
+
+        number_of_followers = len(Followship.objects.filter(follower=request.user))
+        number_of_followings = len(Followship.objects.filter(following=request.user))
+
+        context['number_of_followers'] = number_of_followers
+        context['number_of_followings'] = number_of_followings
+
+        return render(request, 'WebApp/profile.html', context)
+
     else:
-        is_followed = False
-        context['is_followed'] = is_followed
+        print("Enter others' profile page.")
+        context['other_user'] = other_user
 
-    return render(request, 'WebApp/other_profile.html', context)
+        # check own profile
+        context['self'] = False
+
+        other_profile = Profile.objects.get(user=other_user)
+        context['other_profile'] = other_profile
+
+        number_of_followers = len(Followship.objects.filter(follower=other_user))
+        number_of_followings = len(Followship.objects.filter(following=other_user))
+
+        context['number_of_followers'] = number_of_followers
+        context['number_of_followings'] = number_of_followings
+
+
+        if len(Followship.objects.filter(following=request.user,
+                                         follower=other_user)):
+            is_followed = True
+            context['is_followed'] = is_followed
+            print("is_followed equals to true.")
+        else:
+            is_followed = False
+            context['is_followed'] = is_followed
+            print("is_followed equals to false.")
+
+        return render(request, 'WebApp/other_profile.html', context)
+
+
 
 
 

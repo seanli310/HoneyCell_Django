@@ -123,7 +123,12 @@
                         {% if self %}
                             <a class="btn btn-primary btn-block" disabled="disable"><b>Follow</b></a>
                         {% else %}
-                            <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"><b>Follow</b></a>
+                            
+                            {% if is_followed %}
+                                <a href="{% url 'unfollow' user.id %}" class="btn btn-primary btn-block"><b>Unfollow</b></a>
+                            {% else %}
+                                <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"><b>Follow</b></a>
+                            {% endif %}
                         {% endif %}
 
 
