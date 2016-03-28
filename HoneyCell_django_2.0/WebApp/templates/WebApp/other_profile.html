@@ -30,8 +30,8 @@
     <li>
         <a href="{% url 'fileManage' %}"><i class="fa fa-folder"></i>File Management</a>
     </li>
-    <li class="active">
-        <a href="#"><i class="fa fa-th"></i> <span>Profile</span></a>
+    <li>
+        <a href="{% url 'profile' %}"><i class="fa fa-th"></i> <span>Profile</span></a>
     </li>
     <li>
         <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
@@ -82,7 +82,7 @@
                             <p class="text-muted">{{ other_profile.location }}</p>
                         {% endif %}
 
-                        {% if other_profile.email %}
+                        {% if other_user.email %}
                             <strong><i class="fa fa-envelope margin-r-5"></i> Email </strong>
                             <p class="text-muted">{{ other_user.email }}</p>
                         {% endif %}

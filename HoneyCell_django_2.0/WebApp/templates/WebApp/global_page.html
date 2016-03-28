@@ -75,51 +75,45 @@
                                     {{ activity.task.task_description }}
                                 </div>
                             </div>
-
-                            <span class='pull-right text-muted'>{{ activity.comment_set }}</span>
+                            <!-- To show the number of comments -->
+                            <span class='pull-right text-muted'>{{ activity.comment_set.all | length }} comments in total</span>
                         </div>
 
-
-
-                        <p style="color: red">{{ activity.comment_set }}</p>
-
-
+                        <!-- To show all the comment for this activities -->
+                        {% for comment in activity.comment_set.all %}
                             <div class='box-footer box-comments'>
                                 <div class='box-comment'>
                                     <!-- User image -->
                                     <img class='img-circle img-sm' src='{% static 'WebApp/img/user6.jpg' %}' alt='user image'>
                                     <div class='comment-text'>
                                         <span class="username">
-                                          Maria Gonzales
-                                          <span class='text-muted pull-right'>8:03 PM Today</span>
+                                          <a href="{% url 'other_profile' comment.user.id %}">{{ comment.user }}</a>
+                                          <span class='text-muted pull-right'>{{ comment.time_created }}</span>
                                         </span><!-- /.username -->
-                                        <p class="comment-style"> GOOD JOB! </p>
-                                    </div><!-- /.comment-text -->
-                                </div><!-- /.box-comment -->
-                                <!-- end for loop  -->
+                                        <p class="comment-style">{{ comment.text }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
 
-                            </div><!-- /.box-footer -->
-
-
+                        <!-- Add a comment to the activity -->
                         <div class="box-footer">
-                            <form action="#" method="post">
-                                <img class="img-responsive img-circle img-sm" src="{% static 'WebApp/img/user1.jpg' %}"
-                                     alt="alt text">
+                            <form action="{% url 'add_comment' activity.id %}" method="post">{% csrf_token %}
+                                <img class="img-responsive img-circle img-sm" src="{% static 'WebApp/img/user1.jpg' %}" alt="alt text">
                                 <div class="form-group margin-bottom-none">
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control input-sm"
-                                               placeholder="Add comment here..Maximum 150 words"/ required>
+                                        <input type="text" name="comment_text" class="form-control input-sm" placeholder="Add comment here..Maximum 150 words" required/>
                                     </div>
                                     <div class="col-xsm-2">
                                         <button type="submit" class="btn btn-primary btn-sm">Submit</button>
                                     </div>
                                 </div>
                             </form>
-                        </div><!-- /.box-footer -->
-                    </div><!-- /.box -->
+                        </div>
+                    </div>
                 {% endfor %}
-            </div><!-- /.col -->
-        </div><!-- /.row -->
+            </div>
+        </div>
     </section>
 
 {% endblock %}

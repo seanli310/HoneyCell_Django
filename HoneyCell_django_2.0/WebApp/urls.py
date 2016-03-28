@@ -97,6 +97,7 @@ urlpatterns = [
 
     url(r'^other_profile/(?P<user_id>\d+)$', 'WebApp.views.other_profile', name='other_profile'),
 
+    url(r'^add_comment/(?P<activity_id>\d+)$', 'WebApp.views.add_comment', name='add_comment'),
 
 
 

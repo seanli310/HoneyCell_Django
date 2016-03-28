@@ -416,7 +416,9 @@ def global_page(request):
     print("%" * 30)
     for activity in activities:
         print(activity.description)
-        print(activity.comment_set)
+        comments = Comment.objects.filter(activity=activity)
+        print(activity.comment_set.all())
+        print(comments)
     print("%" * 30)
 
     print("%" * 30)
@@ -917,9 +919,31 @@ def other_profile(request, user_id):
         return render(request, 'WebApp/other_profile.html', context)
 
 
+@login_required
+def add_comment(request, activity_id):
+    print("in the add_comment function.")
+    context = {};
+
+    print("%" * 30)
+    print(request)
+    print(activity_id)
+    print("%" * 30)
+
+    user = request.user
+    context['user'] = user
+
+    activity = Activity.objects.get(id=activity_id)
+
+    comment_text = request.POST['comment_text']
+
+    new_comment_instance = Comment(user=user,
+                                   activity=activity,
+                                   text=comment_text)
+    new_comment_instance.save()
+    print("Successfully save new_comment_instance.")
 
 
-
+    return HttpResponseRedirect(reverse('global_page'))
 
 
 
