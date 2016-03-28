@@ -1,364 +1,434 @@
 var vows = require("vows"),
     load = require("../load"),
-    assert = require("../assert"),
-    time = require("./time"),
-    local = time.local;
+    assert = require("../assert");
 
-var suite = vows.describe("d3.time.format");
+var suite = vows.describe("d3.format");
 
 suite.addBatch({
   "format": {
-    topic: load("time/format").expression("d3.time.format"),
-    "formats abbreviated weekday": function(format) {
-      var f = format("%a");
-      assert.equal(f(local(1990, 0, 1)), "Mon");
-      assert.equal(f(local(1990, 0, 2)), "Tue");
-      assert.equal(f(local(1990, 0, 3)), "Wed");
-      assert.equal(f(local(1990, 0, 4)), "Thu");
-      assert.equal(f(local(1990, 0, 5)), "Fri");
-      assert.equal(f(local(1990, 0, 6)), "Sat");
-      assert.equal(f(local(1990, 0, 7)), "Sun");
+    topic: load("format/format").expression("d3.format"),
+    "returns a string": function(format) {
+      assert.isString(format("d")(0));
     },
-    "formats weekday": function(format) {
-      var f = format("%A");
-      assert.equal(f(local(1990, 0, 1)), "Monday");
-      assert.equal(f(local(1990, 0, 2)), "Tuesday");
-      assert.equal(f(local(1990, 0, 3)), "Wednesday");
-      assert.equal(f(local(1990, 0, 4)), "Thursday");
-      assert.equal(f(local(1990, 0, 5)), "Friday");
-      assert.equal(f(local(1990, 0, 6)), "Saturday");
-      assert.equal(f(local(1990, 0, 7)), "Sunday");
+    "can zero fill": function(format) {
+      var f = format("08d");
+      assert.strictEqual(f(0), "00000000");
+      assert.strictEqual(f(42), "00000042");
+      assert.strictEqual(f(42000000), "42000000");
+      assert.strictEqual(f(420000000), "420000000");
+      assert.strictEqual(f(-4), "-0000004");
+      assert.strictEqual(f(-42), "-0000042");
+      assert.strictEqual(f(-4200000), "-4200000");
+      assert.strictEqual(f(-42000000), "-42000000");
     },
-    "formats abbreviated month": function(format) {
-      var f = format("%b");
-      assert.equal(f(local(1990, 0, 1)), "Jan");
-      assert.equal(f(local(1990, 1, 1)), "Feb");
-      assert.equal(f(local(1990, 2, 1)), "Mar");
-      assert.equal(f(local(1990, 3, 1)), "Apr");
-      assert.equal(f(local(1990, 4, 1)), "May");
-      assert.equal(f(local(1990, 5, 1)), "Jun");
-      assert.equal(f(local(1990, 6, 1)), "Jul");
-      assert.equal(f(local(1990, 7, 1)), "Aug");
-      assert.equal(f(local(1990, 8, 1)), "Sep");
-      assert.equal(f(local(1990, 9, 1)), "Oct");
-      assert.equal(f(local(1990, 10, 1)), "Nov");
-      assert.equal(f(local(1990, 11, 1)), "Dec");
+    "can space fill": function(format) {
+      var f = format("8d");
+      assert.strictEqual(f(0), "       0");
+      assert.strictEqual(f(42), "      42");
+      assert.strictEqual(f(42000000), "42000000");
+      assert.strictEqual(f(420000000), "420000000");
+      assert.strictEqual(f(-4), "      -4");
+      assert.strictEqual(f(-42), "     -42");
+      assert.strictEqual(f(-4200000), "-4200000");
+      assert.strictEqual(f(-42000000), "-42000000");
     },
-    "formats month": function(format) {
-      var f = format("%B");
-      assert.equal(f(local(1990, 0, 1)), "January");
-      assert.equal(f(local(1990, 1, 1)), "February");
-      assert.equal(f(local(1990, 2, 1)), "March");
-      assert.equal(f(local(1990, 3, 1)), "April");
-      assert.equal(f(local(1990, 4, 1)), "May");
-      assert.equal(f(local(1990, 5, 1)), "June");
-      assert.equal(f(local(1990, 6, 1)), "July");
-      assert.equal(f(local(1990, 7, 1)), "August");
-      assert.equal(f(local(1990, 8, 1)), "September");
-      assert.equal(f(local(1990, 9, 1)), "October");
-      assert.equal(f(local(1990, 10, 1)), "November");
-      assert.equal(f(local(1990, 11, 1)), "December");
+    "can output fixed-point notation": function(format) {
+      assert.strictEqual(format(".1f")(0.49), "0.5");
+      assert.strictEqual(format(".2f")(0.449), "0.45");
+      assert.strictEqual(format(".3f")(0.4449), "0.445");
+      assert.strictEqual(format(".5f")(0.444449), "0.44445");
+      assert.strictEqual(format(".1f")(100), "100.0");
+      assert.strictEqual(format(".2f")(100), "100.00");
+      assert.strictEqual(format(".3f")(100), "100.000");
+      assert.strictEqual(format(".5f")(100), "100.00000");
     },
-    "formats locale date and time": function(format) {
-      var f = format("%c");
-      assert.equal(f(local(1990, 0, 1)), "Mon Jan  1 00:00:00 1990");
+    "can output general notation": function(format) {
+      assert.strictEqual(format(".1g")(0.049), "0.05");
+      assert.strictEqual(format(".1g")(0.49), "0.5");
+      assert.strictEqual(format(".2g")(0.449), "0.45");
+      assert.strictEqual(format(".3g")(0.4449), "0.445");
+      assert.strictEqual(format(".5g")(0.444449), "0.44445");
+      assert.strictEqual(format(".1g")(100), "1e+2");
+      assert.strictEqual(format(".2g")(100), "1.0e+2");
+      assert.strictEqual(format(".3g")(100), "100");
+      assert.strictEqual(format(".5g")(100), "100.00");
+      assert.strictEqual(format(".5g")(100.2), "100.20");
+      assert.strictEqual(format(".2g")(0.002), "0.0020");
     },
-    "formats zero-padded date": function(format) {
-      var f = format("%d");
-      assert.equal(f(local(1990, 0, 1)), "01");
+    "can output exponent notation ": function(format) {
+      var f = format("e");
+      assert.strictEqual(f(0), "0e+0");
+      assert.strictEqual(f(42), "4.2e+1");
+      assert.strictEqual(f(42000000), "4.2e+7");
+      assert.strictEqual(f(420000000), "4.2e+8");
+      assert.strictEqual(f(-4), "-4e+0");
+      assert.strictEqual(f(-42), "-4.2e+1");
+      assert.strictEqual(f(-4200000), "-4.2e+6");
+      assert.strictEqual(f(-42000000), "-4.2e+7");
+      assert.strictEqual(format(".0e")(42), "4e+1")
+      assert.strictEqual(format(".3e")(42), "4.200e+1")
     },
-    "formats space-padded date": function(format) {
-      var f = format("%e");
-      assert.equal(f(local(1990, 0, 1)), " 1");
+    "can output SI prefix notation": function(format) {
+      var f = format("s");
+      assert.strictEqual(f(0), "0");
+      assert.strictEqual(f(1), "1");
+      assert.strictEqual(f(10), "10");
+      assert.strictEqual(f(100), "100");
+      assert.strictEqual(f(999.5), "999.5");
+      assert.strictEqual(f(999500), "999.5k");
+      assert.strictEqual(f(1000), "1k");
+      assert.strictEqual(f(1400), "1.4k");
+      assert.strictEqual(f(1500.5), "1.5005k");
+      assert.strictEqual(f(0.000001), "1µ");
     },
-    "formats zero-padded hour (24)": function(format) {
-      var f = format("%H");
-      assert.equal(f(local(1990, 0, 1, 0)), "00");
-      assert.equal(f(local(1990, 0, 1, 13)), "13");
+    "can output SI prefix notation with appropriate rounding": function(format) {
+      var f = format(".3s");
+      assert.strictEqual(f(0), "0.00");
+      assert.strictEqual(f(1), "1.00");
+      assert.strictEqual(f(10), "10.0");
+      assert.strictEqual(f(100), "100");
+      assert.strictEqual(f(999.5), "1.00k");
+      assert.strictEqual(f(999500), "1.00M");
+      assert.strictEqual(f(1000), "1.00k");
+      assert.strictEqual(f(1500.5), "1.50k");
+      assert.strictEqual(f(145500000), "146M");
+      assert.strictEqual(f(145999999.999999347), "146M");
+      assert.strictEqual(f(1e26), "100Y");
+      assert.strictEqual(f(0.000001), "1.00µ");
+      assert.strictEqual(f(0.009995), "10.0m");
+      var f = format(".4s");
+      assert.strictEqual(f(999.5), "999.5");
+      assert.strictEqual(f(999500), "999.5k");
+      assert.strictEqual(f(0.009995), "9.995m");
     },
-    "formats zero-padded hour (12)": function(format) {
-      var f = format("%I");
-      assert.equal(f(local(1990, 0, 1, 0)), "12");
-      assert.equal(f(local(1990, 0, 1, 13)), "01");
+    "can output SI prefix notation with appropriate rounding and currency symbol": function(format) {
+      var f = format("$.3s");
+      assert.strictEqual(f(0), "$0.00");
+      assert.strictEqual(f(1), "$1.00");
+      assert.strictEqual(f(10), "$10.0");
+      assert.strictEqual(f(100), "$100");
+      assert.strictEqual(f(999.5), "$1.00k");
+      assert.strictEqual(f(999500), "$1.00M");
+      assert.strictEqual(f(1000), "$1.00k");
+      assert.strictEqual(f(1500.5), "$1.50k");
+      assert.strictEqual(f(145500000), "$146M");
+      assert.strictEqual(f(145999999.999999347), "$146M");
+      assert.strictEqual(f(1e26), "$100Y");
+      assert.strictEqual(f(0.000001), "$1.00µ");
+      assert.strictEqual(f(0.009995), "$10.0m");
+      var f = format("$.4s");
+      assert.strictEqual(f(999.5), "$999.5");
+      assert.strictEqual(f(999500), "$999.5k");
+      assert.strictEqual(f(0.009995), "$9.995m");
     },
-    "formats zero-padded day of year": function(format) {
-      var f = format("%j");
-      assert.equal(f(local(1990, 0, 1)), "001");
-      assert.equal(f(local(1990, 5, 1)), "152");
-      assert.equal(f(local(2010, 2, 13)), "072");
-      assert.equal(f(local(2010, 2, 14)), "073"); // DST begins
-      assert.equal(f(local(2010, 2, 15)), "074");
-      assert.equal(f(local(2010, 10, 6)), "310");
-      assert.equal(f(local(2010, 10, 7)), "311"); // DST ends
-      assert.equal(f(local(2010, 10, 8)), "312");
+    "SI prefix notation precision is consistent for small and large numbers": function(format) {
+      assert.deepEqual(
+        [    1e-5,     1e-4,     1e-3,     1e-2,     1e-1,    1e-0,     1e1,     1e2,      1e3,      1e4,      1e5].map(format("s")),
+        [    '10µ',   '100µ',    '1m',    '10m',   '100m',     '1',    '10',    '100',    '1k',    '10k',   '100k']);
+      assert.deepEqual(
+        [    1e-5,     1e-4,     1e-3,     1e-2,     1e-1,    1e-0,     1e1,     1e2,      1e3,      1e4,      1e5].map(format(".4s")),
+        ['10.00µ', '100.0µ', '1.000m', '10.00m', '100.0m', '1.000', '10.00', '100.0', '1.000k', '10.00k', '100.0k']);
     },
-    "formats zero-padded month": function(format) {
-      var f = format("%m");
-      assert.equal(f(local(1990, 0, 1)), "01");
-      assert.equal(f(local(1990, 9, 1)), "10");
+    "can output a currency": function(format) {
+      var f = format("$");
+      assert.strictEqual(f(0), "$0");
+      assert.strictEqual(f(0.042), "$0.042");
+      assert.strictEqual(f(0.42), "$0.42");
+      assert.strictEqual(f(4.2), "$4.2");
+      assert.strictEqual(f(-0.042), "-$0.042");
+      assert.strictEqual(f(-0.42), "-$0.42");
+      assert.strictEqual(f(-4.2), "-$4.2");
     },
-    "formats zero-padded minute": function(format) {
-      var f = format("%M");
-      assert.equal(f(local(1990, 0, 1, 0, 0)), "00");
-      assert.equal(f(local(1990, 0, 1, 0, 32)), "32");
+    "can output a currency with comma-grouping and sign": function(format) {
+      var f = format("+$,.2f");
+      assert.strictEqual(f(0), "+$0.00");
+      assert.strictEqual(f(0.429), "+$0.43");
+      assert.strictEqual(f(-0.429), "-$0.43");
+      assert.strictEqual(f(-1), "-$1.00");
+      assert.strictEqual(f(1e4), "+$10,000.00");
     },
-    "formats AM or PM": function(format) {
-      var f = format("%p");
-      assert.equal(f(local(1990, 0, 1, 0)), "AM");
-      assert.equal(f(local(1990, 0, 1, 13)), "PM");
+    "can output a currency with si-prefix notation": function(format) {
+      var f = format("$.2s");
+      assert.strictEqual(f(0), "$0.0");
+      assert.strictEqual(f(2.5e5), "$250k");
+      assert.strictEqual(f(-2.5e8), "-$250M");
+      assert.strictEqual(f(2.5e11), "$250G");
     },
-    "formats zero-padded second": function(format) {
-      var f = format("%S");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 0)), "00");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 32)), "32");
-      var f = format("%0S");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 0)), "00");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 32)), "32");
+    "can output a percentage": function(format) {
+      var f = format("%");
+      assert.strictEqual(f(0), "0%");
+      assert.strictEqual(f(0.042), "4%");
+      assert.strictEqual(f(0.42), "42%");
+      assert.strictEqual(f(4.2), "420%");
+      assert.strictEqual(f(-0.042), "-4%");
+      assert.strictEqual(f(-0.42), "-42%");
+      assert.strictEqual(f(-4.2), "-420%");
     },
-    "formats space-padded second": function(format) {
-      var f = format("%_S");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 0)), " 0");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 3)), " 3");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 32)), "32");
+    "can output a percentage with rounding and sign": function(format) {
+      var f = format("+.2p");
+      assert.strictEqual(f(0.00123), "+0.12%");
+      assert.strictEqual(f(0.0123), "+1.2%");
+      assert.strictEqual(f(0.123), "+12%");
+      assert.strictEqual(f(1.23), "+120%");
+      assert.strictEqual(f(-0.00123), "-0.12%");
+      assert.strictEqual(f(-0.0123), "-1.2%");
+      assert.strictEqual(f(-0.123), "-12%");
+      assert.strictEqual(f(-1.23), "-120%");
     },
-    "formats no-padded second": function(format) {
-      var f = format("%-S");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 0)), "0");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 3)), "3");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 32)), "32");
+    "can round to significant digits": function(format) {
+      assert.strictEqual(format(".2r")(0), "0.0");
+      assert.strictEqual(format(".1r")(0.049), "0.05");
+      assert.strictEqual(format(".1r")(-0.049), "-0.05");
+      assert.strictEqual(format(".1r")(0.49), "0.5");
+      assert.strictEqual(format(".1r")(-0.49), "-0.5");
+      assert.strictEqual(format(".2r")(0.449), "0.45");
+      assert.strictEqual(format(".3r")(0.4449), "0.445");
+      assert.strictEqual(format(".3r")(1.00), "1.00");
+      assert.strictEqual(format(".3r")(0.9995), "1.00");
+      assert.strictEqual(format(".5r")(0.444449), "0.44445");
+      assert.strictEqual(format("r")(123.45), "123.45");
+      assert.strictEqual(format(".1r")(123.45), "100");
+      assert.strictEqual(format(".2r")(123.45), "120");
+      assert.strictEqual(format(".3r")(123.45), "123");
+      assert.strictEqual(format(".4r")(123.45), "123.5");
+      assert.strictEqual(format(".5r")(123.45), "123.45");
+      assert.strictEqual(format(".6r")(123.45), "123.450");
+      assert.strictEqual(format(".1r")(0.9), "0.9");
+      assert.strictEqual(format(".1r")(0.09), "0.09");
+      assert.strictEqual(format(".1r")(0.949), "0.9");
+      assert.strictEqual(format(".1r")(0.0949), "0.09");
+      assert.strictEqual(format(".10r")(0.9999999999), "0.9999999999");
+      assert.strictEqual(format(".15r")(0.999999999999999), "0.999999999999999");
     },
-    "formats zero-padded millisecond": function(format) {
-      var f = format("%L");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 0, 0)), "000");
-      assert.equal(f(local(1990, 0, 1, 0, 0, 0, 432)), "432");
+    "can round very small numbers": function(format) {
+      var f = format(".2r");
+      assert.strictEqual(f(1e-22), "0.00000000000000000000");
     },
-    "formats zero-padded week number": function(format) {
-      var f = format("%U");
-      assert.equal(f(local(1990, 0, 1)), "00");
-      assert.equal(f(local(1990, 5, 1)), "21");
-      assert.equal(f(local(2010, 2, 13, 23)), "10");
-      assert.equal(f(local(2010, 2, 14, 00)), "11"); // DST begins
-      assert.equal(f(local(2010, 2, 15, 00)), "11");
-      assert.equal(f(local(2010, 10, 6, 23)), "44");
-      assert.equal(f(local(2010, 10, 7, 00)), "45"); // DST ends
-      assert.equal(f(local(2010, 10, 8, 00)), "45");
+    "can group thousands": function(format) {
+      var f = format(",d");
+      assert.strictEqual(f(0), "0");
+      assert.strictEqual(f(42), "42");
+      assert.strictEqual(f(42000000), "42,000,000");
+      assert.strictEqual(f(420000000), "420,000,000");
+      assert.strictEqual(f(-4), "-4");
+      assert.strictEqual(f(-42), "-42");
+      assert.strictEqual(f(-4200000), "-4,200,000");
+      assert.strictEqual(f(-42000000), "-42,000,000");
+      assert.strictEqual(f(1e21), "1e+21");
     },
-    "formats locale date": function(format) {
-      var f = format("%x");
-      assert.equal(f(local(1990, 0, 1)), "01/01/1990");
-      assert.equal(f(local(2010, 5, 1)), "06/01/2010");
+    "can group thousands and zero fill": function(format) {
+      assert.strictEqual(format("01,d")(0), "0");
+      assert.strictEqual(format("01,d")(0), "0");
+      assert.strictEqual(format("02,d")(0), "00");
+      assert.strictEqual(format("03,d")(0), "000");
+      assert.strictEqual(format("04,d")(0), "0,000");
+      assert.strictEqual(format("05,d")(0), "0,000");
+      assert.strictEqual(format("06,d")(0), "00,000");
+      assert.strictEqual(format("08,d")(0), "0,000,000");
+      assert.strictEqual(format("013,d")(0), "0,000,000,000");
+      assert.strictEqual(format("021,d")(0), "0,000,000,000,000,000");
+      assert.strictEqual(format("013,d")(-42000000), "-0,042,000,000");
+      assert.strictEqual(format("012,d")(1e21), "0,000,001e+21");
+      assert.strictEqual(format("013,d")(1e21), "0,000,001e+21");
+      assert.strictEqual(format("014,d")(1e21), "00,000,001e+21");
+      assert.strictEqual(format("015,d")(1e21), "000,000,001e+21");
     },
-    "formats locale time": function(format) {
-      var f = format("%X");
-      assert.equal(f(local(1990, 0, 1)), "00:00:00");
-      assert.equal(f(local(1990, 0, 1, 13, 34, 59)), "13:34:59");
+    "can group thousands and zero fill with overflow": function(format) {
+      assert.strictEqual(format("01,d")(1), "1");
+      assert.strictEqual(format("01,d")(1), "1");
+      assert.strictEqual(format("02,d")(12), "12");
+      assert.strictEqual(format("03,d")(123), "123");
+      assert.strictEqual(format("05,d")(12345), "12,345");
+      assert.strictEqual(format("08,d")(12345678), "12,345,678");
+      assert.strictEqual(format("013,d")(1234567890123), "1,234,567,890,123");
     },
-    "formats zero-padded two-digit year": function(format) {
-      var f = format("%y");
-      assert.equal(f(local(1990, 0, 1)), "90");
-      assert.equal(f(local(2002, 0, 1)), "02");
-      assert.equal(f(local(-2, 0, 1)), "-02");
+    "can group thousands and space fill": function(format) {
+      assert.strictEqual(format("1,d")(0), "0");
+      assert.strictEqual(format("1,d")(0), "0");
+      assert.strictEqual(format("2,d")(0), " 0");
+      assert.strictEqual(format("3,d")(0), "  0");
+      assert.strictEqual(format("5,d")(0), "    0");
+      assert.strictEqual(format("8,d")(0), "       0");
+      assert.strictEqual(format("13,d")(0), "            0");
+      assert.strictEqual(format("21,d")(0), "                    0");
     },
-    "formats zero-padded four-digit year": function(format) {
-      var f = format("%Y");
-      assert.equal(f(local(123, 0, 1)), "0123");
-      assert.equal(f(local(1990, 0, 1)), "1990");
-      assert.equal(f(local(2002, 0, 1)), "2002");
-      assert.equal(f(local(10002, 0, 1)), "0002");
-      assert.equal(f(local(-2, 0, 1)), "-0002");
+    "can group thousands and space fill with overflow": function(format) {
+      assert.strictEqual(format("1,d")(1), "1");
+      assert.strictEqual(format("1,d")(1), "1");
+      assert.strictEqual(format("2,d")(12), "12");
+      assert.strictEqual(format("3,d")(123), "123");
+      assert.strictEqual(format("5,d")(12345), "12,345");
+      assert.strictEqual(format("8,d")(12345678), "12,345,678");
+      assert.strictEqual(format("13,d")(1234567890123), "1,234,567,890,123");
     },
-    "formats time zone": function(format) {
-      var f = format("%Z");
-      assert.equal(f(local(1990, 0, 1)), "-0800");
+    "can group thousands with general notation": function(format) {
+      var f = format(",g");
+      assert.strictEqual(f(0), "0");
+      assert.strictEqual(f(42), "42");
+      assert.strictEqual(f(42000000), "42,000,000");
+      assert.strictEqual(f(420000000), "420,000,000");
+      assert.strictEqual(f(-4), "-4");
+      assert.strictEqual(f(-42), "-42");
+      assert.strictEqual(f(-4200000), "-4,200,000");
+      assert.strictEqual(f(-42000000), "-42,000,000");
     },
-    "formats literal percent sign": function(format) {
-      var f = format("%%");
-      assert.equal(f(local(1990, 0, 1)), "%");
+    "can group thousands, space fill, and round to significant digits": function(format) {
+      assert.strictEqual(format("10,.1f")(123456.49), " 123,456.5");
+      assert.strictEqual(format("10,.2f")(1234567.449), "1,234,567.45");
+      assert.strictEqual(format("10,.3f")(12345678.4449), "12,345,678.445");
+      assert.strictEqual(format("10,.5f")(123456789.444449), "123,456,789.44445");
+      assert.strictEqual(format("10,.1f")(123456), " 123,456.0");
+      assert.strictEqual(format("10,.2f")(1234567), "1,234,567.00");
+      assert.strictEqual(format("10,.3f")(12345678), "12,345,678.000");
+      assert.strictEqual(format("10,.5f")(123456789), "123,456,789.00000");
     },
-
-    "multi": {
-      topic: function(format) {
-        return format.multi([
-          [".%L", function(d) { return d.getMilliseconds(); }],
-          [":%S", function(d) { return d.getSeconds(); }],
-          ["%I:%M", function(d) { return d.getMinutes(); }],
-          ["%a %d", function(d) { return d.getDay() && d.getDate() != 1; }],
-          ["%b %d", function(d) { return d.getDate() != 1; }],
-          ["%I %p", function(d) { return d.getHours(); }],
-          ["%B", function(d) { return d.getMonth(); }],
-          ["%Y", function() { return true; }]
-        ]);
-      },
-      "returns a multi-formatter using the predicated formats": function(f) {
-        assert.equal(f(local(1990, 0, 1, 1)), "01 AM");
-      },
-      "applies the first format for which the predicate returns true": function(f) {
-        assert.equal(f(local(1990, 0, 1, 0, 0, 0, 12)), ".012");
-        assert.equal(f(local(1990, 0, 1, 0, 0, 1)), ":01");
-        assert.equal(f(local(1990, 0, 1, 0, 1)), "12:01");
-        assert.equal(f(local(1990, 0, 2)), "Tue 02");
-        assert.equal(f(local(1990, 1, 1)), "February");
-        assert.equal(f(local(1990, 0, 1)), "1990");
-      }
+    "can display integers in fixed-point notation": function(format) {
+      assert.strictEqual(format("f")(42), "42");
     },
-
-    "parse": {
-      "parses abbreviated weekday and numeric date": function(format) {
-        var p = format("%a %m/%d/%Y").parse;
-        assert.deepEqual(p("Sun 01/01/1990"), local(1990, 0, 1));
-        assert.deepEqual(p("Wed 02/03/1991"), local(1991, 1, 3));
-        assert.isNull(p("XXX 03/10/2010"));
-      },
-      "parses weekday and numeric date": function(format) {
-        var p = format("%A %m/%d/%Y").parse;
-        assert.deepEqual(p("Sunday 01/01/1990"), local(1990, 0, 1));
-        assert.deepEqual(p("Wednesday 02/03/1991"), local(1991, 1, 3));
-        assert.isNull(p("Caturday 03/10/2010"));
-      },
-     "parses abbreviated weekday, week number (Sunday) and year": function(format) {
-       var p = format("%a %U %Y").parse;
-       assert.deepEqual(p("Mon 00 1990"), local(1990, 0, 1));
-       assert.deepEqual(p("Sun 05 1991"), local(1991, 1, 3));
-       assert.deepEqual(p("Sun 01 1995"), local(1995, 0, 1));
-       assert.isNull(p("XXX 03 2010"));
-     },
-     "assumes Sunday when parsing week number (Sunday) with no weekday": function(format) {
-       var p = format("%U %Y").parse;
-       assert.deepEqual(p("00 1990"), local(1989, 11, 31));
-       assert.deepEqual(p("05 1991"), local(1991,  1,  3));
-       assert.deepEqual(p("01 1995"), local(1995,  0,  1));
-     },
-     "parses weekday, week number (Sunday) and year": function(format) {
-       var p = format("%A %U %Y").parse;
-       assert.deepEqual(p("Monday 00 1990"), local(1990, 0, 1));
-       assert.deepEqual(p("Sunday 05 1991"), local(1991, 1, 3));
-       assert.deepEqual(p("Sunday 01 1995"), local(1995, 0, 1));
-       assert.isNull(p("Caturday 03 2010"));
-     },
-     "parses numeric weekday, week number (Sunday) and year": function(format) {
-       var p = format("%w %U %Y").parse;
-       assert.deepEqual(p("1 00 1990"), local(1990, 0, 1));
-       assert.deepEqual(p("0 05 1991"), local(1991, 1, 3));
-       assert.deepEqual(p("0 01 1995"), local(1995, 0, 1));
-       assert.isNull(p("X 03 2010"));
-     },
-     "parses abbreviated weekday, week number (Monday) and year": function(format) {
-       var p = format("%a %W %Y").parse;
-       assert.deepEqual(p("Mon 01 1990"), local(1990, 0, 1));
-       assert.deepEqual(p("Sun 04 1991"), local(1991, 1, 3));
-       assert.deepEqual(p("Sun 00 1995"), local(1995, 0, 1));
-       assert.isNull(p("XXX 03 2010"));
-     },
-     "parses weekday, week number (Monday) and year": function(format) {
-       var p = format("%A %W %Y").parse;
-       assert.deepEqual(p("Monday 01 1990"), local(1990, 0, 1));
-       assert.deepEqual(p("Sunday 04 1991"), local(1991, 1, 3));
-       assert.deepEqual(p("Sunday 00 1995"), local(1995, 0, 1));
-       assert.isNull(p("Caturday 03 2010"));
-     },
-     "parses numeric weekday, week number (Monday) and year": function(format) {
-       var p = format("%w %W %Y").parse;
-       assert.deepEqual(p("1 01 1990"), local(1990, 0, 1));
-       assert.deepEqual(p("0 04 1991"), local(1991, 1, 3));
-       assert.deepEqual(p("0 00 1995"), local(1995, 0, 1));
-       assert.isNull(p("X 03 2010"));
-     },
-     "assumes Monday when parsing week number (Monday) with no weekday": function(format) {
-       var p = format("%W %Y").parse;
-       assert.deepEqual(p("01 1990"), local(1990, 0, 1));
-       assert.deepEqual(p("05 1991"), local(1991, 1, 4));
-       assert.deepEqual(p("01 1995"), local(1995, 0, 2));
-     },
-      "parses numeric date": function(format) {
-        var p = format("%m/%d/%y").parse;
-        assert.deepEqual(p("01/01/90"), local(1990, 0, 1));
-        assert.deepEqual(p("02/03/91"), local(1991, 1, 3));
-        assert.isNull(p("03/10/2010"));
-      },
-      "parses locale date": function(format) {
-        var p = format("%x").parse;
-        assert.deepEqual(p("01/01/1990"), local(1990, 0, 1));
-        assert.deepEqual(p("02/03/1991"), local(1991, 1, 3));
-        assert.deepEqual(p("03/10/2010"), local(2010, 2, 10));
-      },
-      "parses abbreviated month, date and year": function(format) {
-        var p = format("%b %d, %Y").parse;
-        assert.deepEqual(p("jan 01, 1990"), local(1990, 0, 1));
-        assert.deepEqual(p("feb  2, 2010"), local(2010, 1, 2));
-        assert.isNull(p("jan. 1, 1990"));
-      },
-      "parses month, date and year": function(format) {
-        var p = format("%B %d, %Y").parse;
-        assert.deepEqual(p("january 01, 1990"), local(1990, 0, 1));
-        assert.deepEqual(p("February  2, 2010"), local(2010, 1, 2));
-        assert.isNull(p("jan 1, 1990"));
-      },
-      "parses day of year and numeric date": function(format) {
-        var p = format("%j %m/%d/%Y").parse;
-        assert.deepEqual(p("001 01/01/1990"), local(1990, 0, 1));
-        assert.deepEqual(p("034 02/03/1991"), local(1991, 1, 3));
-        assert.isNull(p("2012 03/10/2010"));
-      },
-      "parses locale date and time": function(format) {
-        var p = format("%c").parse;
-        assert.deepEqual(p("Mon Jan  1 00:00:00 1990"), local(1990, 0, 1));
-        assert.deepEqual(p("Sun Jan  1 00:00:00 1990"), local(1990, 0, 1));
-        assert.deepEqual(p("Mon Jan 01 00:00:00 1990"), local(1990, 0, 1));
-        assert.deepEqual(p("Mon Jan 1 00:00:00 1990"), local(1990, 0, 1));
-        assert.deepEqual(p("Mon Jan 1 0:0:0 1990"), local(1990, 0, 1));
-      },
-      "parses twenty-four hour, minute and second": function(format) {
-        var p = format("%H:%M:%S").parse;
-        assert.deepEqual(p("00:00:00"), local(1900, 0, 1, 0, 0, 0));
-        assert.deepEqual(p("11:59:59"), local(1900, 0, 1, 11, 59, 59));
-        assert.deepEqual(p("12:00:00"), local(1900, 0, 1, 12, 0, 0));
-        assert.deepEqual(p("12:00:01"), local(1900, 0, 1, 12, 0, 1));
-        assert.deepEqual(p("23:59:59"), local(1900, 0, 1, 23, 59, 59));
-      },
-      "parses locale time": function(format) {
-        var p = format("%X").parse;
-        assert.deepEqual(p("00:00:00"), local(1900, 0, 1, 0, 0, 0));
-        assert.deepEqual(p("11:59:59"), local(1900, 0, 1, 11, 59, 59));
-        assert.deepEqual(p("12:00:00"), local(1900, 0, 1, 12, 0, 0));
-        assert.deepEqual(p("12:00:01"), local(1900, 0, 1, 12, 0, 1));
-        assert.deepEqual(p("23:59:59"), local(1900, 0, 1, 23, 59, 59));
-      },
-      "parses twelve hour, minute and second": function(format) {
-        var p = format("%I:%M:%S %p").parse;
-        assert.deepEqual(p("12:00:00 am"), local(1900, 0, 1, 0, 0, 0));
-        assert.deepEqual(p("11:59:59 AM"), local(1900, 0, 1, 11, 59, 59));
-        assert.deepEqual(p("12:00:00 pm"), local(1900, 0, 1, 12, 0, 0));
-        assert.deepEqual(p("12:00:01 pm"), local(1900, 0, 1, 12, 0, 1));
-        assert.deepEqual(p("11:59:59 PM"), local(1900, 0, 1, 23, 59, 59));
-      },
-      "parses literal %": function(format) {
-        var p = format("%% %m/%d/%Y").parse;
-        assert.deepEqual(p("% 01/01/1990"), local(1990, 0, 1));
-        assert.deepEqual(p("% 02/03/1991"), local(1991, 1, 3));
-        assert.isNull(p("%% 03/10/2010"));
-      },
-      "parses timezone offset": function(format) {
-        var p = format("%m/%d/%Y %Z").parse;
-        assert.deepEqual(p("01/02/1990 +0000"), local(1990, 0, 1, 16));
-        assert.deepEqual(p("01/02/1990 +0100"), local(1990, 0, 1, 15));
-        assert.deepEqual(p("01/02/1990 +0130"), local(1990, 0, 1, 14, 30));
-        assert.deepEqual(p("01/02/1990 -0100"), local(1990, 0, 1, 17));
-        assert.deepEqual(p("01/02/1990 -0130"), local(1990, 0, 1, 17, 30));
-        assert.deepEqual(p("01/02/1990 -0800"), local(1990, 0, 2, 0));
-      },
-      "ignores optional padding modifier, skipping zeroes and spaces": function(format) {
-        var p = format("%-m/%0d/%_Y").parse;
-        assert.deepEqual(p("01/ 1/1990"), local(1990, 0, 1));
-      },
-      "doesn't crash when given weird strings": function(format) {
-        try {
-          Object.prototype.foo = 10;
-          var p = format("%b %d, %Y").parse;
-          assert.isNull(p("foo 1, 1990"));
-        } finally {
-          delete Object.prototype.foo;
-        }
-      }
+    "will not display non-integers in integer format": function(format) {
+      assert.strictEqual(format("d")(4.2), "");
+    },
+    "unicode character": function(format) {
+      assert.strictEqual(format("c")(9731), "☃");
+    },
+    "binary": function(format) {
+      assert.strictEqual(format("b")(10), "1010");
+    },
+    "binary with prefix": function(format) {
+      assert.strictEqual(format("#b")(10), "0b1010");
+    },
+    "octal": function(format) {
+      assert.strictEqual(format("o")(10), "12");
+    },
+    "octal with prefix": function(format) {
+      assert.strictEqual(format("#o")(10), "0o12");
+    },
+    "hexadecimal (lowercase)": function(format) {
+      assert.strictEqual(format("x")(3735928559), "deadbeef");
+    },
+    "hexadecimal (lowercase) with prefix": function(format) {
+      assert.strictEqual(format("#x")(3735928559), "0xdeadbeef");
+    },
+    "hexadecimal (uppercase)": function(format) {
+      assert.strictEqual(format("X")(3735928559), "DEADBEEF");
+    },
+    "hexadecimal (uppercase) with prefix": function(format) {
+      assert.strictEqual(format("#X")(3735928559), "0xDEADBEEF");
+    },
+    "fill respects prefix": function(format) {
+      assert.strictEqual(format("#20x")(3735928559), "          0xdeadbeef");
+    },
+    "align left": function(format) {
+      assert.strictEqual(format("<1,d")(0), "0");
+      assert.strictEqual(format("<1,d")(0), "0");
+      assert.strictEqual(format("<2,d")(0), "0 ");
+      assert.strictEqual(format("<3,d")(0), "0  ");
+      assert.strictEqual(format("<5,d")(0), "0    ");
+      assert.strictEqual(format("<8,d")(0), "0       ");
+      assert.strictEqual(format("<13,d")(0), "0            ");
+      assert.strictEqual(format("<21,d")(0), "0                    ");
+    },
+    "align right": function(format) {
+      assert.strictEqual(format(">1,d")(0), "0");
+      assert.strictEqual(format(">1,d")(0), "0");
+      assert.strictEqual(format(">2,d")(0), " 0");
+      assert.strictEqual(format(">3,d")(0), "  0");
+      assert.strictEqual(format(">5,d")(0), "    0");
+      assert.strictEqual(format(">8,d")(0), "       0");
+      assert.strictEqual(format(">13,d")(0), "            0");
+      assert.strictEqual(format(">21,d")(0), "                    0");
+      assert.strictEqual(format(">21,d")(1000), "                1,000");
+      assert.strictEqual(format(">21,d")(1e21), "                1e+21");
+    },
+    "align center": function(format) {
+      assert.strictEqual(format("^1,d")(0), "0");
+      assert.strictEqual(format("^1,d")(0), "0");
+      assert.strictEqual(format("^2,d")(0), " 0");
+      assert.strictEqual(format("^3,d")(0), " 0 ");
+      assert.strictEqual(format("^5,d")(0), "  0  ");
+      assert.strictEqual(format("^8,d")(0), "    0   ");
+      assert.strictEqual(format("^13,d")(0), "      0      ");
+      assert.strictEqual(format("^21,d")(0), "          0          ");
+      assert.strictEqual(format("^21,d")(1000), "        1,000        ");
+      assert.strictEqual(format("^21,d")(1e21), "        1e+21        ");
+    },
+    "pad after sign": function(format) {
+      assert.strictEqual(format("=+1,d")(0), "+0");
+      assert.strictEqual(format("=+1,d")(0), "+0");
+      assert.strictEqual(format("=+2,d")(0), "+0");
+      assert.strictEqual(format("=+3,d")(0), "+ 0");
+      assert.strictEqual(format("=+5,d")(0), "+   0");
+      assert.strictEqual(format("=+8,d")(0), "+      0");
+      assert.strictEqual(format("=+13,d")(0), "+           0");
+      assert.strictEqual(format("=+21,d")(0), "+                   0");
+      assert.strictEqual(format("=+21,d")(1e21), "+               1e+21");
+    },
+    "pad after sign with currency": function(format) {
+      assert.strictEqual(format("=+$1,d")(0), "+$0");
+      assert.strictEqual(format("=+$1,d")(0), "+$0");
+      assert.strictEqual(format("=+$2,d")(0), "+$0");
+      assert.strictEqual(format("=+$3,d")(0), "+$0");
+      assert.strictEqual(format("=+$5,d")(0), "+$  0");
+      assert.strictEqual(format("=+$8,d")(0), "+$     0");
+      assert.strictEqual(format("=+$13,d")(0), "+$          0");
+      assert.strictEqual(format("=+$21,d")(0), "+$                  0");
+      assert.strictEqual(format("=+$21,d")(1e21), "+$              1e+21");
+    },
+    "a space can denote positive numbers": function(format) {
+      assert.strictEqual(format(" 1,d")(-1), "-1");
+      assert.strictEqual(format(" 1,d")(0), " 0");
+      assert.strictEqual(format(" 2,d")(0), " 0");
+      assert.strictEqual(format(" 3,d")(0), "  0");
+      assert.strictEqual(format(" 5,d")(0), "    0");
+      assert.strictEqual(format(" 8,d")(0), "       0");
+      assert.strictEqual(format(" 13,d")(0), "            0");
+      assert.strictEqual(format(" 21,d")(0), "                    0");
+      assert.strictEqual(format(" 21,d")(1e21), "                1e+21");
+    },
+    "explicitly only use a sign for negative numbers": function(format) {
+      assert.strictEqual(format("-1,d")(-1), "-1");
+      assert.strictEqual(format("-1,d")(0), "0");
+      assert.strictEqual(format("-2,d")(0), " 0");
+      assert.strictEqual(format("-3,d")(0), "  0");
+      assert.strictEqual(format("-5,d")(0), "    0");
+      assert.strictEqual(format("-8,d")(0), "       0");
+      assert.strictEqual(format("-13,d")(0), "            0");
+      assert.strictEqual(format("-21,d")(0), "                    0");
+    },
+    "can format negative zero": function(format) {
+      assert.strictEqual(format("1d")(-0), "-0");
+      assert.strictEqual(format("1f")(-0), "-0");
+    },
+    "supports \"n\" as an alias for \",g\"": function(format) {
+      var f = format("n");
+      assert.strictEqual(f(0.0042), "0.0042");
+      assert.strictEqual(f(0.42), "0.42");
+      assert.strictEqual(f(0), "0");
+      assert.strictEqual(f(42), "42");
+      assert.strictEqual(f(42000000), "42,000,000");
+      assert.strictEqual(f(420000000), "420,000,000");
+      assert.strictEqual(f(-4), "-4");
+      assert.strictEqual(f(-42), "-42");
+      assert.strictEqual(f(-4200000), "-4,200,000");
+      assert.strictEqual(f(-42000000), "-42,000,000");
+      assert.strictEqual(f(1e21), "1e+21");
+    },
+    "\"n\" with zero padding": function(format) {
+      assert.strictEqual(format("01n")(0), "0");
+      assert.strictEqual(format("01n")(0), "0");
+      assert.strictEqual(format("02n")(0), "00");
+      assert.strictEqual(format("03n")(0), "000");
+      assert.strictEqual(format("05n")(0), "0,000");
+      assert.strictEqual(format("08n")(0), "0,000,000");
+      assert.strictEqual(format("013n")(0), "0,000,000,000");
+      assert.strictEqual(format("021n")(0), "0,000,000,000,000,000");
+      assert.strictEqual(format("013n")(-42000000), "-0,042,000,000");
+    },
+    "unreasonable precision values are clamped to reasonable values": function(format) {
+      assert.strictEqual(format(".30f")(0), "0.00000000000000000000");
+      assert.strictEqual(format(".0g")(1), "1");
+      assert.strictEqual(format(",.-1f")(12345), "12,345");
+      assert.strictEqual(format("+,.-1%")(123.45), "+12,345%");
     }
   }
 });
