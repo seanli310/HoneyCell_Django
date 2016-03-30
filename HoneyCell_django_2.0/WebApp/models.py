@@ -58,7 +58,6 @@ class Activity(models.Model):
     description = models.TextField(max_length=1000)
     # Activity object has foreign key Task object, and the foreign key can be null
     task = models.OneToOneField(Task, null=True)
-    # comments = models.ManyToOneRel(Comment)
     time_created = models.DateTimeField(auto_now_add=True)
 
 def generate_url_images(self, filename):
