@@ -948,29 +948,34 @@ def add_comment(request, activity_id):
 
 def task_finished_ajax_check_database(request):
     context = {}
+    messageString = ""
+
+
     if request.user:
       context['user'] = request.user
+      curr_user = request.user
+
+      print curr_user
 
     try: 
-      if request.method == "GET":
-        print("in post")
-        curr_username = request.GET.get("username")
-        # print curr_username
+      # if request.method == "GET":
+      #   print("in post")
+      #   curr_username = request.GET.get("username")
+      #   # print curr_username
 
-        curr_user = User.objects.get(username = curr_username)
+      #   curr_user = User.objects.get(username = curr_username)
 
-        # print curr_user
 
         task_status = Status.objects.get(user=curr_user, status_name="Pending")
 
         completed_tasks = Task.objects.filter(user=curr_user, task_status = task_status)
 
-        print completed_tasks
+
+        messageString = "<h2> Your task xxx has been completed. <h2>"
 
 
 
-
-        return HttpResponse(completed_tasks)
+        return HttpResponse(messageString)
 
     except ObjectDoesNotExist:
       context['errors'] = ["task_finished_popup fail"]

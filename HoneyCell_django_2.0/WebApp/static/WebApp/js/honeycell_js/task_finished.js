@@ -19,12 +19,14 @@ function task_finished_popup() {
 	}
 	// When the user clicks on close btn, close the modal
 	close_btn.onclick = function() {
+		$("#task_completed_modal_body").html("");
 		modal.style.display = "none";
 	}
 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 	    if (event.target == modal) {
+	    	$("#task_completed_modal_body").html("");
 	        modal.style.display = "none";
 	    }
 	}
@@ -32,18 +34,19 @@ function task_finished_popup() {
 
 	$.ajax({
 		url: "/task_finished_ajax_check_database/",
-		type: "GET",
-		data: {
-			username: username,
-		},
 
-		success: function(completed_tasks) {
+
+		success: function(messageString) {
 			console.log("Success");
 			// console.log(completed_tasks.task_name);
 
+			if (messageString != "") {
+				// open the modal 
+		    	modal.style.display = "block";
+		    	$("#task_completed_modal_body").append(messageString);
+			}
 
-			// open the modal 
-	    	modal.style.display = "block";
+			
 
 	    	
 		}
