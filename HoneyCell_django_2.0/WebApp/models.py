@@ -91,3 +91,5 @@ class Followship(models.Model):
 
     def __unicode__(self):
         return "%s follows %s at %s" %(self.following, self.follower, self.follow_datetime)
+
+

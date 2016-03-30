@@ -401,7 +401,7 @@ def settings(request):
     return render(request, 'WebApp/settings.html', context)
 
 
-@login_required
+
 def global_page(request):
     print("in the global function.")
     context = {}
@@ -522,12 +522,11 @@ def get_user_picture(request, user_id):
     return HttpResponse(profile.image, content_type=content_type)
 
 
-
-
 @login_required
 def update_profile(request):
     print("in the update_profile function.")
     context = {}
+
     errors = []
     context['errors'] = errors
 
@@ -541,6 +540,11 @@ def update_profile(request):
     location = request.POST['location']
     website = request.POST['website']
 
+    print("%" * 30)
+    print(request.FILES)
+
+    user_image = request.FILES['user_image']
+
     request.user.first_name = first_name
     request.user.last_name = last_name
     request.user.email = email
@@ -548,6 +552,7 @@ def update_profile(request):
     profile.company = company
     profile.location = location
     profile.website = website
+    profile.image = user_image
 
     profile.save()
     print("Already update the profile.")
@@ -849,6 +854,8 @@ def profile(request):
     user = request.user
     context['user'] = user
 
+
+
     # check own profile
     context['self'] = True
 
@@ -946,6 +953,20 @@ def add_comment(request, activity_id):
     return HttpResponseRedirect(reverse('global_page'))
 
 
+def task_finished(request):
+    print("in the task_finished function.")
+
+    # print(request)
+
+    context = {}
+
+
+    request['task']
+
+    users = User.objects.all()
+
+
+    print(users)
 
 
 
@@ -953,5 +974,20 @@ def add_comment(request, activity_id):
 
 
 
+
+from django.contrib import messages
+
+def alert(request):
+
+    print("in the alert function.")
+
+    context = {};
+
+    messages.add_message(request, messages.INFO, 'Hello world.')
+
+    messages.success(request, 'Profile details updated.')
+
+
+    return render(request, 'WebApp/index.html', context)
 
 

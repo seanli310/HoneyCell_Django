@@ -99,6 +99,11 @@ urlpatterns = [
 
     url(r'^add_comment/(?P<activity_id>\d+)$', 'WebApp.views.add_comment', name='add_comment'),
 
+    url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
+
+    url(r'^alert/$', 'WebApp.views.alert', name='alert'),
+
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
