@@ -276,6 +276,9 @@ def profile_allFollowers(request):
     activities = Activity.objects.all()
     context['activities'] = activities
 
+    followers = Followship.objects.filter(follower=request.user)
+    context['followers'] = followers
+
     return render(request, 'WebApp/profile_allFollowers.html', context)
 
 @login_required
