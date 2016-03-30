@@ -876,6 +876,7 @@ def task_finished(request):
 
     return render(request, 'WebApp/index.html', {})
 
+from django.shortcuts import get_object_or_404
 
 @login_required
 def profile(request):
@@ -886,8 +887,6 @@ def profile(request):
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
-
-
 
     # check own profile
     context['self'] = True
@@ -900,6 +899,30 @@ def profile(request):
 
     context['number_of_followers'] = number_of_followers
     context['number_of_followings'] = number_of_followings
+
+
+    my_activities = Activity.objects.filter(user=request.user)
+    context['my_activities'] = my_activities
+
+    followings_activities = []
+    followings = Followship.objects.filter(following=request.user)
+
+    for temp_followings in followings:
+        for temp_activity in Activity.objects.filter(user=temp_followings.follower):
+            followings_activities.append(temp_activity)
+    context['followings_activities'] = followings_activities
+    print(followings_activities)
+
+    print("%" * 30)
+
+    followers_activities = []
+    followers = Followship.objects.filter(follower=request.user)
+    for temp_followers in followers:
+        for temp_activity in Activity.objects.filter(user=temp_followers.following):
+            followers_activities.append(temp_activity)
+    context['followers_activities'] = followers_activities
+
+    print(followers_activities)
 
     return render(request, 'WebApp/profile.html', context)
 

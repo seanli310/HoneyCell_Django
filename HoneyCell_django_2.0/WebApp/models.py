@@ -60,6 +60,9 @@ class Activity(models.Model):
     task = models.OneToOneField(Task, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return "%s, %s" %(self.user.username, self.description)
+
 def generate_url_images(self, filename):
     url = 'images/%s/%s' %(self.user.username, filename)
     return url
