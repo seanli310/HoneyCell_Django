@@ -143,9 +143,6 @@ def registration(request):
     new_algorithm_neural_network_instance.save()
     print("Already save new_algorithm_neural_network_instance.")
 
-
-
-
     # using 'login' function
     login(request, new_user)
 
@@ -269,8 +266,6 @@ def fileManage_tasks(request, folder_id):
     return render(request, 'WebApp/fileManage_tasks.html', context)
 
 
-
-
 @login_required
 def profile_allFollowers(request):
     print("in the profile_allFollowers function.")
@@ -318,7 +313,6 @@ def create_new_task(request):
     task_label = request.POST['task_label']
     docfile = request.FILES['docfile']
     task_folder_object = Folder.objects.get(user=request.user, folder_name=task_folder)
-
 
 
     context['user'] = user
@@ -410,6 +404,9 @@ def global_page(request):
     users = User.objects.all()
     context['users'] = users
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     activities = Activity.objects.all()
     context['activities'] = activities
 
@@ -452,7 +449,6 @@ def global_page(request):
 #         context['is_followed'] = is_followed
 #
 #     return render(request, 'WebApp/other_user.html', context)
-
 
 
 @login_required
@@ -540,10 +536,11 @@ def update_profile(request):
     location = request.POST['location']
     website = request.POST['website']
 
-    print("%" * 30)
-    print(request.FILES)
+    if request.FILES.__contains__('user_image'):
+        user_image = request.FILES['user_image']
+    else:
+        user_image = profile.image
 
-    user_image = request.FILES['user_image']
 
     request.user.first_name = first_name
     request.user.last_name = last_name
@@ -567,6 +564,9 @@ def change_password(request):
 
     user = request.user
     context['user'] = user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     errors = []
     context['errors'] = errors
@@ -602,6 +602,9 @@ def taskDetail(request, task_id):
     user = request.user
     context['user'] = user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     task = Task.objects.get(id=task_id)
     context['task'] = task
 
@@ -618,6 +621,9 @@ def update_task(request, task_id):
     print("in the update_task function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     errors = []
     context['errors'] = errors
@@ -658,6 +664,9 @@ def new_folder(request):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     errors = []
     context['errors'] = errors
 
@@ -684,6 +693,9 @@ def update_folder(request, folder_id):
     print("folder_id: " + folder_id);
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     errors = []
     context['errors'] = errors
@@ -721,6 +733,9 @@ def delete_folder(request, folder_id):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     folder = Folder.objects.get(id=folder_id)
     context['folder'] = folder
 
@@ -741,6 +756,9 @@ def important_tasks(request):
     print("in the important_tasks function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     context['important_label'] = True
 
@@ -767,6 +785,9 @@ def warning_tasks(request):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     context['warning_label'] = True
 
     task_label_warning = Label.objects.get(user=request.user, label_name="Warning")
@@ -792,6 +813,9 @@ def information_tasks(request):
     print("in the information_tasks function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     context['information_label'] = True
 
@@ -820,6 +844,9 @@ def followers(request):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     followers = Followship.objects.filter(following=request.user)
     context['followers'] = followers
 
@@ -833,6 +860,9 @@ def followings(request):
     print("in the followings function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     followings = Followship.objects.filter(follower=request.user)
     context['followings'] = followings
@@ -853,6 +883,9 @@ def profile(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
 
 
@@ -876,6 +909,9 @@ def other_profile(request, user_id):
     print("in the other_profile function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     other_user = User.objects.get(id=user_id)
 
@@ -930,6 +966,12 @@ def other_profile(request, user_id):
 def add_comment(request, activity_id):
     print("in the add_comment function.")
     context = {};
+
+    context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
 
     print("%" * 30)
     print(request)

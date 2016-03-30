@@ -65,7 +65,7 @@ def generate_url_images(self, filename):
     return url
 
 class Profile(models.Model):
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
     company = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
     website = models.CharField(blank=True, max_length=100)
