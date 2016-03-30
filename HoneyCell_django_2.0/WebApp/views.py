@@ -946,7 +946,36 @@ def add_comment(request, activity_id):
     return HttpResponseRedirect(reverse('global_page'))
 
 
+def task_finished_ajax_check_database(request):
+    context = {}
+    if request.user:
+      context['user'] = request.user
 
+    try: 
+      if request.method == "GET":
+        print("in post")
+        curr_username = request.GET.get("username")
+        # print curr_username
+
+        curr_user = User.objects.get(username = curr_username)
+
+        # print curr_user
+
+        task_status = Status.objects.get(user=curr_user, status_name="Pending")
+
+        completed_tasks = Task.objects.filter(user=curr_user, task_status = task_status)
+
+        print completed_tasks
+
+
+
+
+        return HttpResponse(completed_tasks)
+
+    except ObjectDoesNotExist:
+      context['errors'] = ["task_finished_popup fail"]
+
+    return HttpResponse()
 
 
 

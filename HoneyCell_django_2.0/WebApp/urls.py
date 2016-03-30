@@ -100,5 +100,10 @@ urlpatterns = [
     url(r'^add_comment/(?P<activity_id>\d+)$', 'WebApp.views.add_comment', name='add_comment'),
 
 
+    # task running in honeycomb(backend) finished
+    url(r'^task_finished_ajax_check_database/$', 'WebApp.views.task_finished_ajax_check_database', name='task_finished_ajax_check_database'),
+
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

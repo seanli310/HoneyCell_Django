@@ -307,7 +307,7 @@
                     <img src="{% static "WebApp/img/user1.jpg" %}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>{{ user.username }}</p>
+                    <p id="myUsername">{{ user.username }}</p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
             </div>
@@ -390,6 +390,11 @@
             {% endblock content_breadcrumb %}
           </ol>
         </section>
+
+
+        <!-- Trigger/Open The Modal -->
+        <!-- task completed message modal -->
+        {% include 'WebApp/task_completed_modal.html' %}
 
         {% block content_area %}
         {% endblock content_area %}
