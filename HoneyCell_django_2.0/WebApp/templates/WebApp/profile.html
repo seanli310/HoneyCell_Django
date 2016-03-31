@@ -185,10 +185,11 @@
 
                                             {% if my_activity.task %}
                                                 <div class="attachment-block clearfix">
-                                                    <h4 class="attachment-heading"><a href="#">Task Name Here</a></h4>
+                                                    <h4 class="attachment-heading"><a href="{% url 'taskDetail' my_activity.task.id %}">
+                                                    {{my_activity.task.task_name}}
+                                                    </a></h4>
                                                     <div class="attachment-text">
-                                                        Task Description here
-                                                        <a href="#">more</a>
+                                                        {{my_activity.task.task_description}}
                                                     </div><!-- /.attachment-text -->
                                                 </div><!-- /.attachment-block -->
                                             {% else %}
@@ -255,24 +256,25 @@
                                                  alt="user image">
                                     <span class='username'>
                                       <a href="#">{{ followings_activity.user }}</a>
-                                      <a href='#'
-                                         class='pull-right btn-box-tool'>{{ followings_activity.user.first_name }} {{ followings_activity.user.last_name }}</a>
+                                      <a href='#'class='pull-right btn-box-tool'>
+                                      {{ followings_activity.user.first_name }} 
+                                      {{ followings_activity.user.last_name }}
+                                      </a>
                                     </span>
-                                            <span class='description'>{{ followings_activity.time_created }}</span>
+                                            <span class='description'>
+                                                {{ followings_activity.time_created }}
+                                            </span>
                                         </div>
 
 
                                         <div class='box-body'>
-
-
                                             <p>{{ followings_activity.description }}</p>
 
                                             {% if followings_activity.task %}
                                                 <div class="attachment-block clearfix">
-                                                    <h4 class="attachment-heading"><a href="#">Task Name Here</a></h4>
+                                                    <h4 class="attachment-heading"><a href="{% url 'taskDetail' followings_activity.task.id %}">{{followings_activity.task.task_name}}</a></h4>
                                                     <div class="attachment-text">
                                                         {{ followings_activity.task.task_description }}
-                                                        <a href="#">more</a>
                                                     </div>
                                                 </div>
                                             {% else %}
@@ -351,10 +353,11 @@
 
                                             {% if followers_activity.task %}
                                                 <div class="attachment-block clearfix">
-                                                    <h4 class="attachment-heading"><a href="#">Task Name Here</a></h4>
+                                                    <h4 class="attachment-heading"><a href="{% url 'taskDetail' followers_activity.task.id %}">
+                                                    {{ followers_activity.task.task_name }}
+                                                    </a></h4>
                                                     <div class="attachment-text">
                                                         {{ followers_activity.task.task_description }}
-                                                        <a href="#">more</a>
                                                     </div>
                                                 </div>
                                             {% else %}
@@ -402,7 +405,7 @@
                                     </div>
                                 {% endfor %}
                             {% else %}
-                                <h1 align="center">Empty</h1>
+                                <h4 align="center">You do not have any follower right now</h4>
                             {% endif %}
                         </div>
 

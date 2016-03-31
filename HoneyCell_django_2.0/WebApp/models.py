@@ -52,6 +52,7 @@ class Task(models.Model):
     def __unicode__(self):
         return "%s by %s" %(self.task_name, self.user.username)
 
+#  used when checking task status by Ajax
 class TaskPending(models.Model):
     user = models.ForeignKey(User)
     pending_task = models.ForeignKey(Task)

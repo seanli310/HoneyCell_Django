@@ -1030,8 +1030,12 @@ def add_comment(request, activity_id):
 def task_finished(request, task_id):
     print("in the task_finished function.")
 
-    completed_task = Task.objects.get(id=task_id)
-    completed_task.task_status = Status.objects.get(user=request.user, status_name="Completed")
+    task = Task.objects.get(id=task_id)
+    taskPending = TaskPending.objects.get(pending_task=task)
+
+    # set task status to be completed
+    task.task_status = Status.objects.get(user=request.user, status_name="Completed")
+    taskPending.task.task_status = Status.objects.get(user=request.user, status_name="Completed")
 
     
 
