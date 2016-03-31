@@ -18,7 +18,7 @@
         </a>
         <ul class="treeview-menu">
             <li><a href="#"><i class="fa fa-circle-o"></i> New Task</a></li>
-            <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
+            <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks </a></li>
         </ul>
     </li>
     <li>
@@ -53,37 +53,43 @@
             {% for following in followings %}
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 </div>
-                <div class="col-md-8">
-                    <div class="box box-primary">
-                        <div class="col-md-12">
-                            <div class="box box-widget widget-user-2">
-                                <div class="followship-header">
-                                    <div class="widget-user-image">
-                                        <img class="img-circle" src="{% static "WebApp/img/user5.jpg" %}"
-                                             alt="User Avatar">
-                                    </div>
-                                    <h3 class="widget-user-username"><a href="#">{{ following.username }}</a></h3>
-                                    <h5 class="widget-user-desc">{{ following.email }}</h5>
-                                    <h5 class="widget-user-desc">{{ following.first_name }}</h5>
-                                    <h5 class="widget-user-desc">{{ following.last_name }}</h5>
-                                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <div class="box box-primary">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="box box-widget widget-user-2">
+                        <div class="followship-header">
+                            <div class="widget-user-image">
+                                {% if following.following.profile.image %}
+                                    <img class="img-circle" src="{% url "get_user_picture" following.following.id %}" alt="User Avatar">
+                                {% else %}
+                                    <img class="img-circle" src="{% static "WebApp/img/anonymous_user.jpg" %}" alt="User Avatar">
+                                {% endif %}
                             </div>
-                        </div>
-
-                        <div class="box-footer clearfix">
-                            <ul class="pagination pagination-sm no-margin pull-right">
-                                <li><a href="#">&laquo;</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">&raquo;</a></li>
-                            </ul>
+                            <h3 class="widget-user-username"><a href="#">{{ following.following.username }}</a></h3>
+                            <h5 class="widget-user-desc">{{ following.following.first_name }} {{ following.following.last_name }}</h5>
+                            <h5 class="widget-user-desc">{{ following.following.email }}</h5>
+                            <h5 class="widget-user-desc">{{ following.following.profile.company }}</h5>
+                            <h5 class="widget-user-desc">{{ following.following.profile.location }}</h5>
+                            <h5 class="widget-user-desc">{{ following.following.profile.website }}</h5>
+                            <h5 class="widget-user-desc">{{ following.following.profile.short_introduction }}</h5>
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                </div>
+                <br>
             {% endfor %}
+            <div class="box-footer clearfix">
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            </div>
+            </div>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            </div>
         </div>   <!-- row -->
     </section>
 

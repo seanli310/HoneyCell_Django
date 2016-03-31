@@ -67,12 +67,15 @@ class Activity(models.Model):
     task = models.OneToOneField(Task, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return "%s, %s" %(self.user.username, self.description)
+
 def generate_url_images(self, filename):
     url = 'images/%s/%s' %(self.user.username, filename)
     return url
 
 class Profile(models.Model):
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User)
     company = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
     website = models.CharField(blank=True, max_length=100)
@@ -98,3 +101,5 @@ class Followship(models.Model):
 
     def __unicode__(self):
         return "%s follows %s at %s" %(self.following, self.follower, self.follow_datetime)
+
+

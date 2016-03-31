@@ -143,9 +143,6 @@ def registration(request):
     new_algorithm_neural_network_instance.save()
     print("Already save new_algorithm_neural_network_instance.")
 
-
-
-
     # using 'login' function
     login(request, new_user)
 
@@ -269,8 +266,6 @@ def fileManage_tasks(request, folder_id):
     return render(request, 'WebApp/fileManage_tasks.html', context)
 
 
-
-
 @login_required
 def profile_allFollowers(request):
     print("in the profile_allFollowers function.")
@@ -280,6 +275,9 @@ def profile_allFollowers(request):
 
     activities = Activity.objects.all()
     context['activities'] = activities
+
+    followers = Followship.objects.filter(follower=request.user)
+    context['followers'] = followers
 
     return render(request, 'WebApp/profile_allFollowers.html', context)
 
@@ -318,7 +316,6 @@ def create_new_task(request):
     task_label = request.POST['task_label']
     docfile = request.FILES['docfile']
     task_folder_object = Folder.objects.get(user=request.user, folder_name=task_folder)
-
 
 
     context['user'] = user
@@ -408,7 +405,7 @@ def settings(request):
     return render(request, 'WebApp/settings.html', context)
 
 
-@login_required
+
 def global_page(request):
     print("in the global function.")
     context = {}
@@ -416,6 +413,9 @@ def global_page(request):
 
     users = User.objects.all()
     context['users'] = users
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     activities = Activity.objects.all()
     context['activities'] = activities
@@ -459,7 +459,6 @@ def global_page(request):
 #         context['is_followed'] = is_followed
 #
 #     return render(request, 'WebApp/other_user.html', context)
-
 
 
 @login_required
@@ -529,12 +528,11 @@ def get_user_picture(request, user_id):
     return HttpResponse(profile.image, content_type=content_type)
 
 
-
-
 @login_required
 def update_profile(request):
     print("in the update_profile function.")
     context = {}
+
     errors = []
     context['errors'] = errors
 
@@ -548,6 +546,12 @@ def update_profile(request):
     location = request.POST['location']
     website = request.POST['website']
 
+    if request.FILES.__contains__('user_image'):
+        user_image = request.FILES['user_image']
+    else:
+        user_image = profile.image
+
+
     request.user.first_name = first_name
     request.user.last_name = last_name
     request.user.email = email
@@ -555,6 +559,7 @@ def update_profile(request):
     profile.company = company
     profile.location = location
     profile.website = website
+    profile.image = user_image
 
     profile.save()
     print("Already update the profile.")
@@ -569,6 +574,9 @@ def change_password(request):
 
     user = request.user
     context['user'] = user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     errors = []
     context['errors'] = errors
@@ -604,6 +612,9 @@ def taskDetail(request, task_id):
     user = request.user
     context['user'] = user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     task = Task.objects.get(id=task_id)
     context['task'] = task
 
@@ -620,6 +631,9 @@ def update_task(request, task_id):
     print("in the update_task function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     errors = []
     context['errors'] = errors
@@ -660,6 +674,9 @@ def new_folder(request):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     errors = []
     context['errors'] = errors
 
@@ -686,6 +703,9 @@ def update_folder(request, folder_id):
     print("folder_id: " + folder_id);
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     errors = []
     context['errors'] = errors
@@ -723,6 +743,9 @@ def delete_folder(request, folder_id):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     folder = Folder.objects.get(id=folder_id)
     context['folder'] = folder
 
@@ -743,6 +766,9 @@ def important_tasks(request):
     print("in the important_tasks function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     context['important_label'] = True
 
@@ -769,6 +795,9 @@ def warning_tasks(request):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     context['warning_label'] = True
 
     task_label_warning = Label.objects.get(user=request.user, label_name="Warning")
@@ -794,6 +823,9 @@ def information_tasks(request):
     print("in the information_tasks function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     context['information_label'] = True
 
@@ -822,6 +854,9 @@ def followers(request):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     followers = Followship.objects.filter(following=request.user)
     context['followers'] = followers
 
@@ -836,6 +871,9 @@ def followings(request):
     context = {}
     context['user'] = request.user
 
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
     followings = Followship.objects.filter(follower=request.user)
     context['followings'] = followings
 
@@ -843,12 +881,25 @@ def followings(request):
 
 
 
+<<<<<<< HEAD
+=======
+def task_finished(request):
+    print("in the task_finished function.")
+
+    return render(request, 'WebApp/index.html', {})
+
+from django.shortcuts import get_object_or_404
+
+>>>>>>> 51412af63cbf04e416afe1e50b03225b83fed777
 @login_required
 def profile(request):
     print("in the profile function")
     context = {}
     user = request.user
     context['user'] = user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     # check own profile
     context['self'] = True
@@ -862,6 +913,30 @@ def profile(request):
     context['number_of_followers'] = number_of_followers
     context['number_of_followings'] = number_of_followings
 
+
+    my_activities = Activity.objects.filter(user=request.user)
+    context['my_activities'] = my_activities
+
+    followings_activities = []
+    followings = Followship.objects.filter(following=request.user)
+
+    for temp_followings in followings:
+        for temp_activity in Activity.objects.filter(user=temp_followings.follower):
+            followings_activities.append(temp_activity)
+    context['followings_activities'] = followings_activities
+    print(followings_activities)
+
+    print("%" * 30)
+
+    followers_activities = []
+    followers = Followship.objects.filter(follower=request.user)
+    for temp_followers in followers:
+        for temp_activity in Activity.objects.filter(user=temp_followers.following):
+            followers_activities.append(temp_activity)
+    context['followers_activities'] = followers_activities
+
+    print(followers_activities)
+
     return render(request, 'WebApp/profile.html', context)
 
 
@@ -870,6 +945,9 @@ def other_profile(request, user_id):
     print("in the other_profile function.")
     context = {}
     context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
 
     other_user = User.objects.get(id=user_id)
 
@@ -925,6 +1003,12 @@ def add_comment(request, activity_id):
     print("in the add_comment function.")
     context = {};
 
+    context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
+
     print("%" * 30)
     print(request)
     print(activity_id)
@@ -945,6 +1029,8 @@ def add_comment(request, activity_id):
 
 
     return HttpResponseRedirect(reverse('global_page'))
+
+
 
 
 
@@ -1003,5 +1089,19 @@ def task_finished_ajax_check_database(request):
 
 
 
+from django.contrib import messages
+
+def alert(request):
+
+    print("in the alert function.")
+
+    context = {};
+
+    messages.add_message(request, messages.INFO, 'Hello world.')
+
+    messages.success(request, 'Profile details updated.')
+
+
+    return render(request, 'WebApp/index.html', context)
 
 
