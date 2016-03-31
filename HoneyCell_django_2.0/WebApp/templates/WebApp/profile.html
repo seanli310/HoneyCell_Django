@@ -150,9 +150,12 @@
                         <li><a href="#followers_activities" data-toggle="tab">Followers Activities</a></li>
                     </ul>
 
+                    
                     <div class="tab-content">
+                       
+
                         <!-- Here are the contents for my activities -->
-                        <div class="active tab-pane" id="my_activity">
+                        <div class="active tab-pane" id="my_activities">
 
                             {% if my_activities %}
                                 <hr>
@@ -236,13 +239,11 @@
                                 <h1 align="center">Empty</h1>
                             {% endif %}
                         </div>
-                    </div>
 
 
 
-                    <div class="tab-content">
                         <!-- Here are the contents for followings' activities -->
-                        <div class="active tab-pane" id="followings_activities">
+                        <div class="tab-pane" id="followings_activities">
 
                             {% if followings_activities %}
                                 <!--  For loop starts from here -->
@@ -321,12 +322,10 @@
                                 <h1 align="center">Empty</h1>
                             {% endif %}
                         </div>
-                    </div>
 
 
-                    <div class="tab-content">
                         <!-- Here are the contents for followings' activities -->
-                        <div class="active tab-pane" id="followers_activities">
+                        <div class="tab-pane" id="followers_activities">
 
                             {% if followers_activities %}
                                 <!--  For loop starts from here -->
@@ -406,10 +405,6 @@
                                 <h1 align="center">Empty</h1>
                             {% endif %}
                         </div>
-                    </div>
-
-
-
 
                 </div>
             </div>
