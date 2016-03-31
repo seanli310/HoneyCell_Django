@@ -881,16 +881,8 @@ def followings(request):
 
 
 
-<<<<<<< HEAD
-=======
-def task_finished(request):
-    print("in the task_finished function.")
-
-    return render(request, 'WebApp/index.html', {})
-
 from django.shortcuts import get_object_or_404
 
->>>>>>> 51412af63cbf04e416afe1e50b03225b83fed777
 @login_required
 def profile(request):
     print("in the profile function")
