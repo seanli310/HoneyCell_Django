@@ -52,6 +52,13 @@ class Task(models.Model):
     def __unicode__(self):
         return "%s by %s" %(self.task_name, self.user.username)
 
+class TaskPending(models.Model):
+    user = models.ForeignKey(User)
+    pending_task = models.ForeignKey(Task)
+
+    def __unicode__(self):
+        return str(self.pending_task)
+
 
 class Activity(models.Model):
     user = models.ForeignKey(User)

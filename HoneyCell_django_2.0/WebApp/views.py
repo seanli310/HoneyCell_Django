@@ -368,6 +368,13 @@ def create_new_task(request):
 
     print(new_task_instance)
 
+    new_pending_task = TaskPending(user=request.user, 
+                                    pending_task=new_task_instance)
+    
+    print("Already save the new_pending_task.")
+
+    print(new_pending_task)
+
     new_activity_instance = Activity(user=request.user,
                                      task=new_task_instance,
                                      )
@@ -836,12 +843,6 @@ def followings(request):
 
 
 
-def task_finished(request):
-    print("in the task_finished function.")
-
-    return render(request, 'WebApp/index.html', {})
-
-
 @login_required
 def profile(request):
     print("in the profile function")
@@ -944,6 +945,21 @@ def add_comment(request, activity_id):
 
 
     return HttpResponseRedirect(reverse('global_page'))
+
+
+
+# called when backend Honeycomb team finish running task 
+def task_finished(request, task_id):
+    print("in the task_finished function.")
+
+    completed_task = Task.objects.get(id=task_id)
+    completed_task.task_status = Status.objects.get(user=request.user, status_name="Completed")
+
+    
+
+    return HttpResponse("Successfully received by Honeycell")
+
+
 
 
 def task_finished_ajax_check_database(request):

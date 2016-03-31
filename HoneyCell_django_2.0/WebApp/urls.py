@@ -93,14 +93,14 @@ urlpatterns = [
 
     url(r'^followings/$', 'WebApp.views.followings', name='followings'),
 
-    url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
-
     url(r'^other_profile/(?P<user_id>\d+)$', 'WebApp.views.other_profile', name='other_profile'),
 
     url(r'^add_comment/(?P<activity_id>\d+)$', 'WebApp.views.add_comment', name='add_comment'),
 
 
+
     # task running in honeycomb(backend) finished
+    url(r'^task_finished/(?P<task_id>\d+)$', 'WebApp.views.task_finished', name='task_finished'),
     url(r'^task_finished_ajax_check_database/$', 'WebApp.views.task_finished_ajax_check_database', name='task_finished_ajax_check_database'),
 
 

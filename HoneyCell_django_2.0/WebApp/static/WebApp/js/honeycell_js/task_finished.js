@@ -1,6 +1,6 @@
 
 
-setInterval(task_finished_popup, 3000);
+// setInterval(task_finished_popup, 3000);
 
 function task_finished_popup() {
 	var username = document.getElementById("myUsername").innerHTML;
