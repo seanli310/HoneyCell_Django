@@ -233,6 +233,7 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+                                                            <hr>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
@@ -342,8 +343,8 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+                                                            <hr>
                                                         {% endfor %}
-
                                                     </div>
                                                 </div>
                                             {% else %}
@@ -449,8 +450,8 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+                                                            <hr>
                                                         {% endfor %}
-
                                                     </div>
                                                 </div>
                                             {% else %}
@@ -581,6 +582,7 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+                                                            <hr>
                                                         {% endfor %}
 
                                                     </div>
@@ -690,6 +692,7 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+                                                            <hr>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
@@ -699,11 +702,11 @@
 
                                             <br>
 
-                                            <form action="{% url 'profile_add_comment' followings_activity.id %}"
+                                            <!-- Send comment to this activity -->
+                                            <form action="{% url 'profile_add_comment' followings_activity.id %}" method="POST"
                                                   class='form-horizontal'>{% csrf_token %}
                                                 <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
-                                                <input type="hidden" name="current_tab"
-                                                       value="{{ "followings_activities" }}">
+                                                <input type="hidden" name="current_tab" value="{{ "followings_activities" }}">
                                                 <div class='form-group margin-bottom-none'>
                                                     <div class='col-sm-9'>
                                                         <input name="comment_text" class="form-control input-sm"
@@ -716,6 +719,25 @@
                                                     </div>
                                                 </div>
                                             </form>
+
+
+{#                                            <form action="{% url 'profile_add_comment' followings_activity.id %}"#}
+{#                                                  class='form-horizontal'>{% csrf_token %}#}
+{#                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">#}
+{#                                                <input type="hidden" name="current_tab"#}
+{#                                                       value="{{ "followings_activities" }}">#}
+{#                                                <div class='form-group margin-bottom-none'>#}
+{#                                                    <div class='col-sm-9'>#}
+{#                                                        <input name="comment_text" class="form-control input-sm"#}
+{#                                                               placeholder="Comments">#}
+{#                                                    </div>#}
+{#                                                    <div class='col-sm-3'>#}
+{#                                                        <button type="submit"#}
+{#                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send#}
+{#                                                        </button>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </form>#}
                                         </div>
                                     {% endfor %}
                                 {% else %}
@@ -796,6 +818,7 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+                                                            <hr>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
@@ -926,6 +949,7 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+                                                            <hr>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
@@ -1034,6 +1058,7 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+                                                            <hr>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
@@ -1044,7 +1069,7 @@
                                             <br>
 
                                             <form action="{% url 'profile_add_comment' followings_activity.id %}"
-                                                  class='form-horizontal'>{% csrf_token %}
+                                                  method="POST" class='form-horizontal'>{% csrf_token %}
                                                 <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
                                                 <input type="hidden" name="current_tab"
                                                        value="{{ "followings_activities" }}">
@@ -1140,9 +1165,7 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
-
                                                             <hr>
-
                                                         {% endfor %}
                                                     </div>
                                                 </div>
