@@ -98,6 +98,9 @@ urlpatterns = [
 
     url(r'^other_profile/(?P<user_id>\d+)$', 'WebApp.views.other_profile', name='other_profile'),
 
+    url(r'^other_profile_comment/(?P<user_id>\d+)$', 'WebApp.views.other_profile_comment', name='other_profile_comment'),
+
+
     url(r'^add_comment/(?P<activity_id>\d+)$', 'WebApp.views.add_comment', name='add_comment'),
 
     url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
@@ -115,6 +118,8 @@ urlpatterns = [
 
 
     url(r'^profile_add_comment/(?P<activity_id>\d+)$', 'WebApp.views.profile_add_comment', name='profile_add_comment'),
+
+    url(r'^other_profile_add_comment/(?P<activity_id>\d+)$', 'WebApp.views.other_profile_add_comment', name='other_profile_add_comment'),
 
 
 

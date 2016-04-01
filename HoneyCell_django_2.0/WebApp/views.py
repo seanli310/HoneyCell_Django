@@ -981,6 +981,9 @@ def other_profile(request, user_id):
         other_profile = Profile.objects.get(user=other_user)
         context['other_profile'] = other_profile
 
+        other_activities = Activity.objects.filter(user=other_user).order_by("time_created").reverse()
+        context['other_activities'] = other_activities
+
         number_of_followers = len(Followship.objects.filter(follower=other_user))
         number_of_followings = len(Followship.objects.filter(following=other_user))
 
@@ -1229,10 +1232,6 @@ def profile_add_comment(request, activity_id):
     new_comment_instance.save()
     print("Successfully save new_comment_instance.")
 
-    print("%" * 50)
-    print(context['recent_tab'])
-    print("%" * 50)
-
     return HttpResponseRedirect(reverse('profile_comment', kwargs={'recent_tab': context['recent_tab']}))
 
 
@@ -1240,5 +1239,68 @@ def profile_add_comment(request, activity_id):
 
 
 
+@login_required
+def other_profile_comment(request, user_id):
+    print("in the other_profile_comment function.")
 
+    context = {}
+    context['user'] = request.user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
+    other_user = User.objects.get(id=user_id)
+
+    print("Enter others' profile page.")
+    context['other_user'] = other_user
+
+    # check own profile
+    context['self'] = False
+
+    other_profile = Profile.objects.get(user=other_user)
+    context['other_profile'] = other_profile
+
+    other_activities = Activity.objects.filter(user=other_user).order_by("time_created").reverse()
+    context['other_activities'] = other_activities
+
+    number_of_followers = len(Followship.objects.filter(follower=other_user))
+    number_of_followings = len(Followship.objects.filter(following=other_user))
+
+    context['number_of_followers'] = number_of_followers
+    context['number_of_followings'] = number_of_followings
+
+
+    if len(Followship.objects.filter(following=request.user,
+                                     follower=other_user)):
+        is_followed = True
+        context['is_followed'] = is_followed
+        print("is_followed equals to true.")
+    else:
+        is_followed = False
+        context['is_followed'] = is_followed
+        print("is_followed equals to false.")
+
+    return render(request, 'WebApp/other_profile.html', context)
+
+
+
+@login_required
+def other_profile_add_comment(request, activity_id):
+    print("in the other_profile_add_comment function.")
+    context = {}
+
+    user = request.user
+    context['user'] = user
+
+    activity = Activity.objects.get(id=activity_id)
+    comment_text = request.POST['comment_text']
+    other_user_id = request.POST['other_user_id']
+
+    new_comment_instance = Comment(user=user,
+                                   activity=activity,
+                                   text=comment_text)
+    new_comment_instance.save()
+    print("Successfully save new_comment_instance.")
+
+    return HttpResponseRedirect(reverse('other_profile_comment', kwargs={'user_id': other_user_id}))
 
