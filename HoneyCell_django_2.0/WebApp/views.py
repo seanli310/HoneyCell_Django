@@ -915,7 +915,8 @@ def profile(request):
 
 
     my_activities = Activity.objects.filter(user=request.user).order_by("time_created").reverse()
-    context['my_activities'] = my_activities
+    # reverse order my_activities by time_created
+    context['my_activities'] = sorted(my_activities, key=lambda activity: activity.time_created, reverse=True)
 
     followings_activities = []
     followings = Followship.objects.filter(following=request.user)
@@ -923,7 +924,8 @@ def profile(request):
     for temp_followings in followings:
         for temp_activity in Activity.objects.filter(user=temp_followings.follower).order_by("time_created").reverse():
             followings_activities.append(temp_activity)
-    context['followings_activities'] = followings_activities
+    # reverse order followings_activities by time_created
+    context['followings_activities'] = sorted(followings_activities, key=lambda activity: activity.time_created, reverse=True)
     print(followings_activities)
 
     print("%" * 30)
@@ -933,7 +935,8 @@ def profile(request):
     for temp_followers in followers:
         for temp_activity in Activity.objects.filter(user=temp_followers.following).order_by("time_created").reverse():
             followers_activities.append(temp_activity)
-    context['followers_activities'] = followers_activities
+    # reverse order followers_activities by time_created
+    context['followers_activities'] = sorted(followers_activities, key=lambda activity: activity.time_created, reverse=True)
 
     print(followers_activities)
 
@@ -1158,9 +1161,9 @@ def profile_comment(request, recent_tab):
     context['number_of_followers'] = number_of_followers
     context['number_of_followings'] = number_of_followings
 
-
     my_activities = Activity.objects.filter(user=request.user).order_by("time_created").reverse()
-    context['my_activities'] = my_activities
+    # reverse order my_activities by time_created
+    context['my_activities'] = sorted(my_activities, key=lambda activity: activity.time_created, reverse=True)
 
     followings_activities = []
     followings = Followship.objects.filter(following=request.user)
@@ -1168,7 +1171,8 @@ def profile_comment(request, recent_tab):
     for temp_followings in followings:
         for temp_activity in Activity.objects.filter(user=temp_followings.follower).order_by("time_created").reverse():
             followings_activities.append(temp_activity)
-    context['followings_activities'] = followings_activities
+    # reverse order followings_activities by time_created
+    context['followings_activities'] = sorted(followings_activities, key=lambda activity: activity.time_created, reverse=True)
     print(followings_activities)
 
     print("%" * 30)
@@ -1178,7 +1182,9 @@ def profile_comment(request, recent_tab):
     for temp_followers in followers:
         for temp_activity in Activity.objects.filter(user=temp_followers.following).order_by("time_created").reverse():
             followers_activities.append(temp_activity)
-    context['followers_activities'] = followers_activities
+    # reverse order followers_activities by time_created
+    context['followers_activities'] = sorted(followers_activities, key=lambda activity: activity.time_created, reverse=True)
+
 
     print(followers_activities)
 
@@ -1218,11 +1224,11 @@ def profile_add_comment(request, activity_id):
 
     comment_text = request.POST['comment_text']
 
-    # new_comment_instance = Comment(user=user,
-    #                                activity=activity,
-    #                                text=comment_text)
-    # new_comment_instance.save()
-    # print("Successfully save new_comment_instance.")
+    new_comment_instance = Comment(user=user,
+                                   activity=activity,
+                                   text=comment_text)
+    new_comment_instance.save()
+    print("Successfully save new_comment_instance.")
 
     print("%" * 50)
     print(context['recent_tab'])

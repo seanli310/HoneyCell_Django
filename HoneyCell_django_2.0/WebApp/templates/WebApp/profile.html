@@ -58,8 +58,8 @@
 
 {% block content_area %}
 
-        <h1 style="color: red;">{{ recent_tab }}</h1>
-        <h1 style="color: red;">{{ current_tab }}</h1>
+    <h1 style="color: red;">{{ recent_tab }}</h1>
+    <h1 style="color: red;">{{ current_tab }}</h1>
 
 
 
@@ -210,27 +210,38 @@
                                             </div>
 
                                             {% if my_activity.comment_set.all %}
-                                                <div class='box-footer box-comments'>
 
+                                                <div class='box-footer box-comments'>
                                                     <!-- for all comments here -->
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
+                                                        {% for comment in my_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
 
                                                         <span class="username">
-                                                            Maria Gonzales
-                                                            <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
                                                         </span>
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
+
+                                            <br>
 
                                             <!-- Send comment to this activity -->
                                             <form action="{% url 'profile_add_comment' my_activity.id %}" method="POST"
@@ -242,6 +253,7 @@
                                                         <input name="comment_text" class="form-control input-sm"
                                                                placeholder="Comments">
                                                     </div>
+
                                                     <div class='col-sm-3'>
                                                         <button type="submit"
                                                                 class='btn btn-primary pull-right btn-block btn-sm'>Send
@@ -311,22 +323,35 @@
                                                 <div class='box-footer box-comments'>
 
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
-                                                  <span class="username">
-                                                    Maria Gonzales
-                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
-                                                  </span><!-- /.username -->
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div><!-- /.comment-text -->
+                                                        {% for comment in followings_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
+
+                                                        <span class="username">
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
+                                                        </span>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
+
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
+
+                                        <br>
 
                                             <form action="{% url 'profile_add_comment' followings_activity.id %}"
                                                   method="POST" class='form-horizontal'>{% csrf_token %}
@@ -405,22 +430,35 @@
                                                 <div class='box-footer box-comments'>
 
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
-                                                  <span class="username">
-                                                    Maria Gonzales
-                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
-                                                  </span><!-- /.username -->
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div><!-- /.comment-text -->
+                                                        {% for comment in followers_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
+
+                                                        <span class="username">
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
+                                                        </span>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
+
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
+
+                                            <br>
 
                                             <form action="{% url 'profile_add_comment' followers_activity.id %}"
                                                   method="POST" class='form-horizontal'>{% csrf_token %}
@@ -524,23 +562,35 @@
 
                                                     <!-- for all comments here -->
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
+                                                        {% for comment in my_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
 
                                                         <span class="username">
-                                                            Maria Gonzales
-                                                            <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
                                                         </span>
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
+
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
+
+                                        <br>
 
                                             <!-- Send comment to this activity -->
                                             <form action="{% url 'profile_add_comment' my_activity.id %}" method="POST"
@@ -621,33 +671,48 @@
                                                 <div class='box-footer box-comments'>
 
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
-                                                  <span class="username">
-                                                    Maria Gonzales
-                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
-                                                  </span><!-- /.username -->
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div><!-- /.comment-text -->
+                                                        {% for comment in followings_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
+
+                                                        <span class="username">
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
+                                                        </span>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
 
-                                            <form action="{% url 'profile_add_comment' followings_activity.id %}" class='form-horizontal'>{% csrf_token %}
+                                            <br>
+
+                                            <form action="{% url 'profile_add_comment' followings_activity.id %}"
+                                                  class='form-horizontal'>{% csrf_token %}
                                                 <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
                                                 <input type="hidden" name="current_tab"
                                                        value="{{ "followings_activities" }}">
                                                 <div class='form-group margin-bottom-none'>
                                                     <div class='col-sm-9'>
-                                                        <input name="comment_text" class="form-control input-sm" placeholder="Comments">
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
                                                     </div>
                                                     <div class='col-sm-3'>
-                                                        <button type="submit" class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
                                                         </button>
                                                     </div>
                                                 </div>
@@ -712,25 +777,34 @@
                                                 <div class='box-footer box-comments'>
 
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
-                                                  <span class="username">
-                                                    Maria Gonzales
-                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
-                                                  </span><!-- /.username -->
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div><!-- /.comment-text -->
+                                                        {% for comment in followers_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
+
+                                                        <span class="username">
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
+                                                        </span>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
 
-                                            <h1> you are in the 2 - 3 {{ recent_tab }}</h1>
-
+                                            <br>
 
                                             <form action="{% url 'profile_add_comment' followers_activity.id %}"
                                                   method="POST" class='form-horizontal'>{% csrf_token %}
@@ -833,23 +907,34 @@
 
                                                     <!-- for all comments here -->
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
+                                                        {% for comment in my_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
 
                                                         <span class="username">
-                                                            Maria Gonzales
-                                                            <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
                                                         </span>
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
+
+                                            <br>
 
                                             <!-- Send comment to this activity -->
                                             <form action="{% url 'profile_add_comment' my_activity.id %}" method="POST"
@@ -930,33 +1015,48 @@
                                                 <div class='box-footer box-comments'>
 
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
-                                                  <span class="username">
-                                                    Maria Gonzales
-                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
-                                                  </span><!-- /.username -->
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div><!-- /.comment-text -->
+                                                        {% for comment in followings_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
+
+                                                        <span class="username">
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
+                                                        </span>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
 
-                                            <form action="{% url 'profile_add_comment' followings_activity.id %}" class='form-horizontal'>{% csrf_token %}
+                                            <br>
+
+                                            <form action="{% url 'profile_add_comment' followings_activity.id %}"
+                                                  class='form-horizontal'>{% csrf_token %}
                                                 <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
                                                 <input type="hidden" name="current_tab"
                                                        value="{{ "followings_activities" }}">
                                                 <div class='form-group margin-bottom-none'>
                                                     <div class='col-sm-9'>
-                                                        <input name="comment_text" class="form-control input-sm" placeholder="Comments">
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
                                                     </div>
                                                     <div class='col-sm-3'>
-                                                        <button type="submit" class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1021,23 +1121,34 @@
                                                 <div class='box-footer box-comments'>
 
                                                     <div class='box-comment'>
-                                                        <!-- User image -->
-                                                        <img class='img-circle img-sm'
-                                                             src='{% static 'WebApp/img/user6.jpg' %}'
-                                                             alt='user image'>
-                                                        <div class='comment-text'>
-                                                  <span class="username">
-                                                    Maria Gonzales
-                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
-                                                  </span><!-- /.username -->
-                                                            <p class="comment-style"> GOOD JOB! </p>
-                                                        </div><!-- /.comment-text -->
+                                                        {% for comment in followers_activity.comment_set.all %}
+                                                            <!-- User image -->
+                                                            {% if comment.user.profile.image %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% url 'get_user_picture' comment.user.id %}'
+                                                                     alt='user image'>
+                                                            {% else %}
+                                                                <img class='img-circle img-sm'
+                                                                     src='{% static 'WebApp/img/anonymous_user.jpg' %}'
+                                                                     alt='user image'>
+                                                            {% endif %}
+
+                                                            <div class='comment-text'>
+
+                                                        <span class="username">
+                                                            <a href=""><b>{{ comment.user }}</b></a>
+                                                            <span class='text-muted pull-right'>{{ comment.time_created }}</span>
+                                                        </span>
+                                                                <p class="comment-style">{{ comment.text }}</p>
+                                                            </div>
+                                                        {% endfor %}
                                                     </div>
                                                 </div>
                                             {% else %}
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
 
+                                            <br>
 
                                             <form action="{% url 'profile_add_comment' followers_activity.id %}"
                                                   method="POST" class='form-horizontal'>{% csrf_token %}
@@ -1057,7 +1168,7 @@
                                                 </div>
                                             </form>
 
-                                        
+
                                         </div>
                                     {% endfor %}
                                 {% else %}
