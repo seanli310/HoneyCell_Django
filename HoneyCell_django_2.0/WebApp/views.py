@@ -195,7 +195,7 @@ def historyTask(request):
     user = request.user
     context['user'] = user
 
-    tasks = Task.objects.filter(user=request.user)
+    tasks = Task.objects.filter(user=request.user).order_by("id").reverse().order_by("id").reverse()
 
     paginator = Paginator(tasks, 3)
     page = request.GET.get('page')
@@ -422,7 +422,7 @@ def global_page(request):
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
-    activities = Activity.objects.all()
+    activities = Activity.objects.all().order_by("time_created").reverse()
     context['activities'] = activities
 
     print("%" * 30)
@@ -780,7 +780,7 @@ def important_tasks(request):
     task_label_important = Label.objects.get(user=request.user, label_name="Important")
     context['label'] = task_label_important
 
-    tasks = Task.objects.filter(user=request.user, task_label=task_label_important)
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_important).order_by("id").reverse()
     paginator = Paginator(tasks, 3)
     page = request.GET.get('page')
     try:
@@ -808,7 +808,7 @@ def warning_tasks(request):
     task_label_warning = Label.objects.get(user=request.user, label_name="Warning")
     context['label'] = task_label_warning
 
-    tasks = Task.objects.filter(user=request.user, task_label=task_label_warning)
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_warning).order_by("id").reverse()
     paginator = Paginator(tasks, 3)
     page = request.GET.get('page')
     try:
@@ -837,7 +837,7 @@ def information_tasks(request):
     task_label_information = Label.objects.get(user=request.user, label_name="Information")
     context['label'] = task_label_information
 
-    tasks = Task.objects.filter(user=request.user, task_label=task_label_information)
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_information).order_by("id").reverse()
     paginator = Paginator(tasks, 3)
     page = request.GET.get('page')
     try:
@@ -911,14 +911,14 @@ def profile(request):
     context['number_of_followings'] = number_of_followings
 
 
-    my_activities = Activity.objects.filter(user=request.user)
+    my_activities = Activity.objects.filter(user=request.user).order_by("time_created").reverse()
     context['my_activities'] = my_activities
 
     followings_activities = []
     followings = Followship.objects.filter(following=request.user)
 
     for temp_followings in followings:
-        for temp_activity in Activity.objects.filter(user=temp_followings.follower):
+        for temp_activity in Activity.objects.filter(user=temp_followings.follower).order_by("time_created").reverse():
             followings_activities.append(temp_activity)
     context['followings_activities'] = followings_activities
     print(followings_activities)
@@ -928,7 +928,7 @@ def profile(request):
     followers_activities = []
     followers = Followship.objects.filter(follower=request.user)
     for temp_followers in followers:
-        for temp_activity in Activity.objects.filter(user=temp_followers.following):
+        for temp_activity in Activity.objects.filter(user=temp_followers.following).order_by("time_created").reverse():
             followers_activities.append(temp_activity)
     context['followers_activities'] = followers_activities
 
@@ -1084,8 +1084,8 @@ def task_finished_ajax_check_database(request):
 
     try: 
         completed_tasks = Pending2CompletedTask.objects.filter(user=curr_user)
-        print("completed_tasks: ")
-        print(completed_tasks)
+        # print("completed_tasks: ")
+        # print(completed_tasks)
 
         # no task completed for this user
         if not completed_tasks:
