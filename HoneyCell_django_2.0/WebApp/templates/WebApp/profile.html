@@ -280,10 +280,16 @@
                                     {% for followings_activity in followings_activities %}
                                         <div class="post">
                                             <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="{% static "WebApp/img/user2.jpg" %}"
-                                                     alt="user image">
-                                    <span class='username'>
+                                                {% if followings_activity.user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url 'get_user_picture' followings_activity.user.id %}"
+                                                         alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
                                       <a href="#">{{ followings_activity.user }}</a>
                                       <a href='#' class='pull-right btn-box-tool'>
                                           {{ followings_activity.user.first_name }}
@@ -349,7 +355,7 @@
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
 
-                                        <br>
+                                            <br>
 
                                             <form action="{% url 'profile_add_comment' followings_activity.id %}"
                                                   method="POST" class='form-horizontal'>{% csrf_token %}
@@ -388,10 +394,16 @@
                                     {% for followers_activity in followers_activities %}
                                         <div class="post">
                                             <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="{% static "WebApp/img/user2.jpg" %}"
-                                                     alt="user image">
-                                    <span class='username'>
+                                                {% if followers_activity.user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url 'get_user_picture' followers_activity.user.id %}"
+                                                         alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
                                       <a href="#">{{ followers_activity.user }}</a>
                                       <a href='#'
                                          class='pull-right btn-box-tool'>{{ followers_activity.user.first_name }} {{ followers_activity.user.last_name }}</a>
@@ -589,7 +601,7 @@
                                                 <!-- No comment for this activity, blank -->
                                             {% endif %}
 
-                                        <br>
+                                            <br>
 
                                             <!-- Send comment to this activity -->
                                             <form action="{% url 'profile_add_comment' my_activity.id %}" method="POST"
@@ -629,10 +641,16 @@
                                     {% for followings_activity in followings_activities %}
                                         <div class="post">
                                             <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="{% static "WebApp/img/user2.jpg" %}"
-                                                     alt="user image">
-                                    <span class='username'>
+                                                {% if followings_activity.user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url 'get_user_picture' followings_activity.user.id %}"
+                                                         alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
                                       <a href="#">{{ followings_activity.user }}</a>
                                       <a href='#' class='pull-right btn-box-tool'>
                                           {{ followings_activity.user.first_name }}
@@ -701,10 +719,12 @@
                                             <br>
 
                                             <!-- Send comment to this activity -->
-                                            <form action="{% url 'profile_add_comment' followings_activity.id %}" method="POST"
+                                            <form action="{% url 'profile_add_comment' followings_activity.id %}"
+                                                  method="POST"
                                                   class='form-horizontal'>{% csrf_token %}
                                                 <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
-                                                <input type="hidden" name="current_tab" value="{{ "followings_activities" }}">
+                                                <input type="hidden" name="current_tab"
+                                                       value="{{ "followings_activities" }}">
                                                 <div class='form-group margin-bottom-none'>
                                                     <div class='col-sm-9'>
                                                         <input name="comment_text" class="form-control input-sm"
@@ -719,23 +739,23 @@
                                             </form>
 
 
-{#                                            <form action="{% url 'profile_add_comment' followings_activity.id %}"#}
-{#                                                  class='form-horizontal'>{% csrf_token %}#}
-{#                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">#}
-{#                                                <input type="hidden" name="current_tab"#}
-{#                                                       value="{{ "followings_activities" }}">#}
-{#                                                <div class='form-group margin-bottom-none'>#}
-{#                                                    <div class='col-sm-9'>#}
-{#                                                        <input name="comment_text" class="form-control input-sm"#}
-{#                                                               placeholder="Comments">#}
-{#                                                    </div>#}
-{#                                                    <div class='col-sm-3'>#}
-{#                                                        <button type="submit"#}
-{#                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send#}
-{#                                                        </button>#}
-{#                                                    </div>#}
-{#                                                </div>#}
-{#                                            </form>#}
+                                            {#                                            <form action="{% url 'profile_add_comment' followings_activity.id %}"#}
+                                            {#                                                  class='form-horizontal'>{% csrf_token %}#}
+                                            {#                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">#}
+                                            {#                                                <input type="hidden" name="current_tab"#}
+                                            {#                                                       value="{{ "followings_activities" }}">#}
+                                            {#                                                <div class='form-group margin-bottom-none'>#}
+                                            {#                                                    <div class='col-sm-9'>#}
+                                            {#                                                        <input name="comment_text" class="form-control input-sm"#}
+                                            {#                                                               placeholder="Comments">#}
+                                            {#                                                    </div>#}
+                                            {#                                                    <div class='col-sm-3'>#}
+                                            {#                                                        <button type="submit"#}
+                                            {#                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send#}
+                                            {#                                                        </button>#}
+                                            {#                                                    </div>#}
+                                            {#                                                </div>#}
+                                            {#                                            </form>#}
                                         </div>
                                     {% endfor %}
                                 {% else %}
@@ -756,10 +776,16 @@
                                     {% for followers_activity in followers_activities %}
                                         <div class="post">
                                             <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="{% static "WebApp/img/user2.jpg" %}"
-                                                     alt="user image">
-                                    <span class='username'>
+                                                {% if followers_activity.user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url 'get_user_picture' followers_activity.user.id %}"
+                                                         alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
                                       <a href="#">{{ followers_activity.user }}</a>
                                       <a href='#'
                                          class='pull-right btn-box-tool'>{{ followers_activity.user.first_name }} {{ followers_activity.user.last_name }}</a>
@@ -995,10 +1021,16 @@
                                     {% for followings_activity in followings_activities %}
                                         <div class="post">
                                             <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="{% static "WebApp/img/user2.jpg" %}"
-                                                     alt="user image">
-                                    <span class='username'>
+                                                {% if followings_activity.user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url 'get_user_picture' followings_activity.user.id %}"
+                                                         alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
                                       <a href="#">{{ followings_activity.user }}</a>
                                       <a href='#' class='pull-right btn-box-tool'>
                                           {{ followings_activity.user.first_name }}
@@ -1103,10 +1135,18 @@
                                     {% for followers_activity in followers_activities %}
                                         <div class="post">
                                             <div class="user-block">
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="{% static "WebApp/img/user2.jpg" %}"
-                                                     alt="user image">
-                                    <span class='username'>
+
+
+                                                {% if followers_activity.user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url 'get_user_picture' followers_activity.user.id %}"
+                                                         alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
                                       <a href="#">{{ followers_activity.user }}</a>
                                       <a href='#'
                                          class='pull-right btn-box-tool'>{{ followers_activity.user.first_name }} {{ followers_activity.user.last_name }}</a>
