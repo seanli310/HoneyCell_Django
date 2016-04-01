@@ -1045,37 +1045,41 @@ def task_finished(request, task_id):
     #     task_id = request.POST['task_id']
     # else:
     #     task_id = None
-
-        
-
     # print(task_id)
-    task = Task.objects.get(id=task_id)
-    user = task.user
 
-    print(task)
+    try:
+        task = Task.objects.get(id=task_id)
+        user = task.user
 
-    # set task status to be completed
-    task.task_status = Status.objects.get(user=user, status_name="Completed")
+        print(task)
 
-    print(task.task_status)
+        completed_status = Status.objects.get(user=user, status_name="Completed")
 
-    task.save()
-    print("Task table modify success")
-    print(task)
+        # this task has been completed before
+        if task.task_status == completed_status:
+            return HttpResponseNotFound("Task with id: %s has been completed before" %(task_id))
 
-    # add completed task to Pending2CompletedTask table
-    taskCompleted = Pending2CompletedTask(user=user,
-                                            task=task)
-    taskCompleted.save()
-    print("Pending2CompletedTask table add success")
-    print(taskCompleted)
+        # set task status to be completed
+        task.task_status = completed_status
 
+        print(task.task_status)
 
-    return HttpResponse("Successfully received by Honeycell")
+        task.save()
+        print("Task table modify success")
+        print(task)
+
+        # add completed task to Pending2CompletedTask table
+        taskCompleted = Pending2CompletedTask(user=user,
+                                                task=task)
+        taskCompleted.save()
+        print("Pending2CompletedTask table add success")
+        print(taskCompleted)
+
+        return HttpResponse("Successfully received by Honeycell")
 
     # task does not exist
-    # except ObjectDoesNotExist:
-        # raise Http404("Task_id not not exist")
+    except ObjectDoesNotExist:
+        return HttpResponse("Task_id not not exist in Honeycell")
 
 
 
