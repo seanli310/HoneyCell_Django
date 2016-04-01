@@ -39,13 +39,15 @@ function task_finished_popup() {
 	close_btn.onclick = function() {
 		$("#task_completed_modal_body").html("");
 		modal.style.display = "none";
+		location.reload(); // refresh current page
 	}
 
 	// When the user clicks anywhere outside of the modal, close it
 	window.onclick = function(event) {
 	    if (event.target == modal) {
 	    	$("#task_completed_modal_body").html("");
-	        modal.style.display = "none";
+	        modal.style.display = "none"; 
+	        location.reload(); // refresh current page
 	    }
 	}
 

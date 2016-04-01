@@ -1029,23 +1029,13 @@ def add_comment(request, activity_id):
 
 
 
-from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 
 # called when backend Honeycomb team finish running task 
-@csrf_exempt
+# @csrf_exempt
 def task_finished(request, task_id):
     print("in the task_finished function.")
     print("task_id: %s" %(task_id))
-
-    # print(request.is_secure())
-
-    # print(request)
-
-    # if 'task_id' in request.POST:
-    #     task_id = request.POST['task_id']
-    # else:
-    #     task_id = None
-    # print(task_id)
 
     try:
         task = Task.objects.get(id=task_id)
@@ -1088,12 +1078,9 @@ def task_finished_ajax_check_database(request):
     context = {}
     messageString = ""
 
-
     if request.user:
       context['user'] = request.user
       curr_user = request.user
-
-      print curr_user
 
     try: 
         completed_tasks = Pending2CompletedTask.objects.filter(user=curr_user)
@@ -1106,7 +1093,12 @@ def task_finished_ajax_check_database(request):
 
         # detect task complete flag
         for t in completed_tasks:
-            messageString += "<h2> Your task %s has been completed. <h2> \n" %(t.task.task_name)
+            # temp = '<h2> Your task <a href=" {% ' 
+            # temp += "url " + "'taskDetail'"
+            # temp += " %d " %(t.task.id)
+            # temp += ' %}"' + '> %s </a> has been completed. <h2> \n' %(t.task.task_name)
+            temp = '<h2> Your task %s has been completed </h2>'
+            messageString += temp
 
         print("messageString: \n %s") %(messageString)
 
@@ -1116,7 +1108,6 @@ def task_finished_ajax_check_database(request):
             t.delete()
 
         print("completed_tasks has been deleted")
-
 
         return HttpResponse(messageString)
 
