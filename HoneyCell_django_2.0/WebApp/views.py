@@ -904,6 +904,9 @@ def profile(request):
     profile = Profile.objects.get(user=user)
     context['profile'] = profile
 
+    # go to profile page, default recent tab is my_activities
+    context['recent_tab'] = "my_activities"
+
     number_of_followers = len(Followship.objects.filter(follower=request.user))
     number_of_followings = len(Followship.objects.filter(following=request.user))
 
@@ -1000,19 +1003,11 @@ def add_comment(request, activity_id):
     print("in the add_comment function.")
     context = {};
 
-    context['user'] = request.user
+    user = request.user
+    context['user'] = user
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
-
-
-    print("%" * 30)
-    print(request)
-    print(activity_id)
-    print("%" * 30)
-
-    user = request.user
-    context['user'] = user
 
     activity = Activity.objects.get(id=activity_id)
 
@@ -1135,5 +1130,110 @@ def alert(request):
 
 
     return render(request, 'WebApp/index.html', context)
+
+
+
+@login_required
+def profile_comment(request, recent_tab):
+    print("in the profile_comment function")
+    context = {}
+    user = request.user
+    context['user'] = user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
+    # check own profile
+    context['self'] = True
+
+    profile = Profile.objects.get(user=user)
+    context['profile'] = profile
+
+    # go to profile page, default recent tab is my_activities
+    context['recent_tab'] = recent_tab
+
+    number_of_followers = len(Followship.objects.filter(follower=request.user))
+    number_of_followings = len(Followship.objects.filter(following=request.user))
+
+    context['number_of_followers'] = number_of_followers
+    context['number_of_followings'] = number_of_followings
+
+
+    my_activities = Activity.objects.filter(user=request.user).order_by("time_created").reverse()
+    context['my_activities'] = my_activities
+
+    followings_activities = []
+    followings = Followship.objects.filter(following=request.user)
+
+    for temp_followings in followings:
+        for temp_activity in Activity.objects.filter(user=temp_followings.follower).order_by("time_created").reverse():
+            followings_activities.append(temp_activity)
+    context['followings_activities'] = followings_activities
+    print(followings_activities)
+
+    print("%" * 30)
+
+    followers_activities = []
+    followers = Followship.objects.filter(follower=request.user)
+    for temp_followers in followers:
+        for temp_activity in Activity.objects.filter(user=temp_followers.following).order_by("time_created").reverse():
+            followers_activities.append(temp_activity)
+    context['followers_activities'] = followers_activities
+
+    print(followers_activities)
+
+    return render(request, 'WebApp/profile.html', context)
+
+
+
+
+
+@login_required
+def profile_add_comment(request, activity_id):
+    print("in the profile_add_comment function.")
+    print(request)
+    print(activity_id)
+    print(request.POST['comment_text'])
+    context = {}
+
+    user = request.user
+    context['user'] = user
+
+    profile = Profile.objects.get(user=request.user)
+    context['profile'] = profile
+
+    print("%" * 30)
+    context['recent_tab'] = request.POST['recent_tab']
+    print(context['recent_tab'])
+
+    context['current_tab'] = request.POST['current_tab']
+    print(context['current_tab'])
+    print("%" * 30)
+
+
+    # update the recent_tab to be current_tab
+    context['recent_tab'] = context['current_tab']
+
+    activity = Activity.objects.get(id=activity_id)
+
+    comment_text = request.POST['comment_text']
+
+    # new_comment_instance = Comment(user=user,
+    #                                activity=activity,
+    #                                text=comment_text)
+    # new_comment_instance.save()
+    # print("Successfully save new_comment_instance.")
+
+    print("%" * 50)
+    print(context['recent_tab'])
+    print("%" * 50)
+
+    return HttpResponseRedirect(reverse('profile_comment', kwargs={'recent_tab': context['recent_tab']}))
+
+
+
+
+
+
 
 

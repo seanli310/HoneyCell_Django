@@ -40,6 +40,9 @@ urlpatterns = [
 
     # profile tasks page
     url(r'^profile/$', 'WebApp.views.profile', name='profile'),
+
+    url(r'^profile_comment/(?P<recent_tab>.*)$', 'WebApp.views.profile_comment', name='profile_comment'),
+
     url(r'^profile_allFollowers/$', 'WebApp.views.profile_allFollowers', name='profile_allFollowers'),
     url(r'^profile_allFollowings/$', 'WebApp.views.profile_allFollowings', name='profile_allFollowings'),
 
@@ -108,6 +111,10 @@ urlpatterns = [
     url(r'^task_finished/(?P<task_id>\d+)$', 'WebApp.views.task_finished', name='task_finished'),
     # url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
     url(r'^task_finished_ajax_check_database/$', 'WebApp.views.task_finished_ajax_check_database', name='task_finished_ajax_check_database'),
+
+
+
+    url(r'^profile_add_comment/(?P<activity_id>\d+)$', 'WebApp.views.profile_add_comment', name='profile_add_comment'),
 
 
 

@@ -49,6 +49,7 @@
 {% endblock content_header %}
 
 {% block content_breadcrumb %}
+    <input type="hidden" name="recent_tab" value="{{ "my_activities" }}">
     <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
     <li class="active">Profile</li>
 {% endblock content_breadcrumb %}
@@ -56,6 +57,12 @@
 
 
 {% block content_area %}
+
+        <h1 style="color: red;">{{ recent_tab }}</h1>
+        <h1 style="color: red;">{{ current_tab }}</h1>
+
+
+
 
     <!-- Main content -->
     <section class="content">
@@ -135,287 +142,936 @@
                                 <a href="{% url 'follow' user.id %}" class="btn btn-primary btn-block"><b>Follow</b></a>
                             {% endif %}
                         {% endif %}
+                    </div>
+                </div>
+            </div>
 
+            <!-- current_tab is my_activities -->
+            {% if recent_tab == "my_activities" %}
 
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
-            </div><!-- /.col -->
+                <h1>Recent tab is my activities</h1>
 
+                <div class="col-md-9">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#my_activities" data-toggle="tab">My Activities</a></li>
+                            <li><a href="#followings_activities" data-toggle="tab">Followings Activities</a></li>
+                            <li><a href="#followers_activities" data-toggle="tab">Followers Activities</a></li>
+                        </ul>
 
-            <div class="col-md-9">
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#my_activities" data-toggle="tab">My Activities</a></li>
-                        <li><a href="#followings_activities" data-toggle="tab">Followings Activities</a></li>
-                        <li><a href="#followers_activities" data-toggle="tab">Followers Activities</a></li>
-                    </ul>
+                        <div class="tab-content">
 
-                    
-                    <div class="tab-content">
-                       
+                            <!-- Here are the contents for my activities -->
+                            <div class="active tab-pane" id="my_activities">
 
-                        <!-- Here are the contents for my activities -->
-                        <div class="active tab-pane" id="my_activities">
+                                <h3>This is my activities.</h3>
 
-                            {% if my_activities %}
-                                <hr>
-                                <!--  For loop starts from here -->
-                                {% for my_activity in my_activities %}
-                                    <div class="post">
-                                        <div class="user-block">
-                                            {% if user.profile.image %}
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="{% url "get_user_picture" user.id %}" alt="user image">
-                                            {% else %}
-                                                <img class="img-circle img-bordered-sm"
-                                                     src="{% static "WebApp/img/anonymous_user.jpg" %}"
-                                                     alt="user image">
-                                            {% endif %}
-                                            <span class='username'>
+                                {% if my_activities %}
+                                    <hr>
+                                    <!--  For loop starts from here -->
+                                    {% for my_activity in my_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                {% if user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url "get_user_picture" user.id %}" alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
                                               <a href="#">{{ user }}</a>
                                               <a href='#'
                                                  class='pull-right btn-box-tool'>{{ user.first_name }} {{ user.last_name }}</a>
                                             </span>
-                                            <span class='description'>{{ my_activity.time_created }}</span>
-                                        </div><!-- /.user-block -->
+                                                <span class='description'>{{ my_activity.time_created }}</span>
+                                            </div><!-- /.user-block -->
 
 
-                                        <div class='box-body'>
-                                            <p>{{ my_activity.description }}</p>
+                                            <div class='box-body'>
+                                                <p>{{ my_activity.description }}</p>
 
-                                            {% if my_activity.task %}
-                                                <div class="attachment-block clearfix">
-                                                    <h4 class="attachment-heading"><a href="{% url 'taskDetail' my_activity.task.id %}">
-                                                    {{my_activity.task.task_name}}
-                                                    </a></h4>
-                                                    <div class="attachment-text">
-                                                        {{my_activity.task.task_description}}
-                                                    </div><!-- /.attachment-text -->
-                                                </div><!-- /.attachment-block -->
-                                            {% else %}
-                                                <!-- This activity do not have task, blank -->
-                                            {% endif %}
+                                                {% if my_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' my_activity.task.id %}">
+                                                            {{ my_activity.task.task_name }}
+                                                        </a></h4>
+                                                        <div class="attachment-text">
+                                                            {{ my_activity.task.task_description }}
+                                                        </div><!-- /.attachment-text -->
+                                                    </div><!-- /.attachment-block -->
+                                                {% else %}
+                                                    <!-- This activity do not have task, blank -->
+                                                {% endif %}
 
-                                            <span class='pull-right text-muted'>{{ my_activity.comment_set.all | length }} comments</span>
-                                        </div>
+                                                <span class='pull-right text-muted'>{{ my_activity.comment_set.all | length }} comments</span>
+                                            </div>
 
-                                        {% if my_activity.comment_set.all %}
-                                            <div class='box-footer box-comments'>
+                                            {% if my_activity.comment_set.all %}
+                                                <div class='box-footer box-comments'>
 
-                                                <!-- for all comments here -->
-                                                <div class='box-comment'>
-                                                    <!-- User image -->
-                                                    <img class='img-circle img-sm'
-                                                         src='{% static 'WebApp/img/user6.jpg' %}'
-                                                         alt='user image'>
-                                                    <div class='comment-text'>
+                                                    <!-- for all comments here -->
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
 
                                                         <span class="username">
                                                             Maria Gonzales
                                                             <span class='text-muted pull-right'>8:03 PM Today</span>
                                                         </span>
-                                                        <p class="comment-style"> GOOD JOB! </p>
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        {% else %}
-                                            <!-- No comment for this activity, blank -->
-                                        {% endif %}
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
 
-                                        <!-- Send comment to this activity -->
-                                        <form class='form-horizontal'>
-                                            <div class='form-group margin-bottom-none'>
-                                                <div class='col-sm-9'>
-                                                    <input class="form-control input-sm" placeholder="Comments">
+                                            <!-- Send comment to this activity -->
+                                            <form action="{% url 'profile_add_comment' my_activity.id %}" method="POST"
+                                                  class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab" value="{{ "my_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div class='col-sm-3'>
-                                                    <button class='btn btn-primary pull-right btn-block btn-sm'>Send
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div><!-- /.post-->
-                                {% endfor %}
-                            {% else %}
-                                <br>
-                                <h3 align="center">You do not have any activity right now</h3>
-                                <br>
-                            {% endif %}
-                        </div>
+                                            </form>
+                                        </div><!-- /.post-->
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any activity right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
 
 
+                            <!-- Here are the contents for followings' activities -->
+                            <div class="tab-pane" id="followings_activities">
 
-                        <!-- Here are the contents for followings' activities -->
-                        <div class="tab-pane" id="followings_activities">
+                                <h3>This is followings activities.</h3>
 
-                            {% if followings_activities %}
-                                <!--  For loop starts from here -->
-                                {% for followings_activity in followings_activities %}
-                                    <div class="post">
-                                        <div class="user-block">
-                                            <img class="img-circle img-bordered-sm"
-                                                 src="{% static "WebApp/img/user2.jpg" %}"
-                                                 alt="user image">
+
+                                {% if followings_activities %}
+                                    <!--  For loop starts from here -->
+                                    {% for followings_activity in followings_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="{% static "WebApp/img/user2.jpg" %}"
+                                                     alt="user image">
                                     <span class='username'>
                                       <a href="#">{{ followings_activity.user }}</a>
-                                      <a href='#'class='pull-right btn-box-tool'>
-                                      {{ followings_activity.user.first_name }} 
-                                      {{ followings_activity.user.last_name }}
+                                      <a href='#' class='pull-right btn-box-tool'>
+                                          {{ followings_activity.user.first_name }}
+                                          {{ followings_activity.user.last_name }}
                                       </a>
                                     </span>
                                             <span class='description'>
                                                 {{ followings_activity.time_created }}
                                             </span>
-                                        </div>
+                                            </div>
 
 
-                                        <div class='box-body'>
-                                            <p>{{ followings_activity.description }}</p>
+                                            <div class='box-body'>
+                                                <p>{{ followings_activity.description }}</p>
 
-                                            {% if followings_activity.task %}
-                                                <div class="attachment-block clearfix">
-                                                    <h4 class="attachment-heading"><a href="{% url 'taskDetail' followings_activity.task.id %}">{{followings_activity.task.task_name}}</a></h4>
-                                                    <div class="attachment-text">
-                                                        {{ followings_activity.task.task_description }}
+                                                {% if followings_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' followings_activity.task.id %}">{{ followings_activity.task.task_name }}</a>
+                                                        </h4>
+                                                        <div class="attachment-text">
+                                                            {{ followings_activity.task.task_description }}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            {% else %}
-                                                <!-- No task for this activity, blank -->
-                                            {% endif %}
+                                                {% else %}
+                                                    <!-- No task for this activity, blank -->
+                                                {% endif %}
 
-                                            <span class='pull-right text-muted'>{{ followings_activity.comment_set.all | length }} comments</span>
-                                        </div>
+                                                <span class='pull-right text-muted'>{{ followings_activity.comment_set.all | length }} comments</span>
+                                            </div>
 
 
-                                        {% if followings_activity.comment_set.all %}
-                                            <!-- for all comments here -->
-                                            <div class='box-footer box-comments'>
+                                            {% if followings_activity.comment_set.all %}
+                                                <!-- for all comments here -->
+                                                <div class='box-footer box-comments'>
 
-                                                <div class='box-comment'>
-                                                    <!-- User image -->
-                                                    <img class='img-circle img-sm'
-                                                         src='{% static 'WebApp/img/user6.jpg' %}'
-                                                         alt='user image'>
-                                                    <div class='comment-text'>
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
                                                   <span class="username">
                                                     Maria Gonzales
                                                     <span class='text-muted pull-right'>8:03 PM Today</span>
                                                   </span><!-- /.username -->
-                                                        <p class="comment-style"> GOOD JOB! </p>
-                                                    </div><!-- /.comment-text -->
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div><!-- /.comment-text -->
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        {% else %}
-                                            <!-- No comment for this activity, blank -->
-                                        {% endif %}
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
 
-                                        <form class='form-horizontal'>
-                                            <div class='form-group margin-bottom-none'>
-                                                <div class='col-sm-9'>
-                                                    <input class="form-control input-sm" placeholder="Comments">
+                                            <form action="{% url 'profile_add_comment' followings_activity.id %}"
+                                                  method="POST" class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab"
+                                                       value="{{ "followings_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div class='col-sm-3'>
-                                                    <button class='btn btn-primary pull-right btn-block btn-sm'>Send
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <br>
-                                <h3 align="center">You do not have any following right now</h3>
-                                <br>
-                            {% endif %}
-                        </div>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any following right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
 
-                        <!-- Here are the contents for followings' activities -->
-                        <div class="tab-pane" id="followers_activities">
+                            <!-- Here are the contents for followings' activities -->
+                            <div class="tab-pane" id="followers_activities">
 
-                            {% if followers_activities %}
-                                <!--  For loop starts from here -->
-                                {% for followers_activity in followers_activities %}
-                                    <div class="post">
-                                        <div class="user-block">
-                                            <img class="img-circle img-bordered-sm"
-                                                 src="{% static "WebApp/img/user2.jpg" %}"
-                                                 alt="user image">
+                                <h3>This is followers activities.</h3>
+
+
+                                {% if followers_activities %}
+                                    <!--  For loop starts from here -->
+                                    {% for followers_activity in followers_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="{% static "WebApp/img/user2.jpg" %}"
+                                                     alt="user image">
                                     <span class='username'>
                                       <a href="#">{{ followers_activity.user }}</a>
                                       <a href='#'
                                          class='pull-right btn-box-tool'>{{ followers_activity.user.first_name }} {{ followers_activity.user.last_name }}</a>
                                     </span>
-                                            <span class='description'>{{ followers_activity.time_created }}</span>
-                                        </div>
+                                                <span class='description'>{{ followers_activity.time_created }}</span>
+                                            </div>
 
 
-                                        <div class='box-body'>
+                                            <div class='box-body'>
 
 
-                                            <p>{{ followers_activity.description }}</p>
+                                                <p>{{ followers_activity.description }}</p>
 
-                                            {% if followers_activity.task %}
-                                                <div class="attachment-block clearfix">
-                                                    <h4 class="attachment-heading"><a href="{% url 'taskDetail' followers_activity.task.id %}">
-                                                    {{ followers_activity.task.task_name }}
-                                                    </a></h4>
-                                                    <div class="attachment-text">
-                                                        {{ followers_activity.task.task_description }}
+                                                {% if followers_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' followers_activity.task.id %}">
+                                                            {{ followers_activity.task.task_name }}
+                                                        </a></h4>
+                                                        <div class="attachment-text">
+                                                            {{ followers_activity.task.task_description }}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            {% else %}
-                                                <!-- No task for this activity, blank -->
-                                            {% endif %}
+                                                {% else %}
+                                                    <!-- No task for this activity, blank -->
+                                                {% endif %}
 
-                                            <span class='pull-right text-muted'>{{ followers_activity.comment_set.all | length }} comments</span>
-                                        </div>
+                                                <span class='pull-right text-muted'>{{ followers_activity.comment_set.all | length }} comments</span>
+                                            </div>
 
 
-                                        {% if followers_activity.comment_set.all %}
-                                            <!-- for all comments here -->
-                                            <div class='box-footer box-comments'>
+                                            {% if followers_activity.comment_set.all %}
+                                                <!-- for all comments here -->
+                                                <div class='box-footer box-comments'>
 
-                                                <div class='box-comment'>
-                                                    <!-- User image -->
-                                                    <img class='img-circle img-sm'
-                                                         src='{% static 'WebApp/img/user6.jpg' %}'
-                                                         alt='user image'>
-                                                    <div class='comment-text'>
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
                                                   <span class="username">
                                                     Maria Gonzales
                                                     <span class='text-muted pull-right'>8:03 PM Today</span>
                                                   </span><!-- /.username -->
-                                                        <p class="comment-style"> GOOD JOB! </p>
-                                                    </div><!-- /.comment-text -->
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div><!-- /.comment-text -->
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        {% else %}
-                                            <!-- No comment for this activity, blank -->
-                                        {% endif %}
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
 
-
-                                        <form class='form-horizontal'>
-                                            <div class='form-group margin-bottom-none'>
-                                                <div class='col-sm-9'>
-                                                    <input class="form-control input-sm" placeholder="Comments">
+                                            <form action="{% url 'profile_add_comment' followers_activity.id %}"
+                                                  method="POST" class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab"
+                                                       value="{{ "followers_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div class='col-sm-3'>
-                                                    <button class='btn btn-primary pull-right btn-block btn-sm'>Send
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <br>
-                                <h3 align="center">You do not have any follower right now</h3>
-                                <br>
-                            {% endif %}
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any follower right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
                         </div>
-
+                    </div>
                 </div>
-            </div>
+
+                <!-- current_tab is followings_activities -->
+            {% elif recent_tab == "followings_activities" %}
+
+
+                <h1>Recent tab is followings activities</h1>
+
+
+                <div class="col-md-9">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+
+                            <li><a href="#my_activities" data-toggle="tab">My Activities</a></li>
+                            <li class="active"><a href="#followings_activities" data-toggle="tab">Followings
+                                Activities</a></li>
+                            <li><a href="#followers_activities" data-toggle="tab">Followers Activities</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <!-- Here are the contents for my activities -->
+                            <div class="active tab-pane" id="my_activities">
+
+                                <h3>This is my activities.</h3>
+
+
+                                {% if my_activities %}
+                                    <hr>
+                                    <!--  For loop starts from here -->
+                                    {% for my_activity in my_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                {% if user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url "get_user_picture" user.id %}" alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
+                                              <a href="#">{{ user }}</a>
+                                              <a href='#'
+                                                 class='pull-right btn-box-tool'>{{ user.first_name }} {{ user.last_name }}</a>
+                                            </span>
+                                                <span class='description'>{{ my_activity.time_created }}</span>
+                                            </div><!-- /.user-block -->
+
+
+                                            <div class='box-body'>
+                                                <p>{{ my_activity.description }}</p>
+
+                                                {% if my_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' my_activity.task.id %}">
+                                                            {{ my_activity.task.task_name }}
+                                                        </a></h4>
+                                                        <div class="attachment-text">
+                                                            {{ my_activity.task.task_description }}
+                                                        </div><!-- /.attachment-text -->
+                                                    </div><!-- /.attachment-block -->
+                                                {% else %}
+                                                    <!-- This activity do not have task, blank -->
+                                                {% endif %}
+
+                                                <span class='pull-right text-muted'>{{ my_activity.comment_set.all | length }} comments</span>
+                                            </div>
+
+                                            {% if my_activity.comment_set.all %}
+                                                <div class='box-footer box-comments'>
+
+                                                    <!-- for all comments here -->
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
+
+                                                        <span class="username">
+                                                            Maria Gonzales
+                                                            <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                        </span>
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
+
+                                            <!-- Send comment to this activity -->
+                                            <form action="{% url 'profile_add_comment' my_activity.id %}" method="POST"
+                                                  class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab" value="{{ "my_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div><!-- /.post-->
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any activity right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
+
+
+                            <!-- Here are the contents for followings' activities -->
+                            <div class="tab-pane" id="followings_activities">
+
+                                <h3>This is followings activities.</h3>
+
+
+                                {% if followings_activities %}
+                                    <!--  For loop starts from here -->
+                                    {% for followings_activity in followings_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="{% static "WebApp/img/user2.jpg" %}"
+                                                     alt="user image">
+                                    <span class='username'>
+                                      <a href="#">{{ followings_activity.user }}</a>
+                                      <a href='#' class='pull-right btn-box-tool'>
+                                          {{ followings_activity.user.first_name }}
+                                          {{ followings_activity.user.last_name }}
+                                      </a>
+                                    </span>
+                                            <span class='description'>
+                                                {{ followings_activity.time_created }}
+                                            </span>
+                                            </div>
+
+
+                                            <div class='box-body'>
+                                                <p>{{ followings_activity.description }}</p>
+
+                                                {% if followings_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' followings_activity.task.id %}">{{ followings_activity.task.task_name }}</a>
+                                                        </h4>
+                                                        <div class="attachment-text">
+                                                            {{ followings_activity.task.task_description }}
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <!-- No task for this activity, blank -->
+                                                {% endif %}
+
+                                                <span class='pull-right text-muted'>{{ followings_activity.comment_set.all | length }} comments</span>
+                                            </div>
+
+
+                                            {% if followings_activity.comment_set.all %}
+                                                <!-- for all comments here -->
+                                                <div class='box-footer box-comments'>
+
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
+                                                  <span class="username">
+                                                    Maria Gonzales
+                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                  </span><!-- /.username -->
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div><!-- /.comment-text -->
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
+
+                                            <form action="{% url 'profile_add_comment' followings_activity.id %}" class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab"
+                                                       value="{{ "followings_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm" placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit" class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any following right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
+
+                            <!-- Here are the contents for followings' activities -->
+                            <div class="tab-pane" id="followers_activities">
+
+                                <h3>This is followers activities.</h3>
+
+
+                                {% if followers_activities %}
+                                    <!--  For loop starts from here -->
+                                    {% for followers_activity in followers_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="{% static "WebApp/img/user2.jpg" %}"
+                                                     alt="user image">
+                                    <span class='username'>
+                                      <a href="#">{{ followers_activity.user }}</a>
+                                      <a href='#'
+                                         class='pull-right btn-box-tool'>{{ followers_activity.user.first_name }} {{ followers_activity.user.last_name }}</a>
+                                    </span>
+                                                <span class='description'>{{ followers_activity.time_created }}</span>
+                                            </div>
+
+
+                                            <div class='box-body'>
+
+
+                                                <p>{{ followers_activity.description }}</p>
+
+                                                {% if followers_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' followers_activity.task.id %}">
+                                                            {{ followers_activity.task.task_name }}
+                                                        </a></h4>
+                                                        <div class="attachment-text">
+                                                            {{ followers_activity.task.task_description }}
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <!-- No task for this activity, blank -->
+                                                {% endif %}
+
+                                                <span class='pull-right text-muted'>{{ followers_activity.comment_set.all | length }} comments</span>
+                                            </div>
+
+
+                                            {% if followers_activity.comment_set.all %}
+                                                <!-- for all comments here -->
+                                                <div class='box-footer box-comments'>
+
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
+                                                  <span class="username">
+                                                    Maria Gonzales
+                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                  </span><!-- /.username -->
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div><!-- /.comment-text -->
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
+
+                                            <h1> you are in the 2 - 3 {{ recent_tab }}</h1>
+
+
+                                            <form action="{% url 'profile_add_comment' followers_activity.id %}"
+                                                  method="POST" class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab"
+                                                       value="{{ "followers_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any follower right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- current_tab is my_activities -->
+            {% elif recent_tab == "followers_activities" %}
+
+
+                <h1>Recent tab is followers activities</h1>
+
+
+                <div class="col-md-9">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li><a href="#my_activities" data-toggle="tab">My Activities</a></li>
+                            <li><a href="#followings_activities" data-toggle="tab">Followings Activities</a></li>
+                            <li class="active"><a href="#followers_activities" data-toggle="tab">Followers
+                                Activities</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <!-- Here are the contents for my activities -->
+                            <div class="active tab-pane" id="my_activities">
+
+                                <h3>This is my activities.</h3>
+
+
+                                {% if my_activities %}
+                                    <hr>
+                                    <!--  For loop starts from here -->
+                                    {% for my_activity in my_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                {% if user.profile.image %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% url "get_user_picture" user.id %}" alt="user image">
+                                                {% else %}
+                                                    <img class="img-circle img-bordered-sm"
+                                                         src="{% static "WebApp/img/anonymous_user.jpg" %}"
+                                                         alt="user image">
+                                                {% endif %}
+                                                <span class='username'>
+                                              <a href="#">{{ user }}</a>
+                                              <a href='#'
+                                                 class='pull-right btn-box-tool'>{{ user.first_name }} {{ user.last_name }}</a>
+                                            </span>
+                                                <span class='description'>{{ my_activity.time_created }}</span>
+                                            </div><!-- /.user-block -->
+
+
+                                            <div class='box-body'>
+                                                <p>{{ my_activity.description }}</p>
+
+                                                {% if my_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' my_activity.task.id %}">
+                                                            {{ my_activity.task.task_name }}
+                                                        </a></h4>
+                                                        <div class="attachment-text">
+                                                            {{ my_activity.task.task_description }}
+                                                        </div><!-- /.attachment-text -->
+                                                    </div><!-- /.attachment-block -->
+                                                {% else %}
+                                                    <!-- This activity do not have task, blank -->
+                                                {% endif %}
+
+                                                <span class='pull-right text-muted'>{{ my_activity.comment_set.all | length }} comments</span>
+                                            </div>
+
+                                            {% if my_activity.comment_set.all %}
+                                                <div class='box-footer box-comments'>
+
+                                                    <!-- for all comments here -->
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
+
+                                                        <span class="username">
+                                                            Maria Gonzales
+                                                            <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                        </span>
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
+
+                                            <!-- Send comment to this activity -->
+                                            <form action="{% url 'profile_add_comment' my_activity.id %}" method="POST"
+                                                  class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab" value="{{ "my_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div><!-- /.post-->
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any activity right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
+
+
+                            <!-- Here are the contents for followings' activities -->
+                            <div class="tab-pane" id="followings_activities">
+
+                                <h3>This is followings activities.</h3>
+
+
+                                {% if followings_activities %}
+                                    <!--  For loop starts from here -->
+                                    {% for followings_activity in followings_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="{% static "WebApp/img/user2.jpg" %}"
+                                                     alt="user image">
+                                    <span class='username'>
+                                      <a href="#">{{ followings_activity.user }}</a>
+                                      <a href='#' class='pull-right btn-box-tool'>
+                                          {{ followings_activity.user.first_name }}
+                                          {{ followings_activity.user.last_name }}
+                                      </a>
+                                    </span>
+                                            <span class='description'>
+                                                {{ followings_activity.time_created }}
+                                            </span>
+                                            </div>
+
+
+                                            <div class='box-body'>
+                                                <p>{{ followings_activity.description }}</p>
+
+                                                {% if followings_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' followings_activity.task.id %}">{{ followings_activity.task.task_name }}</a>
+                                                        </h4>
+                                                        <div class="attachment-text">
+                                                            {{ followings_activity.task.task_description }}
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <!-- No task for this activity, blank -->
+                                                {% endif %}
+
+                                                <span class='pull-right text-muted'>{{ followings_activity.comment_set.all | length }} comments</span>
+                                            </div>
+
+
+                                            {% if followings_activity.comment_set.all %}
+                                                <!-- for all comments here -->
+                                                <div class='box-footer box-comments'>
+
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
+                                                  <span class="username">
+                                                    Maria Gonzales
+                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                  </span><!-- /.username -->
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div><!-- /.comment-text -->
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
+
+                                            <form action="{% url 'profile_add_comment' followings_activity.id %}" class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab"
+                                                       value="{{ "followings_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm" placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit" class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any following right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
+
+                            <!-- Here are the contents for followings' activities -->
+                            <div class="tab-pane" id="followers_activities">
+
+                                <h3>This is followers activities.</h3>
+
+
+                                {% if followers_activities %}
+                                    <!--  For loop starts from here -->
+                                    {% for followers_activity in followers_activities %}
+                                        <div class="post">
+                                            <div class="user-block">
+                                                <img class="img-circle img-bordered-sm"
+                                                     src="{% static "WebApp/img/user2.jpg" %}"
+                                                     alt="user image">
+                                    <span class='username'>
+                                      <a href="#">{{ followers_activity.user }}</a>
+                                      <a href='#'
+                                         class='pull-right btn-box-tool'>{{ followers_activity.user.first_name }} {{ followers_activity.user.last_name }}</a>
+                                    </span>
+                                                <span class='description'>{{ followers_activity.time_created }}</span>
+                                            </div>
+
+
+                                            <div class='box-body'>
+
+
+                                                <p>{{ followers_activity.description }}</p>
+
+                                                {% if followers_activity.task %}
+                                                    <div class="attachment-block clearfix">
+                                                        <h4 class="attachment-heading"><a
+                                                                href="{% url 'taskDetail' followers_activity.task.id %}">
+                                                            {{ followers_activity.task.task_name }}
+                                                        </a></h4>
+                                                        <div class="attachment-text">
+                                                            {{ followers_activity.task.task_description }}
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <!-- No task for this activity, blank -->
+                                                {% endif %}
+
+                                                <span class='pull-right text-muted'>{{ followers_activity.comment_set.all | length }} comments</span>
+                                            </div>
+
+
+                                            {% if followers_activity.comment_set.all %}
+                                                <!-- for all comments here -->
+                                                <div class='box-footer box-comments'>
+
+                                                    <div class='box-comment'>
+                                                        <!-- User image -->
+                                                        <img class='img-circle img-sm'
+                                                             src='{% static 'WebApp/img/user6.jpg' %}'
+                                                             alt='user image'>
+                                                        <div class='comment-text'>
+                                                  <span class="username">
+                                                    Maria Gonzales
+                                                    <span class='text-muted pull-right'>8:03 PM Today</span>
+                                                  </span><!-- /.username -->
+                                                            <p class="comment-style"> GOOD JOB! </p>
+                                                        </div><!-- /.comment-text -->
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <!-- No comment for this activity, blank -->
+                                            {% endif %}
+
+
+                                            <form action="{% url 'profile_add_comment' followers_activity.id %}"
+                                                  method="POST" class='form-horizontal'>{% csrf_token %}
+                                                <input type="hidden" name="recent_tab" value="{{ recent_tab }}">
+                                                <input type="hidden" name="current_tab"
+                                                       value="{{ "followers_activities" }}">
+                                                <div class='form-group margin-bottom-none'>
+                                                    <div class='col-sm-9'>
+                                                        <input name="comment_text" class="form-control input-sm"
+                                                               placeholder="Comments">
+                                                    </div>
+                                                    <div class='col-sm-3'>
+                                                        <button type="submit"
+                                                                class='btn btn-primary pull-right btn-block btn-sm'>Send
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                        
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <br>
+                                    <h3 align="center">You do not have any follower right now</h3>
+                                    <br>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <!-- current_tab do not match any, just leave it blank -->
+            {% endif %}
         </div>
     </section>
 {% endblock %}
