@@ -1,0 +1,49 @@
+#!/usr/bin/python -tt
+
+import logging
+import requests
+import re
+import httplib2
+import urllib
+import json
+
+
+def main():
+
+	URL = 'http://127.0.0.1:8000/task_finished/7' # task_id in last
+	r = requests.get(URL)
+
+	print(r.content)
+
+
+	# csrftoken = 'G9xzwTe7eLo0nEzDwhMZARnrdyzKO22g'
+
+	# # client = requests.session()
+	# # print(client)
+	# # csrf = client.get(URL).cookies['csrftoken']
+
+	# NAME = 'aaa'
+	# PASSWORD = 'aaa'
+
+
+	# # login_data = dict(username=NAME, password=PASSWORD, csrfmiddlewaretoken=csrftoken, next='/')
+	# data = {'username': NAME, 'password': PASSWORD, 'csrfmiddlewaretoken': 'G9xzwTe7eLo0nEzDwhMZARnrdyzKO22g'}
+	# r = requests.post(URL, data=data, headers=dict(Referer='127.0.0.1:8000'))
+
+	# # r = requests.get(URL, auth=(NAME, PASSWORD))
+
+	# # data = {'name': 'fred', 'address': '123 shady lane', 'csrfmiddlewaretoken': csrftoken}
+	# # body = urllib.urlencode(data)
+	# # h = httplib2.Http()
+	# # resp, content = h.request(URL, method="POST", body=body)
+
+	# # print(r)
+
+	# data = { 'task_id': '4' }
+	# headers = {'Content-type': 'application/json',  "X-CSRFToken":csrftoken}
+	# r = requests.post(URL, files=(data), headers=headers )
+
+if __name__ == '__main__':
+  main()
+
+
