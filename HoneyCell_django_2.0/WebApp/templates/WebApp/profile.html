@@ -49,7 +49,6 @@
 {% endblock content_header %}
 
 {% block content_breadcrumb %}
-    <input type="hidden" name="recent_tab" value="{{ "my_activities" }}">
     <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
     <li class="active">Profile</li>
 {% endblock content_breadcrumb %}
@@ -509,7 +508,7 @@
                         <div class="tab-content">
 
                             <!-- Here are the contents for my activities -->
-                            <div class="active tab-pane" id="my_activities">
+                            <div class="tab-pane" id="my_activities">
 
                                 <h3>This is my activities.</h3>
 
@@ -620,7 +619,7 @@
 
 
                             <!-- Here are the contents for followings' activities -->
-                            <div class="tab-pane" id="followings_activities">
+                            <div class="active tab-pane" id="followings_activities">
 
                                 <h3>This is followings activities.</h3>
 
@@ -854,7 +853,7 @@
                         <div class="tab-content">
 
                             <!-- Here are the contents for my activities -->
-                            <div class="active tab-pane" id="my_activities">
+                            <div class="tab-pane" id="my_activities">
 
                                 <h3>This is my activities.</h3>
 
@@ -1071,7 +1070,7 @@
                             </div>
 
                             <!-- Here are the contents for followings' activities -->
-                            <div class="tab-pane" id="followers_activities">
+                            <div class="active tab-pane" id="followers_activities">
 
                                 <h3>This is followers activities.</h3>
 
@@ -1141,6 +1140,9 @@
                                                         </span>
                                                                 <p class="comment-style">{{ comment.text }}</p>
                                                             </div>
+
+                                                            <hr>
+
                                                         {% endfor %}
                                                     </div>
                                                 </div>

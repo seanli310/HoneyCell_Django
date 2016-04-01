@@ -1175,8 +1175,6 @@ def profile_comment(request, recent_tab):
     context['followings_activities'] = sorted(followings_activities, key=lambda activity: activity.time_created, reverse=True)
     print(followings_activities)
 
-    print("%" * 30)
-
     followers_activities = []
     followers = Followship.objects.filter(follower=request.user)
     for temp_followers in followers:
@@ -1186,7 +1184,8 @@ def profile_comment(request, recent_tab):
     context['followers_activities'] = sorted(followers_activities, key=lambda activity: activity.time_created, reverse=True)
 
 
-    print(followers_activities)
+    print(context)
+
 
     return render(request, 'WebApp/profile.html', context)
 
