@@ -53,12 +53,12 @@ class Task(models.Model):
         return "%s by %s" %(self.task_name, self.user.username)
 
 #  used when checking task status by Ajax
-class TaskPending(models.Model):
+class Pending2CompletedTask(models.Model):
     user = models.ForeignKey(User)
-    pending_task = models.ForeignKey(Task)
+    task = models.OneToOneField(Task)
 
     def __unicode__(self):
-        return str(self.pending_task)
+        return str(self.task)
 
 
 class Activity(models.Model):
@@ -79,7 +79,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
     company = models.CharField(blank=True, max_length=100)
     location = models.CharField(blank=True, max_length=100)
-    website = models.CharField(blank=True, max_length=100)
+    website = models.URLField(blank=True, max_length=100)
     age = models.IntegerField(default=0)
     phone = models.CharField(max_length=100)
     short_introduction = models.TextField(blank=True, max_length=1000)

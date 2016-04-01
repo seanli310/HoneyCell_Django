@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'WebApp',
+    'corsheaders',
 ]
 
 # URL to use if authentication system requires a user to logs in.
@@ -48,6 +49,9 @@ LOGIN_REDIRECT_URL = '/index/'
 
 
 MIDDLEWARE_CLASSES = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,6 +60,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'HoneyCell_django.urls'
@@ -130,3 +135,17 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# CSRF_COOKIE_DOMAIN = [
+#     '127.0.0.1:8000/',
+# ]
+
+# CSRF_TRUSTED_ORIGINS = [
+#     '127.0.0.1:8000/',
+# ]
+
+# CORS_ORIGIN_WHITELIST = (
+#     '127.0.0.1:8000/',
+# )
+
+# CORS_ORIGIN_ALLOW_ALL = True

@@ -1,6 +1,21 @@
+// Taken from docs.djangoproject.com
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
-
-// setInterval(task_finished_popup, 3000);
+setInterval(task_finished_popup, 5000);
 
 function task_finished_popup() {
 	var username = document.getElementById("myUsername").innerHTML;
@@ -11,6 +26,9 @@ function task_finished_popup() {
 
 	var close_btn = document.getElementById("task_completed_modal_close_btn");
 
+	// var csrftoken = getCookie('csrftoken');
+
+	// console.log(csrftoken);
 
 
 	// When the user clicks on close (x) or btn, close the modal

@@ -106,6 +106,7 @@ urlpatterns = [
 
     # task running in honeycomb(backend) finished
     url(r'^task_finished/(?P<task_id>\d+)$', 'WebApp.views.task_finished', name='task_finished'),
+    # url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
     url(r'^task_finished_ajax_check_database/$', 'WebApp.views.task_finished_ajax_check_database', name='task_finished_ajax_check_database'),
 
 

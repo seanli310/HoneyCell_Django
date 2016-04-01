@@ -1,11 +1,14 @@
 from django.shortcuts import render
 
+from django.conf import settings
+
 # allow us to redirect
 from django.shortcuts import redirect
 from django.shortcuts import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
+from django.http import Http404
 from django.template import RequestContext, loader
 
 # import the User class in models.py
@@ -160,6 +163,8 @@ def index(request):
     context = {}
     user = request.user
     context['user'] = user
+    # print(request.get_host())
+
     return render(request, 'WebApp/index.html', context)
 
 @login_required
@@ -365,12 +370,12 @@ def create_new_task(request):
 
     print(new_task_instance)
 
-    new_pending_task = TaskPending(user=request.user, 
-                                    pending_task=new_task_instance)
+    # new_pending_task = Pending2CompletedTask(user=request.user, 
+                                                # pending_task=new_task_instance)
     
-    print("Already save the new_pending_task.")
+    # print("Already save the new_pending_task.")
 
-    print(new_pending_task)
+    # print(new_pending_task)
 
     new_activity_instance = Activity(user=request.user,
                                      task=new_task_instance,
@@ -405,7 +410,7 @@ def settings(request):
     return render(request, 'WebApp/settings.html', context)
 
 
-
+@login_required
 def global_page(request):
     print("in the global function.")
     context = {}
@@ -1024,22 +1029,53 @@ def add_comment(request, activity_id):
 
 
 
-
+from django.views.decorators.csrf import csrf_exempt
 
 # called when backend Honeycomb team finish running task 
+@csrf_exempt
 def task_finished(request, task_id):
     print("in the task_finished function.")
+    print("task_id: %s" %(task_id))
 
+    # print(request.is_secure())
+
+    # print(request)
+
+    # if 'task_id' in request.POST:
+    #     task_id = request.POST['task_id']
+    # else:
+    #     task_id = None
+
+        
+
+    # print(task_id)
     task = Task.objects.get(id=task_id)
-    taskPending = TaskPending.objects.get(pending_task=task)
+    user = task.user
+
+    print(task)
 
     # set task status to be completed
-    task.task_status = Status.objects.get(user=request.user, status_name="Completed")
-    taskPending.task.task_status = Status.objects.get(user=request.user, status_name="Completed")
+    task.task_status = Status.objects.get(user=user, status_name="Completed")
 
-    
+    print(task.task_status)
+
+    task.save()
+    print("Task table modify success")
+    print(task)
+
+    # add completed task to Pending2CompletedTask table
+    taskCompleted = Pending2CompletedTask(user=user,
+                                            task=task)
+    taskCompleted.save()
+    print("Pending2CompletedTask table add success")
+    print(taskCompleted)
+
 
     return HttpResponse("Successfully received by Honeycell")
+
+    # task does not exist
+    # except ObjectDoesNotExist:
+        # raise Http404("Task_id not not exist")
 
 
 
@@ -1056,21 +1092,26 @@ def task_finished_ajax_check_database(request):
       print curr_user
 
     try: 
-      # if request.method == "GET":
-      #   print("in post")
-      #   curr_username = request.GET.get("username")
-      #   # print curr_username
+        completed_tasks = Pending2CompletedTask.objects.filter(user=curr_user)
+        print("completed_tasks: ")
+        print(completed_tasks)
 
-      #   curr_user = User.objects.get(username = curr_username)
+        # no task completed for this user
+        if not completed_tasks:
+            return HttpResponse(messageString)
+
+        # detect task complete flag
+        for t in completed_tasks:
+            messageString += "<h2> Your task %s has been completed. <h2> \n" %(t.task.task_name)
+
+        print("messageString: \n %s") %(messageString)
 
 
-        task_status = Status.objects.get(user=curr_user, status_name="Pending")
+        # delete completed task in Pending2CompletedTask
+        for t in completed_tasks:
+            t.delete()
 
-        completed_tasks = Task.objects.filter(user=curr_user, task_status = task_status)
-
-
-        messageString = "<h2> Your task xxx has been completed. <h2>"
-
+        print("completed_tasks has been deleted")
 
 
         return HttpResponse(messageString)
