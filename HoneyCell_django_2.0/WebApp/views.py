@@ -82,29 +82,6 @@ def registration(request):
     new_folder_instance.save()
     print("Already save new_folder_instance.")
 
-    # create four default labels at first.
-    new_label_none_instance = Label(user=new_user,
-                                    label_name="None",
-                                    label_description="This label is None."
-                                    )
-    new_label_none_instance.save()
-    print("Already save new_label_none_instance.")
-    new_label_important_instance = Label(user=new_user,
-                                        label_name="Important",
-                                        label_description="This task is important.",
-                                        )
-    new_label_important_instance.save()
-    print("Already save new_label_important_instance.")
-    new_label_warning_instance = Label(user=new_user,
-                                       label_name="Warning",
-                                       label_description="This task is warning.")
-    new_label_warning_instance.save()
-    print("Already save new_label_warning_instance.")
-    new_label_information_instance = Label(user=new_user,
-                                           label_name="Information",
-                                           label_description="This task is information.")
-    new_label_information_instance.save()
-    print("Already save new_label_information_instance.")
 
     new_status_completed_instance = Status(user=new_user,
                                            status_name="Completed",

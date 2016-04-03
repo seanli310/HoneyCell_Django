@@ -1,0 +1,12 @@
+new_label_none_instance = Label(user=new_user, label_name="None", label_description="This label is None.")
+new_label_none_instance.save()
+
+new_label_important_instance = Label(label_name="Important", label_description="This task is important.")
+new_label_important_instance.save()
+
+new_label_warning_instance = Label(user=new_user, label_name="Warning", label_description="This task is warning.")
+new_label_warning_instance.save()
+
+new_label_information_instance = Label(user=new_user, label_name="Information",label_description="This task is information.")
+new_label_information_instance.save()
+
