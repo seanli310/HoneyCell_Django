@@ -12,21 +12,41 @@ class Folder(models.Model):
     folder_time_created = models.DateTimeField(auto_now_add=True)
     folder_time_changed = models.DateTimeField(auto_now=True)
 
-class Label(models.Model):
-    label_name = models.CharField(max_length=100)
-    label_description = models.TextField(max_length=1000)
+# class Label(models.Model):
+#     label_name = models.CharField(max_length=100)
+#     label_description = models.TextField(max_length=1000)
+
+LABEL_CHOICES = (
+    (1, 'None'),
+    (2, 'Important'),
+    (3, 'Warning'),
+    (4, 'Information')
+)
+
+STATUS_CHOICES = (
+    (1, 'Pending'),
+    (2, 'Completed'),
+    (3, 'Denied')
+)
+
+ALGORITHM_CHOICES = (
+    (1, 'KNN'),
+    (2, 'Linear regression'),
+    (3, 'Decision tree'),
+    (4, 'Neural network')
+)
 
 
 # Later we need to change this status, not bind to user
-class Status(models.Model):
-    user = models.ForeignKey(User)
-    status_name = models.CharField(max_length=100)
-    status_description = models.CharField(max_length=1000)
+# class Status(models.Model):
+#     user = models.ForeignKey(User)
+#     status_name = models.CharField(max_length=100)
+#     status_description = models.CharField(max_length=1000)
 
 # Later we need to change this status, not bind to user
-class Algorithm(models.Model):
-    algorithm_name = models.CharField(max_length=100)
-    algorithm_description = models.TextField(max_length=1000)
+# class Algorithm(models.Model):
+#     algorithm_name = models.CharField(max_length=100)
+#     algorithm_description = models.TextField(max_length=1000)
 
 def generate_training_filename(self, filename):
     url = 'documents/%s/%s/trainings/%s' %(self.user.username, self.task_folder.folder_name, filename)
@@ -39,11 +59,13 @@ def generate_testing_filename(self, filename):
 class Task(models.Model):
     user = models.ForeignKey(User)
     task_name = models.CharField(max_length=100)
-    task_algorithm = models.ForeignKey(Algorithm)
     task_description = models.TextField(max_length=1000, null=True, blank=True)
     task_folder = models.ForeignKey(Folder)
-    task_label = models.ForeignKey(Label, null=True, blank=True)
-    task_status = models.ForeignKey(Status)
+
+    task_label = models.IntegerField(choices=LABEL_CHOICES, default=1)
+    task_status = models.IntegerField(choices=STATUS_CHOICES, default=1)
+    task_algorithm = models.IntegerField(choices=ALGORITHM_CHOICES, default=1)
+
 
     # upload two files, training file and testing file
     training_docfile = models.FileField(upload_to=generate_training_filename)
