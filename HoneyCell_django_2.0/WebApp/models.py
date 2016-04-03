@@ -31,8 +31,12 @@ class Algorithm(models.Model):
     algorithm_name = models.CharField(max_length=100)
     algorithm_description = models.TextField(max_length=1000)
 
-def generate_filename(self, filename):
-    url = 'documents/%s/%s/%s/%s' %(self.user.username, self.task_folder.folder_name, self.task_label.label_name, filename)
+def generate_training_filename(self, filename):
+    url = 'documents/%s/%s/trainings/%s' %(self.user.username, self.task_folder.folder_name, filename)
+    return url
+
+def generate_testing_filename(self, filename):
+    url = 'documents/%s/%s/testings/%s' %(self.user.username, self.task_folder.folder_name, filename)
     return url
 
 class Task(models.Model):
@@ -43,7 +47,11 @@ class Task(models.Model):
     task_folder = models.ForeignKey(Folder)
     task_label = models.ForeignKey(Label, null=True, blank=True)
     task_status = models.ForeignKey(Status)
-    docfile = models.FileField(upload_to=generate_filename)
+
+    # upload two files, training file and testing file
+    training_docfile = models.FileField(upload_to=generate_training_filename)
+    testing_docfile = models.FileField(upload_to=generate_testing_filename)
+
     task_time_created = models.DateTimeField(auto_now_add=True)
     task_time_changed = models.DateTimeField(auto_now=True)
     input_file_address = models.CharField(default="", max_length=100)

@@ -319,7 +319,15 @@ def create_new_task(request):
     task_description = request.POST['task_description']
     task_folder = request.POST['task_folder']
     task_label = request.POST['task_label']
-    docfile = request.FILES['docfile']
+
+    training_docfile = request.FILES['training_docfile']
+    testing_docfile = request.FILES['testing_docfile']
+
+    print("%" * 30)
+    print(training_docfile)
+    print(testing_docfile)
+    print("%" * 30)
+
     task_folder_object = Folder.objects.get(user=request.user, folder_name=task_folder)
 
 
@@ -329,7 +337,10 @@ def create_new_task(request):
     context['task_description'] = task_description
     context['task_folder'] = task_folder
     context['task_label'] = task_label
-    context['docfile'] = docfile
+
+    context['training_docfile'] = training_docfile
+    context['testing_docfile'] = testing_docfile
+
     context['folders'] = Folder.objects.filter(user=request.user)
     context['labels'] = Label.objects.filter(user=user)
     context['algorithms'] = Algorithm.objects.filter(user=request.user)
@@ -338,8 +349,11 @@ def create_new_task(request):
     if not task_name:
         errors.append("Please type in the task name.")
 
-    if not docfile:
-        errors.append("Please upload a file for the task.")
+    if not training_docfile:
+        errors.append("Please upload a training file for the task.")
+
+    if not testing_docfile:
+        errors.append("Please upload a testing file for the task.")
 
     if len(Task.objects.filter(user=user, task_name=task_name)):
         errors.append("The task_name for this user already exist.")
@@ -361,7 +375,10 @@ def create_new_task(request):
                              task_description=task_description,
                              task_label=task_label_object,
                              task_folder=task_folder_object,
-                             docfile=docfile,
+
+                             training_docfile=training_docfile,
+                             testing_docfile=testing_docfile,
+
                              # default status is pending
                              task_status=Status.objects.get(user=request.user, status_name="Pending"))
 
