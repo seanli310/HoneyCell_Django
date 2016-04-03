@@ -1,12 +1,27 @@
-new_label_none_instance = Label(user=new_user, label_name="None", label_description="This label is None.")
+new_label_none_instance = Label(label_name="None", label_description="This label is None.")
 new_label_none_instance.save()
 
 new_label_important_instance = Label(label_name="Important", label_description="This task is important.")
 new_label_important_instance.save()
 
-new_label_warning_instance = Label(user=new_user, label_name="Warning", label_description="This task is warning.")
+new_label_warning_instance = Label(label_name="Warning", label_description="This task is warning.")
 new_label_warning_instance.save()
 
-new_label_information_instance = Label(user=new_user, label_name="Information",label_description="This task is information.")
+new_label_information_instance = Label(label_name="Information",label_description="This task is information.")
 new_label_information_instance.save()
 
+
+
+
+
+new_algorithm_KNN_instance = Algorithm(algorithm_name="KNN", algorithm_description="This is KNN algorithm.")
+new_algorithm_KNN_instance.save()
+
+new_algorithm_linear_regression_instance = Algorithm(algorithm_name="Linear regression", algorithm_description="This is linear regression algorithm.")
+new_algorithm_linear_regression_instance.save()
+
+new_algorithm_decision_tree_instance = Algorithm(algorithm_name="Decision tree", algorithm_description="This is decision tree algorithm.")
+new_algorithm_decision_tree_instance.save()
+
+new_algorithm_neural_network_instance = Algorithm(algorithm_name="Neural network", algorithm_description="This is neural network algorithm.")
+new_algorithm_neural_network_instance.save()

@@ -13,11 +13,9 @@ class Folder(models.Model):
     folder_time_changed = models.DateTimeField(auto_now=True)
 
 class Label(models.Model):
-    user = models.ForeignKey(User)
     label_name = models.CharField(max_length=100)
     label_description = models.TextField(max_length=1000)
-    label_time_created = models.DateTimeField(auto_now_add=True)
-    label_time_changed = models.DateTimeField(auto_now=True)
+
 
 # Later we need to change this status, not bind to user
 class Status(models.Model):
@@ -27,7 +25,6 @@ class Status(models.Model):
 
 # Later we need to change this status, not bind to user
 class Algorithm(models.Model):
-    user = models.ForeignKey(User)
     algorithm_name = models.CharField(max_length=100)
     algorithm_description = models.TextField(max_length=1000)
 

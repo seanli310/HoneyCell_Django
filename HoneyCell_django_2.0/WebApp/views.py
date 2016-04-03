@@ -99,30 +99,6 @@ def registration(request):
     new_status_denied_instance.save()
     print("Already save new_status_denied_instance.")
 
-    new_algorithm_KNN_instance = Algorithm(user=new_user,
-                                       algorithm_name="KNN",
-                                       algorithm_description="This is KNN algorithm.")
-    new_algorithm_KNN_instance.save()
-    print("Already save new_algorithm_KNN_instance.")
-
-    new_algorithm_linear_regression_instance = Algorithm(user=new_user,
-                                                         algorithm_name="Linear regression",
-                                                         algorithm_description="This is linear regression algorithm.")
-    new_algorithm_linear_regression_instance.save()
-    print("Already save new_algorithm_linear_regression_instance.")
-
-    new_algorithm_decision_tree_instance = Algorithm(user=new_user,
-                                                     algorithm_name="Decision tree",
-                                                     algorithm_description="This is decision tree algorithm.")
-    new_algorithm_decision_tree_instance.save()
-    print("Already save new_algorithm_decision_tree_instance.")
-
-    new_algorithm_neural_network_instance = Algorithm(user=new_user,
-                                                      algorithm_name="Neural network",
-                                                      algorithm_description="This is neural network algorithm.")
-    new_algorithm_neural_network_instance.save()
-    print("Already save new_algorithm_neural_network_instance.")
-
     # using 'login' function
     login(request, new_user)
 
