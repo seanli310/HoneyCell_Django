@@ -89,7 +89,7 @@
                                 <select class="form-control" style="width: 100%;" name="task_algorithm" required>
                                     <option selected="selected" value="None">None</option>
                                     {% for algorithm in algorithms %}
-                                        <option value="{{ algorithm.algorithm_name }}">{{ algorithm.algorithm_name }}</option>
+                                        <option value="{{ algorithm }}">{{ algorithm }}</option>
                                     {% endfor %}
                                 </select>
                             </div><!-- /.form-group -->
@@ -102,7 +102,7 @@
                                 <label>Select Label</label>
                                 <select class="form-control" style="width: 100%;" name="task_label" required>
                                     {% for label in labels %}
-                                        <option value="{{ label.label_name }}">{{ label.label_name }}</option>
+                                        <option value="{{ label }}">{{ label }}</option>
                                     {% endfor %}
                                     
                                 </select>

@@ -22,15 +22,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Algorithm',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('algorithm_name', models.CharField(max_length=100)),
-                ('algorithm_description', models.TextField(max_length=1000)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Comment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -61,17 +52,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Label',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('label_name', models.CharField(max_length=100)),
-                ('label_description', models.TextField(max_length=1000)),
-                ('label_time_created', models.DateTimeField(auto_now_add=True)),
-                ('label_time_changed', models.DateTimeField(auto_now=True)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Pending2CompletedTask',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -94,30 +74,21 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Status',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('status_name', models.CharField(max_length=100)),
-                ('status_description', models.CharField(max_length=1000)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.CreateModel(
             name='Task',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('task_name', models.CharField(max_length=100)),
                 ('task_description', models.TextField(max_length=1000, null=True, blank=True)),
+                ('task_label', models.IntegerField(default=1, choices=[(1, 'None'), (2, 'Important'), (3, 'Warning'), (4, 'Information')])),
+                ('task_status', models.IntegerField(default=1, choices=[(1, 'Pending'), (2, 'Completed'), (3, 'Denied')])),
+                ('task_algorithm', models.IntegerField(default=1, choices=[(1, 'KNN'), (2, 'Linear regression'), (3, 'Decision tree'), (4, 'Neural network')])),
                 ('training_docfile', models.FileField(upload_to=WebApp.models.generate_training_filename)),
                 ('testing_docfile', models.FileField(upload_to=WebApp.models.generate_testing_filename)),
                 ('task_time_created', models.DateTimeField(auto_now_add=True)),
                 ('task_time_changed', models.DateTimeField(auto_now=True)),
                 ('input_file_address', models.CharField(default='', max_length=100)),
                 ('output_file_address', models.CharField(default='', max_length=100)),
-                ('task_algorithm', models.ForeignKey(to='WebApp.Algorithm')),
                 ('task_folder', models.ForeignKey(to='WebApp.Folder')),
-                ('task_label', models.ForeignKey(blank=True, to='WebApp.Label', null=True)),
-                ('task_status', models.ForeignKey(to='WebApp.Status')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
