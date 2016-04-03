@@ -1047,17 +1047,33 @@ def add_comment(request, activity_id):
 
 
 
-# from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 
 # called when backend Honeycomb team finish running task 
-# @csrf_exempt
-def task_finished(request, task_id):
+@csrf_exempt
+def task_finished(request):
     print("in the task_finished function.")
+
+
+    # check POST content
+    if 'task_id' in request.POST:
+        task_id = request.POST['task_id']
+    else:
+        return HttpResponseNotFound("task_id not found in POST request")
+
+    if 'result_address' in request.POST:
+        result_address = request.POST['result_address']
+    else:
+        return HttpResponseNotFound("result_address not found in POST request")
+    
+
     print("task_id: %s" %(task_id))
 
     try:
         task = Task.objects.get(id=task_id)
         user = task.user
+
+        print(request.POST['task_id'])
 
         print(task)
 
