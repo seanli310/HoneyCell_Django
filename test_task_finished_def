@@ -10,10 +10,17 @@ import json
 
 def main():
 
-	URL = 'http://127.0.0.1:8000/task_finished/7' # task_id in last
-	r = requests.get(URL)
+	# GET request
+	# URL = 'http://127.0.0.1:8000/task_finished/7' # task_id in last
+	# r = requests.get(URL)
+	# print(r.content)
 
-	print(r.content)
+
+	# POST request
+	URL = 'http://127.0.0.1:8000/task_finished/' 
+	post_data = {'task_id': 7, 'result_address': 'aaa/bbb/ccc'}
+	response = requests.post(URL, data=post_data)
+	print(response.content)
 
 
 	# csrftoken = 'G9xzwTe7eLo0nEzDwhMZARnrdyzKO22g'
