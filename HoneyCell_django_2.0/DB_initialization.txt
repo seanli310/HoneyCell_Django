@@ -25,3 +25,12 @@ new_algorithm_decision_tree_instance.save()
 
 new_algorithm_neural_network_instance = Algorithm(algorithm_name="Neural network", algorithm_description="This is neural network algorithm.")
 new_algorithm_neural_network_instance.save()
+
+
+
+
+
+
+
+
+
