@@ -386,7 +386,7 @@ def create_new_task(request):
     new_activity_instance = Activity(user=request.user,
                                      task=new_task_instance,
                                      )
-    new_activity_instance.description = request.user + "Create a new task name: " + new_task_instance.task_name
+    new_activity_instance.description = request.user.username + "Create a new task name: " + new_task_instance.task_name
     new_activity_instance.save()
     print("Already save new_activity_instance.")
 
