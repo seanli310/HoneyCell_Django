@@ -82,69 +82,22 @@ def registration(request):
     new_folder_instance.save()
     print("Already save new_folder_instance.")
 
-    # create four default labels at first.
-    new_label_none_instance = Label(user=new_user,
-                                    label_name="None",
-                                    label_description="This label is None."
-                                    )
-    new_label_none_instance.save()
-    print("Already save new_label_none_instance.")
-    new_label_important_instance = Label(user=new_user,
-                                        label_name="Important",
-                                        label_description="This task is important.",
-                                        )
-    new_label_important_instance.save()
-    print("Already save new_label_important_instance.")
-    new_label_warning_instance = Label(user=new_user,
-                                       label_name="Warning",
-                                       label_description="This task is warning.")
-    new_label_warning_instance.save()
-    print("Already save new_label_warning_instance.")
-    new_label_information_instance = Label(user=new_user,
-                                           label_name="Information",
-                                           label_description="This task is information.")
-    new_label_information_instance.save()
-    print("Already save new_label_information_instance.")
 
-    new_status_completed_instance = Status(user=new_user,
-                                           status_name="Completed",
-                                           status_description="This task is completed.")
-    new_status_completed_instance.save()
-    print("Already save new_status_completed_instance.")
-    new_status_pending_instance = Status(user=new_user,
-                                           status_name="Pending",
-                                           status_description="This task is pending.")
-    new_status_pending_instance.save()
-    print("Already save new_status_pending_instance.")
-    new_status_denied_instance = Status(user=new_user,
-                                           status_name="Denied",
-                                           status_description="This task is denied.")
-    new_status_denied_instance.save()
-    print("Already save new_status_denied_instance.")
-
-    new_algorithm_KNN_instance = Algorithm(user=new_user,
-                                       algorithm_name="KNN",
-                                       algorithm_description="This is KNN algorithm.")
-    new_algorithm_KNN_instance.save()
-    print("Already save new_algorithm_KNN_instance.")
-
-    new_algorithm_linear_regression_instance = Algorithm(user=new_user,
-                                                         algorithm_name="Linear regression",
-                                                         algorithm_description="This is linear regression algorithm.")
-    new_algorithm_linear_regression_instance.save()
-    print("Already save new_algorithm_linear_regression_instance.")
-
-    new_algorithm_decision_tree_instance = Algorithm(user=new_user,
-                                                     algorithm_name="Decision tree",
-                                                     algorithm_description="This is decision tree algorithm.")
-    new_algorithm_decision_tree_instance.save()
-    print("Already save new_algorithm_decision_tree_instance.")
-
-    new_algorithm_neural_network_instance = Algorithm(user=new_user,
-                                                      algorithm_name="Neural network",
-                                                      algorithm_description="This is neural network algorithm.")
-    new_algorithm_neural_network_instance.save()
-    print("Already save new_algorithm_neural_network_instance.")
+    # new_status_completed_instance = Status(user=new_user,
+    #                                        status_name="Completed",
+    #                                        status_description="This task is completed.")
+    # new_status_completed_instance.save()
+    # print("Already save new_status_completed_instance.")
+    # new_status_pending_instance = Status(user=new_user,
+    #                                        status_name="Pending",
+    #                                        status_description="This task is pending.")
+    # new_status_pending_instance.save()
+    # print("Already save new_status_pending_instance.")
+    # new_status_denied_instance = Status(user=new_user,
+    #                                        status_name="Denied",
+    #                                        status_description="This task is denied.")
+    # new_status_denied_instance.save()
+    # print("Already save new_status_denied_instance.")
 
     # using 'login' function
     login(request, new_user)
@@ -177,10 +130,14 @@ def newTask(request):
     folders = Folder.objects.filter(user=user)
     context['folders'] = folders
 
-    labels = Label.objects.filter(user=user)
+    labels = []
+    for tempEntry in LABEL_CHOICES:
+        labels.append(tempEntry[1])
     context['labels'] = labels
 
-    algorithms = Algorithm.objects.filter(user=user)
+    algorithms = []
+    for tempEntry in ALGORITHM_CHOICES:
+        algorithms.append(tempEntry[1])
     context['algorithms'] = algorithms
 
     return render(request, 'WebApp/newTask.html', context)
@@ -208,6 +165,14 @@ def historyTask(request):
         tasks = paginator.page(paginator.num_pages)
 
     context['tasks'] = tasks
+
+    context['LABEL_CHOICES'] = LABEL_CHOICES
+    context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
+    context['STATUS_CHOICES'] = STATUS_CHOICES
+
+    print("%" * 30)
+    print(STATUS_CHOICES)
+    print("%" * 30)
 
     return render(request, 'WebApp/historyTask.html', context)
 
@@ -268,6 +233,10 @@ def fileManage_tasks(request, folder_id):
         tasks = paginator.page(paginator.num_pages)
     context['tasks'] = tasks
 
+    context['LABEL_CHOICES'] = LABEL_CHOICES
+    context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
+    context['STATUS_CHOICES'] = STATUS_CHOICES
+
     return render(request, 'WebApp/fileManage_tasks.html', context)
 
 
@@ -319,7 +288,15 @@ def create_new_task(request):
     task_description = request.POST['task_description']
     task_folder = request.POST['task_folder']
     task_label = request.POST['task_label']
-    docfile = request.FILES['docfile']
+
+    training_docfile = request.FILES['training_docfile']
+    testing_docfile = request.FILES['testing_docfile']
+
+    print("%" * 30)
+    print(training_docfile)
+    print(testing_docfile)
+    print("%" * 30)
+
     task_folder_object = Folder.objects.get(user=request.user, folder_name=task_folder)
 
 
@@ -329,17 +306,30 @@ def create_new_task(request):
     context['task_description'] = task_description
     context['task_folder'] = task_folder
     context['task_label'] = task_label
-    context['docfile'] = docfile
+
+    context['training_docfile'] = training_docfile
+    context['testing_docfile'] = testing_docfile
+
     context['folders'] = Folder.objects.filter(user=request.user)
-    context['labels'] = Label.objects.filter(user=user)
-    context['algorithms'] = Algorithm.objects.filter(user=request.user)
-    context['labels'] = Label.objects.filter(user=request.user)
+
+    labels = []
+    for tempEntry in LABEL_CHOICES:
+        labels.append(tempEntry[1])
+    context['labels'] = labels
+
+    algorithms = []
+    for tempEntry in ALGORITHM_CHOICES:
+        algorithms.append(tempEntry[1])
+    context['algorithms'] = algorithms
 
     if not task_name:
         errors.append("Please type in the task name.")
 
-    if not docfile:
-        errors.append("Please upload a file for the task.")
+    if not training_docfile:
+        errors.append("Please upload a training file for the task.")
+
+    if not testing_docfile:
+        errors.append("Please upload a testing file for the task.")
 
     if len(Task.objects.filter(user=user, task_name=task_name)):
         errors.append("The task_name for this user already exist.")
@@ -351,36 +341,52 @@ def create_new_task(request):
     if errors:
         return render(request, 'WebApp/newTask.html', context)
 
-    task_label_object = Label.objects.get(user=request.user, label_name=task_label)
-    task_algorithm_object = Algorithm.objects.get(user=request.user, algorithm_name=task_algorithm)
+    task_label_index = 0
+    for tempEntry in LABEL_CHOICES:
+        if task_label == tempEntry[1]:
+            task_label_index = tempEntry[0]
+        else:
+            # do nothing
+            pass
 
+    print("%" * 30)
+    print(task_label_index)
+    print("%" * 30)
+
+    task_algorithm_index = 0
+    for tempEntry in ALGORITHM_CHOICES:
+        if task_algorithm == tempEntry[1]:
+            task_algorithm_index = tempEntry[0]
+        else:
+            # do nothing
+            pass
+
+    print("%" * 30)
+    print(task_algorithm_index)
+    print("%" * 30)
 
     new_task_instance = Task(user=user,
                              task_name=task_name,
-                             task_algorithm = task_algorithm_object,
+                             task_algorithm=task_algorithm_index,
                              task_description=task_description,
-                             task_label=task_label_object,
+                             task_label=task_label_index,
                              task_folder=task_folder_object,
-                             docfile=docfile,
-                             # default status is pending
-                             task_status=Status.objects.get(user=request.user, status_name="Pending"))
 
+                             training_docfile=training_docfile,
+                             testing_docfile=testing_docfile,
+
+                             # default status is pending
+                             task_status=STATUS_CHOICES[0][0]
+                             )
     new_task_instance.save()
     print("Already save the new_task_instance.")
 
     print(new_task_instance)
 
-    # new_pending_task = Pending2CompletedTask(user=request.user, 
-                                                # pending_task=new_task_instance)
-    
-    # print("Already save the new_pending_task.")
-
-    # print(new_pending_task)
-
     new_activity_instance = Activity(user=request.user,
                                      task=new_task_instance,
                                      )
-    new_activity_instance.description = "Create a new task name: " + new_task_instance.task_name
+    new_activity_instance.description = request.user + "Create a new task name: " + new_task_instance.task_name
     new_activity_instance.save()
     print("Already save new_activity_instance.")
 
@@ -623,12 +629,13 @@ def taskDetail(request, task_id):
     task = Task.objects.get(id=task_id)
     context['task'] = task
 
+    context['task_algorithm'] = ALGORITHM_CHOICES[task.task_algorithm - 1][1]
+    context['task_status'] = STATUS_CHOICES[task.task_status - 1][1]
+    context['task_label'] = LABEL_CHOICES[task.task_label - 1][1]
+
     print(task)
 
-
     return render(request, 'WebApp/taskDetail.html', context)
-
-
 
 
 @login_required
@@ -777,10 +784,12 @@ def important_tasks(request):
 
     context['important_label'] = True
 
-    task_label_important = Label.objects.get(user=request.user, label_name="Important")
+    task_label_important = LABEL_CHOICES[1][1];
     context['label'] = task_label_important
 
-    tasks = Task.objects.filter(user=request.user, task_label=task_label_important).order_by("id").reverse()
+    task_label_important_index = LABEL_CHOICES[1][0]
+
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_important_index).order_by("id").reverse()
     paginator = Paginator(tasks, 3)
     page = request.GET.get('page')
     try:
@@ -790,6 +799,10 @@ def important_tasks(request):
     except EmptyPage:
         tasks = paginator.page(paginator.num_pages)
     context['tasks'] = tasks
+
+    context['LABEL_CHOICES'] = LABEL_CHOICES
+    context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
+    context['STATUS_CHOICES'] = STATUS_CHOICES
 
     return render(request, 'WebApp/label_task.html', context)
 
@@ -805,10 +818,12 @@ def warning_tasks(request):
 
     context['warning_label'] = True
 
-    task_label_warning = Label.objects.get(user=request.user, label_name="Warning")
+    task_label_warning = LABEL_CHOICES[2][1]
     context['label'] = task_label_warning
 
-    tasks = Task.objects.filter(user=request.user, task_label=task_label_warning).order_by("id").reverse()
+    task_label_warning_index = LABEL_CHOICES[2][0]
+
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_warning_index).order_by("id").reverse()
     paginator = Paginator(tasks, 3)
     page = request.GET.get('page')
     try:
@@ -818,6 +833,10 @@ def warning_tasks(request):
     except EmptyPage:
         tasks = paginator.page(paginator.num_pages)
     context['tasks'] = tasks
+
+    context['LABEL_CHOICES'] = LABEL_CHOICES
+    context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
+    context['STATUS_CHOICES'] = STATUS_CHOICES
 
     return render(request, 'WebApp/label_task.html', context)
 
@@ -834,10 +853,12 @@ def information_tasks(request):
 
     context['information_label'] = True
 
-    task_label_information = Label.objects.get(user=request.user, label_name="Information")
+    task_label_information = LABEL_CHOICES[3][1]
     context['label'] = task_label_information
 
-    tasks = Task.objects.filter(user=request.user, task_label=task_label_information).order_by("id").reverse()
+    task_label_information_index = LABEL_CHOICES[3][0]
+
+    tasks = Task.objects.filter(user=request.user, task_label=task_label_information_index).order_by("id").reverse()
     paginator = Paginator(tasks, 3)
     page = request.GET.get('page')
     try:
@@ -847,6 +868,10 @@ def information_tasks(request):
     except EmptyPage:
         tasks = paginator.page(paginator.num_pages)
     context['tasks'] = tasks
+
+    context['LABEL_CHOICES'] = LABEL_CHOICES
+    context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
+    context['STATUS_CHOICES'] = STATUS_CHOICES
 
     return render(request, 'WebApp/label_task.html', context)
 
@@ -1032,7 +1057,7 @@ def add_comment(request, activity_id):
 
 from django.views.decorators.csrf import csrf_exempt
 
-# called when backend Honeycomb team finish running task 
+# called when backend Honeycomb team finish running task
 @csrf_exempt
 def task_finished(request):
     print("in the task_finished function.")
@@ -1048,7 +1073,7 @@ def task_finished(request):
         result_address = request.POST['result_address']
     else:
         return HttpResponseNotFound("result_address not found in POST request")
-    
+
 
     print("task_id: %s" %(task_id))
 
@@ -1060,7 +1085,7 @@ def task_finished(request):
 
         print(task)
 
-        completed_status = Status.objects.get(user=user, status_name="Completed")
+        completed_status = STATUS_CHOICES[1][0]
 
         # this task has been completed before
         if task.task_status == completed_status:
@@ -1099,7 +1124,7 @@ def task_finished_ajax_check_database(request):
       context['user'] = request.user
       curr_user = request.user
 
-    try: 
+    try:
         completed_tasks = Pending2CompletedTask.objects.filter(user=curr_user)
         # print("completed_tasks: ")
         # print(completed_tasks)

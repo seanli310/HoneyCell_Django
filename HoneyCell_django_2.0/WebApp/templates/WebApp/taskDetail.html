@@ -61,13 +61,15 @@
                         <h3 class="profile-username text-center"> {{ task.task_name }} </h3>
                         <hr>
                         <strong><i class="fa fa-book margin-r-5"></i> Algorithm </strong>
-                        <p class="text-muted text-overflow ">{{ task.task_algorithm.algorithm_name }}</p> 
+                        <p class="text-muted text-overflow ">{{ task_algorithm }}</p>
                         <strong><i class="fa fa-book margin-r-5"></i> User Created </strong>
                         <p class="text-muted text-overflow ">{{ task.user.username }}</p>
                         <strong><i class="fa fa-map-marker margin-r-5"></i> Created Date </strong>
                         <p class="text-muted text-overflow ">{{ task.task_time_created }}</p>
                         <strong><i class="fa fa-envelope margin-r-5"></i> Status </strong>
-                        <p class="text-muted text-overflow ">{{ task.task_status.status_name }}</p>
+                        <p class="text-muted text-overflow ">{{ task_status }}</p>
+                        <strong><i class="fa fa-envelope margin-r-5"></i> Label </strong>
+                        <p class="text-muted text-overflow ">{{ task_label }}</p>
                         <strong><i class="fa fa-clock-o margin-r-5"></i> Modified Date </strong>
                         <p class="text-muted text-overflow ">{{ task.task_time_changed }}</p>
                         <strong><i class="fa fa-external-link margin-r-5"></i> Description </strong>

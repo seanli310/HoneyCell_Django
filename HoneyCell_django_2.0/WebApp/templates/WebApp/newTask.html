@@ -89,7 +89,7 @@
                                 <select class="form-control" style="width: 100%;" name="task_algorithm" required>
                                     <option selected="selected" value="None">None</option>
                                     {% for algorithm in algorithms %}
-                                        <option value="{{ algorithm.algorithm_name }}">{{ algorithm.algorithm_name }}</option>
+                                        <option value="{{ algorithm }}">{{ algorithm }}</option>
                                     {% endfor %}
                                 </select>
                             </div><!-- /.form-group -->
@@ -102,7 +102,7 @@
                                 <label>Select Label</label>
                                 <select class="form-control" style="width: 100%;" name="task_label" required>
                                     {% for label in labels %}
-                                        <option value="{{ label.label_name }}">{{ label.label_name }}</option>
+                                        <option value="{{ label }}">{{ label }}</option>
                                     {% endfor %}
                                     
                                 </select>
@@ -111,7 +111,7 @@
                            
                             <div class="col-md-6 form-group">
                                 <label for="exampleInputFile">Upload Training Data</label>
-                                <input type="file" id="exampleInputFile" name="docfile" required>
+                                <input type="file" id="exampleInputFile" name="training_docfile" required>
                                 <p class="help-block">Example block-level help text here.</p>
                                 <!-- <p class="checkbox">
                                     <label><input type="checkbox"> Check me out</label>
@@ -120,12 +120,13 @@
 
                             <div class="col-md-6 form-group">
                                 <label for="exampleInputFile">Upload Testing Data</label>
-                                <input type="file" id="exampleInputFile" name="docfile" required>
+                                <input type="file" id="exampleInputFile" name="testing_docfile" required>
                                 <p class="help-block">Example block-level help text here.</p>
                                 <!-- <p class="checkbox">
                                     <label><input type="checkbox"> Check me out</label>
                                 </p> -->
                             </div>
+
 
                         </div><!-- /.box-body -->
 

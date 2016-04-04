@@ -5,9 +5,11 @@
 {% block fileManage_active_sidebar %}
     {% for folderList in folders %}
         {% if folder == folderList %}
-            <li class="active"><a href="{% url 'fileManage_tasks' folderList.id %}"><i class="fa fa-folder-o"></i> {{ folderList.folder_name }}</a></li>
+            <li class="active"><a href="{% url 'fileManage_tasks' folderList.id %}"><i
+                    class="fa fa-folder-o"></i> {{ folderList.folder_name }}</a></li>
         {% else %}
-            <li><a href="{% url 'fileManage_tasks' folderList.id %}"><i class="fa fa-folder-o"></i> {{ folderList.folder_name }}</a></li>
+            <li><a href="{% url 'fileManage_tasks' folderList.id %}"><i
+                    class="fa fa-folder-o"></i> {{ folderList.folder_name }}</a></li>
         {% endif %}
     {% endfor %}
 {% endblock fileManage_active_sidebar %}
@@ -27,7 +29,7 @@
 
 
 {% block newButton %}
-<a href="{% url 'newTask' %}" class="btn btn-primary btn-block margin-bottom">+ New Task</a>
+    <a href="{% url 'newTask' %}" class="btn btn-primary btn-block margin-bottom">+ New Task</a>
 {% endblock newButton %}
 
 {% block fileManage_table %}
@@ -41,26 +43,61 @@
         <th></th>
     </tr>
     {% for task in tasks %}
-        <tr>
-            <td><input class="selectedId" style="margin: 0px 5px;" type="checkbox"></td>
-            <td><a href="{% url 'taskDetail' task.id %}">{{ task.id }}</a></td>
-            <td><a href="{% url 'taskDetail' task.id %}">{{ task.task_name }}</a></td>
-            <td>{{ task.task_time_created }}</td>
-            {% if task.task_status.status_name == "Completed" %}
-                <td><span class="label label-success">{{ task.task_status.status_name }}</span></td>
-            {% elif task.task_status.status_name == "Pending" %}
-                <td><span class="label label-warning">{{ task.task_status.status_name }}</span></td>
-            {% else %}
-                <td><span class="label label-danger">{{ task.task_status.status_name }}</span></td>
-            {% endif %}
-            <td>{{ task.task_time_changed }}</td>
-            <td>
-                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#modifyTaskDetail{{task.id}}"><i class="fa fa-pencil"></i></button>
-                {% include 'WebApp/taskDetail_editTask.html' %}
-                <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal" data-target="#deleteTask{{task.id}}"><i class="fa fa-trash-o"></i></button>
-                {% include 'WebApp/taskDetail_deleteTask.html' %}
-            </td>
-        </tr>
+        {% if task.task_status == 1 %}
+            <tr>
+                <td><input class="selectedId" style="margin: 0px 5px;" type="checkbox"></td>
+                <td><a href="{% url 'taskDetail' task.id %}">{{ task.id }}</a></td>
+                <td><a href="{% url 'taskDetail' task.id %}">{{ task.task_name }}</a></td>
+                <td>{{ task.task_time_created }}</td>
+                <td><span class="label label-warning">{{ STATUS_CHOICES.0.1 }}</span></td>
+                <td>{{ task.task_time_changed }}</td>
+                <td>
+                    <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal"
+                            data-target="#modifyTaskDetail{{ task.id }}"><i class="fa fa-pencil"></i></button>
+                    {% include 'WebApp/taskDetail_editTask.html' %}
+                    <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal"
+                            data-target="#deleteTask{{ task.id }}"><i class="fa fa-trash-o"></i></button>
+                    {% include 'WebApp/taskDetail_deleteTask.html' %}
+                </td>
+            </tr>
+        {% elif task.task_status == 2 %}
+            <tr>
+                <td><input class="selectedId" style="margin: 0px 5px;" type="checkbox"></td>
+                <td><a href="{% url 'taskDetail' task.id %}">{{ task.id }}</a></td>
+                <td><a href="{% url 'taskDetail' task.id %}">{{ task.task_name }}</a></td>
+                <td>{{ task.task_time_created }}</td>
+                <td><span class="label label-success">{{ STATUS_CHOICES.1.1 }}</span></td>
+                <td>{{ task.task_time_changed }}</td>
+                <td>
+                    <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal"
+                            data-target="#modifyTaskDetail{{ task.id }}"><i class="fa fa-pencil"></i></button>
+                    {% include 'WebApp/taskDetail_editTask.html' %}
+                    <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal"
+                            data-target="#deleteTask{{ task.id }}"><i class="fa fa-trash-o"></i></button>
+                    {% include 'WebApp/taskDetail_deleteTask.html' %}
+                </td>
+            </tr>
+        {% elif task.task_status == 3 %}
+            <tr>
+                <td><input class="selectedId" style="margin: 0px 5px;" type="checkbox"></td>
+                <td><a href="{% url 'taskDetail' task.id %}">{{ task.id }}</a></td>
+                <td><a href="{% url 'taskDetail' task.id %}">{{ task.task_name }}</a></td>
+                <td>{{ task.task_time_created }}</td>
+                <td><span class="label label-danger">{{ STATUS_CHOICES.2.1 }}</span></td>
+                <td>{{ task.task_time_changed }}</td>
+                <td>
+                    <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal"
+                            data-target="#modifyTaskDetail{{ task.id }}"><i class="fa fa-pencil"></i></button>
+                    {% include 'WebApp/taskDetail_editTask.html' %}
+                    <button type="button" class="btn btn-manage btn-default btn-sm" data-toggle="modal"
+                            data-target="#deleteTask{{ task.id }}"><i class="fa fa-trash-o"></i></button>
+                    {% include 'WebApp/taskDetail_deleteTask.html' %}
+                </td>
+            </tr>
+        {% else %}
+            <!-- Nothing show -->
+        {% endif %}
+
     {% endfor %}
 {% endblock fileManage_table %}
 
