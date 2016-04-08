@@ -130,3 +130,45 @@ def analytics(request):
     user = request.user
     context['user'] = user
     return render(request, 'WebApp/analytics.html', context)
+
+
+
+def graph(request):
+    print("in the graph function.")
+
+    context = {}
+    context['user'] = request.user
+
+
+
+    return render(request, 'graph/graph.html')
+
+
+
+
+from django.db import connections
+from django.http import JsonResponse
+from django.db.models import Count
+
+
+
+
+def play_count_by_month(request):
+    data = Play.objects.all() \
+        .extra(select={'month': connections[Play.objects.db].ops.date_trunc_sql('month', 'date')}) \
+        .values('month') \
+        .annotate(count_items=Count('id'))
+    return JsonResponse(list(data), safe=False)
+
+
+
+
+
+
+
+
+
+
+
+
+

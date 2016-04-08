@@ -20,6 +20,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from WebApp.models import *
 
+import requests
+
+
 # registration is normal route, and login is login is "django.contrib.views.login"
 def registration(request):
     errors = []
@@ -391,6 +394,14 @@ def create_new_task(request):
     print("Already save new_activity_instance.")
 
     # return HttpResponseRedirect(reverse('newTask'))
+
+    backend_url = 'http://128.2.7.38:32768/'
+    address_prefix = '/home/bicadmin/honeycell/HoneyCell_Django/HoneyCell_django_2.0/media/'
+    tranining_address = address_prefix+str(training_docfile)
+    testing_address = address_prefix+str(testing_docfile)
+    my_json = {'task_id':new_task_instance.id, 'train_address': tranining_address, 'test_address': testing_address}
+    r_call_backend = requests.post(backend_url, data=my_json)
+    print(r_call_backend.content)
 
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
 
@@ -1373,4 +1384,77 @@ def other_profile_add_comment(request, activity_id):
     print("Successfully save new_comment_instance.")
 
     return HttpResponseRedirect(reverse('other_profile_comment', kwargs={'user_id': other_user_id}))
+
+
+
+
+
+
+# function to laod the html template
+def graph(request):
+    print("in the graph function.")
+
+    context = {}
+    context['user'] = request.user
+
+    return render(request, 'WebApp/graph.html')
+
+
+from django.db import connections
+from django.http import JsonResponse
+from django.db.models import Count
+
+import os.path
+
+
+# function to load json file
+def play_count_by_month(request):
+
+    print("in the play_count_by_month function.")
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    json_url = 'WebApp/JSON/12345678.json'
+
+    print(os.path.join(BASE_DIR, json_url))
+
+    json_data = open(os.path.join(BASE_DIR, json_url))
+
+    print(json_data)
+
+    print("%" * 30)
+    print(json_data)
+    print("%" * 30)
+
+
+
+    return JsonResponse(list(json_data), safe=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

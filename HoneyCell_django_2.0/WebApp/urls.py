@@ -110,6 +110,10 @@ urlpatterns = [
 
 
 
+
+
+
+
     # task running in honeycomb(backend) finished
     # url(r'^task_finished/(?P<task_id>\d+)$', 'WebApp.views.task_finished', name='task_finished'),
     url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
@@ -120,6 +124,14 @@ urlpatterns = [
     url(r'^profile_add_comment/(?P<activity_id>\d+)$', 'WebApp.views.profile_add_comment', name='profile_add_comment'),
 
     url(r'^other_profile_add_comment/(?P<activity_id>\d+)$', 'WebApp.views.other_profile_add_comment', name='other_profile_add_comment'),
+
+
+
+    # function to laod the html template
+    url(r'^graph/$', 'WebApp.views.graph', name='graph'),
+
+    # function to load json file
+    url(r'^play_count_by_month/$', 'WebApp.views.play_count_by_month', name='play_count_by_month'),
 
 
 
