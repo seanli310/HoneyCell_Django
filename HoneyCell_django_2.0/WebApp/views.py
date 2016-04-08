@@ -397,7 +397,7 @@ def create_new_task(request):
 
     backend_url = 'http://128.2.7.38:32768/'
     address_prefix = '/home/honeycomb/DEMODAY/honeycell/HoneyCell_Django/HoneyCell_django_2.0/media/documents/' + str(context['user']) + '/' + str(context['task_folder'])
-    tranining_address = address_prefix+'/tranings/'+str(training_docfile)
+    tranining_address = address_prefix+'/trainings/'+str(training_docfile)
     testing_address = address_prefix+'/testing/'+str(testing_docfile)
 
     print tranining_address
