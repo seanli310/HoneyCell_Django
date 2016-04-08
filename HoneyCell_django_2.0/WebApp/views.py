@@ -396,12 +396,13 @@ def create_new_task(request):
     # return HttpResponseRedirect(reverse('newTask'))
 
     backend_url = 'http://128.2.7.38:32768/'
-    address_prefix = '/home/bicadmin/honeycell/HoneyCell_Django/HoneyCell_django_2.0/media/'
+    address_prefix = '/home/honeycomb/DEMODAY/honeycell/HoneyCell_Django/HoneyCell_django_2.0/media/'
     tranining_address = address_prefix+str(training_docfile)
     testing_address = address_prefix+str(testing_docfile)
     my_json = {'task_id':new_task_instance.id, 'train_address': tranining_address, 'test_address': testing_address}
     r_call_backend = requests.post(backend_url, data=my_json)
     print(r_call_backend.content)
+
 
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
 
