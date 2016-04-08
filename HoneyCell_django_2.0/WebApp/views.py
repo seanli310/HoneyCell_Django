@@ -400,14 +400,20 @@ def create_new_task(request):
     tranining_address = address_prefix+'/trainings/'+str(training_docfile)
     testing_address = address_prefix+'/testings/'+str(testing_docfile)
 
-    print tranining_address
-    print str(training_docfile)
+    print ''
+    print 'preparing to send task creation request to honey'
+    print 'user: ' + str(context['user'])
+    print 'task_id: ' + str(new_task_instance.id)
+    print 'training data address: ' + tranining_address
+    print 'testing data address: ' + testing_address
+    print 'sending task creation request to: ' + backend_url
     print ''
 
     my_json = {'task_id':new_task_instance.id, 'train_address': tranining_address, 'test_address': testing_address}
     r_call_backend = requests.post(backend_url, data=my_json)
+    print 'sending task creation request to: ' + backend_url
     print(r_call_backend.content)
-
+    print ''
 
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
 
