@@ -616,6 +616,10 @@ def change_password(request):
         return HttpResponseRedirect(reverse('settings'))
 
 
+
+import os.path
+from django.http import JsonResponse
+
 @login_required
 def taskDetail(request, task_id):
     print("in the taskDetail function")
@@ -634,6 +638,31 @@ def taskDetail(request, task_id):
     context['task_label'] = LABEL_CHOICES[task.task_label - 1][1]
 
     print(task)
+
+    # url_output = task.output_file_address
+    # if not url_output:
+    #     return render(request, 'WebApp/taskDetail.html', context)
+
+    url_output = 'static/WebApp/json/data.tsv'
+    print(url_output)
+    # with open(url_output) as json_file:
+    #     obj = json_file.read()
+    #     json_data = json.loads(obj)
+    # # return JsonResponse(obj)
+    # print(json_data)
+    # context['json_data'] = json_data
+
+    # context['url_output'] = url_output
+
+    BASE = os.path.dirname(os.path.abspath(__file__))
+
+    data = open(os.path.join(BASE, url_output))
+    json_data = data.read()
+    print(json_data)
+
+    # context['json_data'] = JsonResponse(json_data, safe=False)
+    context['json_data'] = json_data
+
 
     return render(request, 'WebApp/taskDetail.html', context)
 
