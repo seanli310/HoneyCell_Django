@@ -15,8 +15,8 @@
 
 
     {% include 'base_js.html' %}
-    {% block javascript %}
-    {% endblock javascript %}
+    {% block javascript_header %}
+    {% endblock javascript_header %}
 </head>
 
 
@@ -414,4 +414,8 @@
 
 
 </body>
+
+
+{% block javascript_footer %}
+{% endblock javascript_footer %}
 </html>

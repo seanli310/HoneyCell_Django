@@ -627,6 +627,10 @@ def change_password(request):
         return HttpResponseRedirect(reverse('settings'))
 
 
+
+import os.path
+from django.http import JsonResponse
+
 @login_required
 def taskDetail(request, task_id):
     print("in the taskDetail function")
@@ -646,7 +650,75 @@ def taskDetail(request, task_id):
 
     print(task)
 
+    # url_output = task.output_file_address
+    # if not url_output:
+    #     return render(request, 'WebApp/taskDetail.html', context)
+
+    # url_output = 'static/WebApp/json/data.tsv'
+    # print(url_output)
+    # # with open(url_output) as json_file:
+    # #     obj = json_file.read()
+    # #     json_data = json.loads(obj)
+    # # # return JsonResponse(obj)
+    # # print(json_data)
+    # # context['json_data'] = json_data
+
+    # # context['url_output'] = url_output
+
+    # BASE = os.path.dirname(os.path.abspath(__file__))
+
+    # data = open(os.path.join(BASE, url_output))
+    # json_data = data.read()
+    # print(json_data)
+
+    # # context['json_data'] = JsonResponse(json_data, safe=False)
+    # context['json_data'] = json_data
+
+
     return render(request, 'WebApp/taskDetail.html', context)
+
+
+# # function to laod the html template
+# def graph(request):
+#     print("in the graph function.")
+
+#     context = {}
+#     context['user'] = request.user
+
+#     return render(request, 'WebApp/graph.html')
+
+
+from django.db import connections
+from django.http import JsonResponse
+from django.db.models import Count
+
+import os.path
+
+# function to load json file
+def get_json_result(request):
+
+    print("in the get_json_result function.")
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    # json_url = 'WebApp/JSON/12345678.json'
+    json_url = 'static/WebApp/json/data.tsv'
+
+    print(os.path.join(BASE_DIR, json_url))
+
+    json_data = open(os.path.join(BASE_DIR, json_url))
+
+    print(json_data)
+
+    print("%" * 30)
+    print(json_data)
+    print("%" * 30)
+
+
+
+    return JsonResponse(list(json_data), safe=False)
+
+
 
 
 @login_required
@@ -1146,11 +1218,11 @@ def task_finished_ajax_check_database(request):
 
         # detect task complete flag
         for t in completed_tasks:
-            # temp = '<h2> Your task <a href=" {% ' 
-            # temp += "url " + "'taskDetail'"
-            # temp += " %d " %(t.task.id)
-            # temp += ' %}"' + '> %s </a> has been completed. <h2> \n' %(t.task.task_name)
-            temp = '<h2> Your task %s has been completed </h2>'
+            temp = '<h2> Your task <a href=" {% ' 
+            temp += "url " + "'taskDetail'"
+            temp += " %d " %(t.task.id)
+            temp += ' %}"' + '> %s </a> has been completed. <h2> \n' %(t.task.task_name)
+            # temp = '<h2> Your task %s has been completed </h2>'
             messageString += temp
 
         print("messageString: \n %s") %(messageString)
@@ -1172,22 +1244,6 @@ def task_finished_ajax_check_database(request):
 
 
 
-
-
-from django.contrib import messages
-
-def alert(request):
-
-    print("in the alert function.")
-
-    context = {};
-
-    messages.add_message(request, messages.INFO, 'Hello world.')
-
-    messages.success(request, 'Profile details updated.')
-
-
-    return render(request, 'WebApp/index.html', context)
 
 
 
@@ -1355,4 +1411,36 @@ def other_profile_add_comment(request, activity_id):
     print("Successfully save new_comment_instance.")
 
     return HttpResponseRedirect(reverse('other_profile_comment', kwargs={'user_id': other_user_id}))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

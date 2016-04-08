@@ -105,7 +105,11 @@ urlpatterns = [
 
     url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
 
-    url(r'^alert/$', 'WebApp.views.alert', name='alert'),
+    # url(r'^alert/$', 'WebApp.views.alert', name='alert'),
+
+
+
+
 
 
 
@@ -120,6 +124,14 @@ urlpatterns = [
     url(r'^profile_add_comment/(?P<activity_id>\d+)$', 'WebApp.views.profile_add_comment', name='profile_add_comment'),
 
     url(r'^other_profile_add_comment/(?P<activity_id>\d+)$', 'WebApp.views.other_profile_add_comment', name='other_profile_add_comment'),
+
+
+
+    # function to laod the html template
+    # url(r'^graph/$', 'WebApp.views.graph', name='graph'),
+
+    # function to load json file
+    url(r'^get_json_result/$', 'WebApp.views.get_json_result', name='get_json_result'),
 
 
 
