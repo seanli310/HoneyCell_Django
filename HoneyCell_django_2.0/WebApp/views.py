@@ -1203,22 +1203,6 @@ def task_finished_ajax_check_database(request):
 
 
 
-from django.contrib import messages
-
-def alert(request):
-
-    print("in the alert function.")
-
-    context = {};
-
-    messages.add_message(request, messages.INFO, 'Hello world.')
-
-    messages.success(request, 'Profile details updated.')
-
-
-    return render(request, 'WebApp/index.html', context)
-
-
 
 @login_required
 def profile_comment(request, recent_tab):
