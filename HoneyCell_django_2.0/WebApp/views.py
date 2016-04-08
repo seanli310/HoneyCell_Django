@@ -403,6 +403,7 @@ def create_new_task(request):
     r_call_backend = requests.post(backend_url, data=my_json)
     print(r_call_backend.content)
 
+
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
 
 
