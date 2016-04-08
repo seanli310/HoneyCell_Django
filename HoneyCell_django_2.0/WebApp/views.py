@@ -1345,3 +1345,76 @@ def other_profile_add_comment(request, activity_id):
 
     return HttpResponseRedirect(reverse('other_profile_comment', kwargs={'user_id': other_user_id}))
 
+
+
+
+
+
+# function to laod the html template
+def graph(request):
+    print("in the graph function.")
+
+    context = {}
+    context['user'] = request.user
+
+    return render(request, 'WebApp/graph.html')
+
+
+from django.db import connections
+from django.http import JsonResponse
+from django.db.models import Count
+
+import os.path
+
+
+# function to load json file
+def play_count_by_month(request):
+
+    print("in the play_count_by_month function.")
+
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    json_url = 'WebApp/JSON/12345678.json'
+
+    print(os.path.join(BASE_DIR, json_url))
+
+    json_data = open(os.path.join(BASE_DIR, json_url))
+
+    print(json_data)
+
+    print("%" * 30)
+    print(json_data)
+    print("%" * 30)
+
+
+
+    return JsonResponse(list(json_data), safe=False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
