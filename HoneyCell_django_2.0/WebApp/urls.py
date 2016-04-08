@@ -105,7 +105,7 @@ urlpatterns = [
 
     url(r'^task_finished/$', 'WebApp.views.task_finished', name='task_finished'),
 
-    url(r'^alert/$', 'WebApp.views.alert', name='alert'),
+    # url(r'^alert/$', 'WebApp.views.alert', name='alert'),
 
 
 
@@ -128,10 +128,10 @@ urlpatterns = [
 
 
     # function to laod the html template
-    url(r'^graph/$', 'WebApp.views.graph', name='graph'),
+    # url(r'^graph/$', 'WebApp.views.graph', name='graph'),
 
     # function to load json file
-    url(r'^play_count_by_month/$', 'WebApp.views.play_count_by_month', name='play_count_by_month'),
+    url(r'^get_json_result/$', 'WebApp.views.get_json_result', name='get_json_result'),
 
 
 
