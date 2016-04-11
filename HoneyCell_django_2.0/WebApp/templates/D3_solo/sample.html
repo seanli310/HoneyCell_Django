@@ -1,41 +1,85 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://rawgit.com/gka/d3-jetpack/master/d3-jetpack.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"
+  charset="utf-8"></script>
 
 
-d3.json("/get_json_result", function (error, data) {
+</head>
 
-    console.log(data)
+<style>
+
+/*
+.chart rect {
+  fill: steelblue;
+}
+*/
+.chart .legend {
+  fill: black;
+  font: 14px sans-serif;
+  text-anchor: start;
+  font-size: 12px;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+.chart .label {
+  fill: black;
+  font: 14px sans-serif;
+  text-anchor: end;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
 
 
-});
+</style>
+<body>
+<div>
+<h2>Precision, Recall F1Measure by Label</h2>
+<svg class="chart"></svg>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
 
+  var data = {
+    labels: [
+    'Label1', 'Label2', 'Label3'
+    ],
+    series: [
+    {
+      label: 'Precision',
+      values: [0.8095238095238095, 1.0, 0.7894736842105263]
+    },
+    {
+      label: 'Recall',
+      values: [0.8095238095238095, 1.0, 0.7894736842105263]
+    },
+    {
+      label: 'F1Measure',
+      values: [0.8095238095238095, 1.0, 0.7894736842105263]
+    },]
+  };
 
-var data = {
-labels: [
-'Label1', 'Label2', 'Label3'
-],
-series: [
-{
-  label: 'Precision',
-  values: [0.8095238095238095, 1.0, 0.7894736842105263]
-},
-{
-  label: 'Recall',
-  values: [0.8095238095238095, 1.0, 0.7894736842105263]
-},
-{
-  label: 'F1Measure',
-  values: [0.8095238095238095, 1.0, 0.7894736842105263]
-},]
-};
-
-
-var w = 500;
-var h = 400;
-var chartWidth   = 400,
-barHeight        = 30,
-groupHeight      = barHeight * data.series.length,
-gapBetweenGroups = 20,
-spaceForLabels   = 200,
-spaceForLegend   = 200;
+  var chartWidth   = 400,
+  barHeight        = 30,
+  groupHeight      = barHeight * data.series.length,
+  gapBetweenGroups = 20,
+  spaceForLabels   = 200,
+  spaceForLegend   = 200;
 
 // Zip the series data together (first values, second values, etc.)
 var zippedData = [];
@@ -61,14 +105,6 @@ var yAxis = d3.svg.axis()
 .tickFormat('')
 .tickSize(0)
 .orient("left");
-
-//Create SVG element
-var svg = d3.select("#label_precision")
-            .append("svg")
-            .attr("width", w)
-            .attr("height", h);
-                                
-
 
 // Specify the chart area and dimensions
 var chart = d3.select(".chart")
@@ -142,3 +178,8 @@ legend.append('text')
 .attr('x', legendRectSize + legendSpacing)
 .attr('y', legendRectSize - legendSpacing)
 .text(function (d) { return d.label; });
+
+</script>
+</div>
+</body>
+</html>
