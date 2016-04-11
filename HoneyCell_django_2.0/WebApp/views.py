@@ -521,6 +521,11 @@ def follow(request, user_id):
     new_followship_instance.save()
     print("Already save new_followship_instance.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = "User: " + request.user.username + " follow user: " + other_user.username
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse("other_profile", kwargs={'user_id': other_user.id}))
 
 @login_required
@@ -539,6 +544,11 @@ def unfollow(request, user_id):
                                         follower=other_user)
     followship.delete()
     print("The Followship object already delete.")
+
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = "User: " + request.user.username + " unfollow user: " + other_user.username
+    new_activity_instance.save()
+
 
     return HttpResponseRedirect(reverse("other_profile", kwargs={'user_id': other_user.id}))
 
@@ -598,6 +608,11 @@ def update_profile(request):
     profile.save()
     print("Already update the profile.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " update the profile."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('profile'))
 
 
@@ -633,6 +648,11 @@ def change_password(request):
         user.set_password(new_password1)
         user.save()
         print("Already reset the password.")
+
+        new_activity_instance = Activity(user=request.user)
+        new_activity_instance.description = request.user.username + " change the password."
+        new_activity_instance.save()
+
         user = authenticate(username = user.username,
                             password = new_password1,)
         login(request, user)
@@ -770,6 +790,11 @@ def update_task(request, task_id):
     task.save()
     print("Already update task's information.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " update " + task.task_name + "'s information."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': task_id}))
 
 
@@ -799,6 +824,11 @@ def new_folder(request):
                                  folder_name=folder_name)
     new_folder_instance.save()
     print("Already save the new_folder_instance.")
+
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " create a new folder."
+    new_activity_instance.save()
+
 
     return HttpResponseRedirect(reverse('fileManage'))
 
@@ -840,6 +870,11 @@ def update_folder(request, folder_id):
     folder.save()
     print("Already update folder's information")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " change folder name to " + folder.folder_name + "."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('fileManage'))
 
 
@@ -856,6 +891,8 @@ def delete_folder(request, folder_id):
     folder = Folder.objects.get(id=folder_id)
     context['folder'] = folder
 
+    folder_name = folder.folder_name
+
     tasks_inside_folder = Task.objects.filter(task_folder=folder)
 
     for task in tasks_inside_folder:
@@ -864,6 +901,11 @@ def delete_folder(request, folder_id):
 
     folder.delete()
     print("Successfully delete the folder.")
+
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " delete folder " + folder_name + "."
+    new_activity_instance.save()
+
 
     return HttpResponseRedirect(reverse('fileManage'))
 
@@ -1145,6 +1187,11 @@ def add_comment(request, activity_id):
     new_comment_instance.save()
     print("Successfully save new_comment_instance.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " add a comment to " + activity.description + "."
+    new_activity_instance.save()
+
+
 
     return HttpResponseRedirect(reverse('global_page'))
 
@@ -1352,6 +1399,11 @@ def profile_add_comment(request, activity_id):
     new_comment_instance.save()
     print("Successfully save new_comment_instance.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " add a comment to " + activity.description + "."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('profile_comment', kwargs={'recent_tab': context['recent_tab']}))
 
 
@@ -1421,6 +1473,11 @@ def other_profile_add_comment(request, activity_id):
                                    text=comment_text)
     new_comment_instance.save()
     print("Successfully save new_comment_instance.")
+
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " add a comment to " + activity.description + "."
+    new_activity_instance.save()
+
 
     return HttpResponseRedirect(reverse('other_profile_comment', kwargs={'user_id': other_user_id}))
 
