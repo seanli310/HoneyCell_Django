@@ -710,15 +710,6 @@ def taskDetail(request, task_id):
     return render(request, 'WebApp/taskDetail.html', context)
 
 
-# # function to laod the html template
-# def graph(request):
-#     print("in the graph function.")
-
-#     context = {}
-#     context['user'] = request.user
-
-#     return render(request, 'WebApp/graph.html')
-
 
 from django.db import connections
 from django.http import JsonResponse
@@ -734,7 +725,7 @@ def get_json_result(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # json_url = 'WebApp/JSON/12345678.json'
-    json_url = 'WebApp/static/WebApp/json/data.tsv'
+    json_url = 'WebApp/static/WebApp/json/honeycomb.json'
 
     print(os.path.join(BASE_DIR, json_url))
 
