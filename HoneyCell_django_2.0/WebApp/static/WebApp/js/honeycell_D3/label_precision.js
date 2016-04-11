@@ -29,7 +29,7 @@ series: [
 
 
 var w = 500;
-var h = 400;
+var h = 500;
 var chartWidth   = 400,
 barHeight        = 30,
 groupHeight      = barHeight * data.series.length,
@@ -66,12 +66,12 @@ var yAxis = d3.svg.axis()
 var svg = d3.select("#label_precision")
             .append("svg")
             .attr("width", w)
-            .attr("height", h);
+            .attr("height", h)
+            .attr("class", 'label_precision_chart');
                                 
 
-
 // Specify the chart area and dimensions
-var chart = d3.select(".chart")
+var chart = d3.select(".label_precision_chart")
 .attr("width", spaceForLabels + chartWidth + spaceForLegend)
 .attr("height", chartHeight);
 
