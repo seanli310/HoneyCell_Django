@@ -725,7 +725,7 @@ def get_json_result(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # json_url = 'WebApp/JSON/12345678.json'
-    json_url = 'WebApp/static/WebApp/json/honeycomb.json'
+    json_url = 'WebApp/static/WebApp/json/data.tsv'
 
     print(os.path.join(BASE_DIR, json_url))
 

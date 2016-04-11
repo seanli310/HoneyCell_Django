@@ -17,6 +17,13 @@
     {% include 'base_js.html' %}
     {% block javascript_header %}
     {% endblock javascript_header %}
+
+<!--ATTENTION: D3 library, must put it here, before other d3 js files, otherwise will cause error -->
+<!-- D3 library -->
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+
 </head>
 
 
@@ -418,4 +425,6 @@
 
 {% block javascript_footer %}
 {% endblock javascript_footer %}
+
+
 </html>
