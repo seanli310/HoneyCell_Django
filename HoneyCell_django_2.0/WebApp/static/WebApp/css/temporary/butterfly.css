@@ -45,41 +45,6 @@ img{ max-width:100%;}
 
 a, a:hover, a:active{ outline:0px !important}
 
-@font-face {
-  font-family: 'FontAwesome';
-  src: url('../fonts/fontawesome-webfont.eot?v=4.1.0');
-  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff?v=4.1.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.1.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-    font-family: 'LatoRegular';
-    src: url('../fonts/lato-regular.eot');
-    src: url('../fonts/lato-regular.eot') format('embedded-opentype'),
-         url('../fonts/lato-regular.woff2') format('woff2'),
-         url('../fonts/lato-regular.woff') format('woff'),
-         url('../fonts/lato-regular.ttf') format('truetype'),
-         url('../fonts/lato-regular.svg#LatoRegular') format('svg');
-}
-@font-face {
-    font-family: 'LatoBoldBold';
-    src: url('../fonts/lato-bold.eot');
-    src: url('../fonts/lato-bold.eot') format('embedded-opentype'),
-         url('../fonts/lato-bold.woff2') format('woff2'),
-         url('../fonts/lato-bold.woff') format('woff'),
-         url('../fonts/lato-bold.ttf') format('truetype'),
-         url('../fonts/lato-bold.svg#LatoBoldBold') format('svg');
-}
-@font-face {
-    font-family: 'DosisBold';
-    src: url('../fonts/dosis-bold.eot');
-    src: url('../fonts/dosis-bold.eot') format('embedded-opentype'),
-         url('../fonts/dosis-bold.woff2') format('woff2'),
-         url('../fonts/dosis-bold.woff') format('woff'),
-         url('../fonts/dosis-bold.ttf') format('truetype'),
-         url('../fonts/dosis-bold.svg#DosisBold') format('svg');
-}
 
 /* Primary Styles
 ---------------------------------*/
@@ -200,7 +165,6 @@ p{
 	}
 	
 .top_cont_inner{
-	background:url(../img/white_pad.png) no-repeat right bottom;
 	}
 	
 .top_content{
@@ -263,7 +227,6 @@ a.learn_more2{
 	line-height:46px;
 	border-radius:3px;
 	text-align:center;
-	font-family:''Dosis'';
 	text-transform:uppercase;
 	font-weight: 600;
 	transition:all 0.2s ease-in-out;
@@ -369,7 +332,6 @@ a.learn_more2:hover{
 	
 	
 .top_cont_latest{
-	background:url(../img/dashboard_pic.png) no-repeat right bottom;
 }
 	
 .work_pic{
@@ -395,7 +357,6 @@ a.learn_more2:hover{
 	text-align:center;
 }
 .service-list-col1 i{
-	display:;
 	color:#888;
 	font-family: 'linecons';
 	font-size: 19px;
@@ -633,7 +594,6 @@ img {
 	
 .quote_arrow{
 	position:absolute;
-	background:url(../img/quote_arrow.png) no-repeat left top;
 	width:23px;
 	height:25px;
 	left:-22px; 
@@ -642,7 +602,6 @@ img {
 	}
 	
 .quote_arrow2{
-	background:url(../img/quote_arrow2.png) no-repeat right top;
 	position:absolute;
 	width:23px;
 	height:25px;
@@ -658,7 +617,6 @@ img {
 
 
 .c-logo-part{
-	background: url(../img/poligan_bg.jpg) no-repeat left top;
 	padding: 60px 0;
 	margin-top: 60px;
     filter: alpha(opacity=60);
@@ -870,7 +828,6 @@ img {
 }
 
 .main-section.contact{
-	background:url(../img/bg-map.png) left 190px no-repeat;
 }
 
 
@@ -1065,9 +1022,6 @@ img {
 
 /* Footer
 ---------------------------------*/
-
-.footer_section{ background:url(../img/pattern_bg.jpg) repeat left top;
-}
 
 .footer_bottom{
 	border-top:1px solid #333333;
@@ -1352,7 +1306,6 @@ img {
 		height:40px;
 		margin-top:40px;
 		opacity:0;
-		background:url(images/zoom.png);
 		background-size:40px 40px;
 		transition:all 0.3s ease 0.1s;
 		-moz-transition:all 0.3s ease 0.2s;
@@ -1434,7 +1387,6 @@ img {
 	}
 	
 	#project-page-button-fullscreen li a {
-		background:url(images/close.png) no-repeat #fff;
 		background-size:50px 50px;
 		width:50px;
 		height:50px;
@@ -1488,14 +1440,12 @@ img {
 	
 	
 	.project-image-slider .bx-wrapper .bx-next {
-		background: url("images/project_slider_right.png") no-repeat;
 		background-size:35px 65px;
 		opacity:0.3;
 		right:-90px;
 	}
 	
 	.project-image-slider .bx-wrapper .bx-prev {
-		background: url("images/project_slider_left.png") no-repeat ;
 		background-size:35px 65px;
 		opacity:0.3;
 		left:-90px;
@@ -1606,7 +1556,6 @@ img {
 	}
 
 	.in-slide-content div.info-slide {
-		background:#FFF url(images/info.png) no-repeat left bottom;
 		background-size:46px 46px;
 		position:absolute;
 		top:30px;
