@@ -85,44 +85,31 @@ def registration(request):
     new_folder_instance.save()
     print("Already save new_folder_instance.")
 
-
-    # new_status_completed_instance = Status(user=new_user,
-    #                                        status_name="Completed",
-    #                                        status_description="This task is completed.")
-    # new_status_completed_instance.save()
-    # print("Already save new_status_completed_instance.")
-    # new_status_pending_instance = Status(user=new_user,
-    #                                        status_name="Pending",
-    #                                        status_description="This task is pending.")
-    # new_status_pending_instance.save()
-    # print("Already save new_status_pending_instance.")
-    # new_status_denied_instance = Status(user=new_user,
-    #                                        status_name="Denied",
-    #                                        status_description="This task is denied.")
-    # new_status_denied_instance.save()
-    # print("Already save new_status_denied_instance.")
-
     # using 'login' function
     login(request, new_user)
 
     # using 'redirect' function
     return redirect(reverse('index'))
 
+
 # def logout view
 def my_logout(request):
     logout(request)
     return redirect(reverse('index'))
 
+
+# go to index page
 @login_required
 def index(request):
     print("in the index function")
     context = {}
     user = request.user
     context['user'] = user
-    # print(request.get_host())
 
     return render(request, 'WebApp/index.html', context)
 
+
+# go to new task page
 @login_required
 def newTask(request):
     print("in the newTask function")
@@ -148,6 +135,7 @@ def newTask(request):
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+# go to task history page
 @login_required
 def historyTask(request):
     print("in the historyTask function")
@@ -157,7 +145,7 @@ def historyTask(request):
 
     tasks = Task.objects.filter(user=request.user).order_by("id").reverse().order_by("id").reverse()
 
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
 
     try:
@@ -179,6 +167,8 @@ def historyTask(request):
 
     return render(request, 'WebApp/historyTask.html', context)
 
+
+# go to file manage page
 @login_required
 def fileManage(request):
     print("in the fileManage function")
@@ -190,7 +180,7 @@ def fileManage(request):
     context['all_folders'] = all_folders
 
     folders = Folder.objects.filter(user=request.user)
-    paginator = Paginator(folders, 3)
+    paginator = Paginator(folders, 8)
     page = request.GET.get('page')
     try:
         folders = paginator.page(page)
@@ -211,6 +201,8 @@ def fileManage(request):
 
     return render(request, 'WebApp/fileManage.html', context)
 
+
+# go to file management task page.
 @login_required
 def fileManage_tasks(request, folder_id):
     print("in the fileManage_tasks function")
@@ -225,7 +217,7 @@ def fileManage_tasks(request, folder_id):
     context['folder'] = folder
 
     tasks = Task.objects.filter(task_folder=folder)
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
 
     try:
@@ -242,7 +234,7 @@ def fileManage_tasks(request, folder_id):
 
     return render(request, 'WebApp/fileManage_tasks.html', context)
 
-
+# go to the profile to show all followers
 @login_required
 def profile_allFollowers(request):
     print("in the profile_allFollowers function.")
@@ -258,6 +250,8 @@ def profile_allFollowers(request):
 
     return render(request, 'WebApp/profile_allFollowers.html', context)
 
+
+# go to profile to show all followings
 @login_required
 def profile_allFollowings(request):
     print("in the profile_allFollowings function.")
@@ -275,6 +269,7 @@ def profile_allFollowings(request):
 from WebApp.forms import *
 from django.utils import timezone
 
+# create new task
 @login_required
 def create_new_task(request):
     print("in the create_new_task function")
@@ -418,11 +413,13 @@ def create_new_task(request):
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
 
 
+# go to guide page
 @login_required
 def guide(request):
     print("in the guide function")
     return render(request, 'WebApp/guide.html')
 
+# go to settings page
 @login_required
 def settings(request):
     print("in the settings function")
@@ -439,6 +436,7 @@ def settings(request):
     return render(request, 'WebApp/settings.html', context)
 
 
+# go to global page
 @login_required
 def global_page(request):
     print("in the global function.")
@@ -470,31 +468,10 @@ def global_page(request):
         print(comment.text)
     print("%" * 30)
 
-
     return render(request, 'WebApp/global_page.html', context)
 
 
-# @login_required
-# def other_user(request, user_id):
-#     print("in the other_user function.")
-#     print(request)
-#     print(user_id)
-#     context = {}
-#     context['user'] = request.user
-#     other_user = User.objects.get(id=user_id)
-#     context['other_user'] = other_user
-#
-#     if len(Followship.objects.filter(following=request.user,
-#                                      follower=other_user)):
-#         is_followed = True
-#         context['is_followed'] = is_followed
-#     else:
-#         is_followed = False
-#         context['is_followed'] = is_followed
-#
-#     return render(request, 'WebApp/other_user.html', context)
-
-
+# view to follow other user
 @login_required
 def follow(request, user_id):
     print("in the follow function.")
@@ -528,6 +505,8 @@ def follow(request, user_id):
 
     return HttpResponseRedirect(reverse("other_profile", kwargs={'user_id': other_user.id}))
 
+
+# view to unfollow other user
 @login_required
 def unfollow(request, user_id):
     print("in the unfollow function.")
@@ -572,6 +551,7 @@ def get_user_picture(request, user_id):
     return HttpResponse(profile.image, content_type=content_type)
 
 
+# view to update profile information
 @login_required
 def update_profile(request):
     print("in the update_profile function.")
@@ -595,7 +575,6 @@ def update_profile(request):
     else:
         user_image = profile.image
 
-
     request.user.first_name = first_name
     request.user.last_name = last_name
     request.user.email = email
@@ -616,6 +595,7 @@ def update_profile(request):
     return HttpResponseRedirect(reverse('profile'))
 
 
+# view to change_password
 @login_required
 def change_password(request):
     print("in the change_password function.")
@@ -663,6 +643,8 @@ def change_password(request):
 import os.path
 from django.http import JsonResponse
 
+
+# go to task detail page
 @login_required
 def taskDetail(request, task_id):
     print("in the taskDetail function")
@@ -682,42 +664,8 @@ def taskDetail(request, task_id):
 
     print(task)
 
-    # url_output = task.output_file_address
-    # if not url_output:
-    #     return render(request, 'WebApp/taskDetail.html', context)
-
-    # url_output = 'static/WebApp/json/data.tsv'
-    # print(url_output)
-    # # with open(url_output) as json_file:
-    # #     obj = json_file.read()
-    # #     json_data = json.loads(obj)
-    # # # return JsonResponse(obj)
-    # # print(json_data)
-    # # context['json_data'] = json_data
-
-    # # context['url_output'] = url_output
-
-    # BASE = os.path.dirname(os.path.abspath(__file__))
-
-    # data = open(os.path.join(BASE, url_output))
-    # json_data = data.read()
-    # print(json_data)
-
-    # # context['json_data'] = JsonResponse(json_data, safe=False)
-    # context['json_data'] = json_data
-
-
     return render(request, 'WebApp/taskDetail.html', context)
 
-
-# # function to laod the html template
-# def graph(request):
-#     print("in the graph function.")
-
-#     context = {}
-#     context['user'] = request.user
-
-#     return render(request, 'WebApp/graph.html')
 
 
 from django.db import connections
@@ -746,13 +694,10 @@ def get_json_result(request):
     print(json_data)
     print("%" * 30)
 
-
-
     return JsonResponse(list(json_data), safe=False)
 
 
-
-
+# view to update task
 @login_required
 def update_task(request, task_id):
     print("in the update_task function.")
@@ -798,7 +743,7 @@ def update_task(request, task_id):
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': task_id}))
 
 
-
+# go to new folder page
 @login_required
 def new_folder(request):
     print("in the new_folder function.")
@@ -833,7 +778,7 @@ def new_folder(request):
     return HttpResponseRedirect(reverse('fileManage'))
 
 
-
+# view to update folder information
 @login_required
 def update_folder(request, folder_id):
     print("in the update_folder function.")
@@ -858,12 +803,6 @@ def update_folder(request, folder_id):
         print("The folder name already exists, please type in another folder name.")
         return HttpResponseRedirect(reverse('fileManage'))
 
-
-    # if ( (folder.folder_description != folder_description) and len(Folder.objects.filter(folder_description=folder_description)) ):
-        # The way to return back the error message needs to be changed later
-        # errors.append("The folder description already exists, please type in another folder description.")
-        # print("The folder description already exists, please type in another folder description.")
-        # return HttpResponseRedirect(reverse('fileManage'))
 
     folder.folder_name = folder_name
     # folder.folder_description = folder_description
@@ -927,7 +866,7 @@ def important_tasks(request):
     task_label_important_index = LABEL_CHOICES[1][0]
 
     tasks = Task.objects.filter(user=request.user, task_label=task_label_important_index).order_by("id").reverse()
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
     try:
         tasks = paginator.page(page)
@@ -961,7 +900,7 @@ def warning_tasks(request):
     task_label_warning_index = LABEL_CHOICES[2][0]
 
     tasks = Task.objects.filter(user=request.user, task_label=task_label_warning_index).order_by("id").reverse()
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
     try:
         tasks = paginator.page(page)
@@ -996,7 +935,7 @@ def information_tasks(request):
     task_label_information_index = LABEL_CHOICES[3][0]
 
     tasks = Task.objects.filter(user=request.user, task_label=task_label_information_index).order_by("id").reverse()
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
     try:
         tasks = paginator.page(page)
