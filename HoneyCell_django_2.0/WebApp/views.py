@@ -426,16 +426,10 @@ def new_thread_for_new_task(my_json):
     print("in the new_thread_for_new_task function.")
 
     backend_url = 'http://128.2.7.38:32768/'
-    # r_call_backend = requests.post(backend_url, data=my_json)
-    # print(r_call_backend.content)
-
-    time.sleep(5)
+    r_call_backend = requests.post(backend_url, data=my_json)
+    print(r_call_backend.content)
+    # time.sleep(5)
     print("new_thread_for_new_task Done")
-
-
-
-
-
 
 
 
