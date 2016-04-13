@@ -702,12 +702,7 @@ import csv
 # function to load json file
 def get_json_result(request, task_id):
 
-    print("%" * 30)
-
     print(task_id)
-
-    print("%" * 30)
-
 
     print("in the get_json_result function.")
 
@@ -722,13 +717,7 @@ def get_json_result(request, task_id):
     if finished_task.output_file_address:
         json_url = finished_task.output_file_address
     
-
-    print("^" * 80)
-
     print(json_url)
-
-    print("^" * 80)
-
 
     # task does not exist
     # except ObjectDoesNotExist:
@@ -751,20 +740,9 @@ def get_json_result(request, task_id):
             json_data = open(os.path.join(BASE_DIR, json_url))
             data = json_data.read()
 
-            print("^" * 80)
-            print(json_data)
-            print("^" * 80)
-
-
             # print(data)
             return JsonResponse((data), safe=False)
         except (OSError, IOError) as e:
-
-            print("^" * 80)
-            print(e)
-            print("^" * 80)
-
-
             pass 
 
 
@@ -1304,11 +1282,12 @@ def task_finished_ajax_check_database(request):
 
         # detect task complete flag
         for t in completed_tasks:
-            temp = '<h2> Your task <a href=" {% ' 
-            temp += "url " + "'taskDetail'"
-            temp += " %d " %(t.task.id)
-            temp += ' %}"' + '> %s </a> has been completed. <h2> \n' %(t.task.task_name)
-            # temp = '<h2> Your task %s has been completed </h2>'
+            # temp = '<h2> Your task <a href=" {% ' 
+            # temp += "url " + "'taskDetail'"
+            # temp += " %d " %(t.task.id)
+            # temp += ' %}"' + '> %s </a> has been completed. <h2> \n' %(t.task.task_name)
+            temp = '<h2> Your task "' 
+            temp += '%s" has been completed. <h2> \n' %(t.task.task_name)
             messageString += temp
 
         print("messageString: \n %s") %(messageString)
