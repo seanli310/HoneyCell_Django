@@ -664,6 +664,8 @@ def taskDetail(request, task_id):
 
     print(task)
 
+    context['task_id'] = task_id
+
     return render(request, 'WebApp/taskDetail.html', context)
 
 
@@ -677,7 +679,14 @@ import os.path
 import csv
 
 # function to load json file
-def get_json_result(request):
+def get_json_result(request, task_id):
+
+    print("%" * 30)
+
+    print(task_id)
+
+    print("%" * 30)
+
 
     print("in the get_json_result function.")
 
@@ -691,6 +700,7 @@ def get_json_result(request):
     json_data = open(os.path.join(BASE_DIR, json_url))
     data = json_data.read()
     # print(data)
+
 
     return JsonResponse((data), safe=False)
 
@@ -1145,14 +1155,16 @@ def task_finished(request):
 
     # check POST content
     if 'error' in request.POST:
-        error = request.POST['error']
+        error = str(request.POST['error'])
+        print type(error)
+
     else:
         return HttpResponseNotFound("task_id not found in POST request")
 
     print("error: %s" %(error))
 
     # not succeed
-    if error == 1:
+    if error == '1':
         return HttpResponseNotFound("Has error in honeycomb")
 
 

@@ -28,7 +28,15 @@ var svg = d3.select("#label_precision")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-d3.json("/get_json_result", function(error, json_data) {
+
+console.log("Hello world.")
+
+var task_id = d3.select("#task_id").html(this.value);
+
+console.log(task_id);
+
+
+d3.json("/get_json_result/2", function(error, json_data) {
 
   // console.log(json_data);
   json_data = JSON.parse(json_data);
