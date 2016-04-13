@@ -715,20 +715,23 @@ def get_json_result(request, task_id):
     finished_task = Task.objects.get(id = task_id)
 
 
+    json_url = ""
+
     print(finished_task)
 
     if finished_task.output_file_address:
         json_url = finished_task.output_file_address
-    else:
-        json_url = ""
+    
 
-        print(json_url)
+    print("^" * 80)
+
+    print(json_url)
+
+    print("^" * 80)
 
 
     # task does not exist
     # except ObjectDoesNotExist:
-        
-
     if json_url != "":
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -739,14 +742,29 @@ def get_json_result(request, task_id):
             return JsonResponse((data), safe=False)
         except (OSError, IOError) as e:
             pass
+
+    # hard code
     else:
         json_url = 'WebApp/static/WebApp/json/honeycomb.json'
         try:
+            BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             json_data = open(os.path.join(BASE_DIR, json_url))
             data = json_data.read()
+
+            print("^" * 80)
+            print(json_data)
+            print("^" * 80)
+
+
             # print(data)
             return JsonResponse((data), safe=False)
         except (OSError, IOError) as e:
+
+            print("^" * 80)
+            print(e)
+            print("^" * 80)
+
+
             pass 
 
 
