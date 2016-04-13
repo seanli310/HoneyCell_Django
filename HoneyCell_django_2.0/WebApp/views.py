@@ -1144,18 +1144,34 @@ def task_finished(request):
 
 
     # check POST content
+    if 'error' in request.POST:
+        error = request.POST['error']
+    else:
+        return HttpResponseNotFound("task_id not found in POST request")
+
+    print("error: %s" %(error))
+
+    # not succeed
+    if error == 1:
+        return HttpResponseNotFound("Has error in honeycomb")
+
+
+    # check POST content
     if 'task_id' in request.POST:
         task_id = request.POST['task_id']
     else:
         return HttpResponseNotFound("task_id not found in POST request")
 
+    # check POST content
     if 'result_address' in request.POST:
         result_address = request.POST['result_address']
     else:
         return HttpResponseNotFound("result_address not found in POST request")
 
-
+    
     print("task_id: %s" %(task_id))
+
+
 
     try:
         task = Task.objects.get(id=task_id)
