@@ -1,7 +1,7 @@
 
 var margin = {top: 20, right: 20, bottom: 30, left: 80},
     width = 700 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    height = 350 - margin.top - margin.bottom;
 
 var formatPercent = d3.format(".0%");
 
@@ -26,7 +26,6 @@ var svg = d3.select("#label_precision")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
 
 var task_id = document.getElementById("task_id").value;
