@@ -29,14 +29,9 @@ var svg = d3.select("#label_precision")
 
 
 
-console.log("Hello world.")
+var task_id = document.getElementById("task_id").value;
 
-var task_id = d3.select("#task_id").html(this.value);
-
-console.log(task_id);
-
-
-d3.json("/get_json_result/2", function(error, json_data) {
+d3.json("/get_json_result/" + task_id, function(error, json_data) {
 
   // console.log(json_data);
   json_data = JSON.parse(json_data);

@@ -22,6 +22,8 @@ from WebApp.models import *
 
 import requests
 
+import threading
+
 
 # registration is normal route, and login is login is "django.contrib.views.login"
 def registration(request):
@@ -388,7 +390,6 @@ def create_new_task(request):
     new_activity_instance.save()
     print("Already save new_activity_instance.")
 
-    # return HttpResponseRedirect(reverse('newTask'))
 
     backend_url = 'http://128.2.7.38:32768/'
     address_prefix = '/home/honeycomb/DEMODAY/honeycell/HoneyCell_Django/HoneyCell_django_2.0/media/documents/' + str(context['user']) + '/' + str(context['task_folder'])
@@ -404,13 +405,39 @@ def create_new_task(request):
     print ('sending task creation request to: ' + backend_url)
     print ('')
 
-    my_json = {'task_id':new_task_instance.id, 'train_address': tranining_address, 'test_address': testing_address}
-    r_call_backend = requests.post(backend_url, data=my_json)
+    
     print ('sending task creation request to: ' + backend_url)
-    print(r_call_backend.content)
     print ('')
 
+    my_json = {'task_id':new_task_instance.id, 'train_address': tranining_address, 'test_address': testing_address}
+
+    # create a new thread to request for HoneyComb
+    new_thread = threading.Thread(target = new_thread_for_new_task, kwargs={'my_json': my_json})
+    new_thread.daemon = True
+    new_thread.start()
+
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
+
+
+import time
+
+def new_thread_for_new_task(my_json):
+
+    print("in the new_thread_for_new_task function.")
+
+    backend_url = 'http://128.2.7.38:32768/'
+    # r_call_backend = requests.post(backend_url, data=my_json)
+    # print(r_call_backend.content)
+
+    time.sleep(5)
+    print("new_thread_for_new_task Done")
+
+
+
+
+
+
+
 
 
 # go to guide page
@@ -690,19 +717,43 @@ def get_json_result(request, task_id):
 
     print("in the get_json_result function.")
 
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-    # json_url = 'WebApp/JSON/12345678.json'
-    json_url = 'WebApp/static/WebApp/json/honeycomb.json'
-
-    print(os.path.join(BASE_DIR, json_url))
-
-    json_data = open(os.path.join(BASE_DIR, json_url))
-    data = json_data.read()
-    # print(data)
+    # try:
+    finished_task = Task.objects.get(id = task_id)
 
 
-    return JsonResponse((data), safe=False)
+    print(finished_task)
+
+    if finished_task.output_file_address:
+        json_url = finished_task.output_file_address
+    else:
+        json_url = ""
+
+        print(json_url)
+
+
+    # task does not exist
+    # except ObjectDoesNotExist:
+        
+
+    if json_url != "":
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+        try:
+            json_data = open(os.path.join(BASE_DIR, json_url))
+            data = json_data.read()
+            # print(data)
+            return JsonResponse((data), safe=False)
+        except (OSError, IOError) as e:
+            pass
+    else:
+        json_url = 'WebApp/static/WebApp/json/honeycomb.json'
+        try:
+            json_data = open(os.path.join(BASE_DIR, json_url))
+            data = json_data.read()
+            # print(data)
+            return JsonResponse((data), safe=False)
+        except (OSError, IOError) as e:
+            pass 
 
 
 
@@ -1160,8 +1211,6 @@ def task_finished(request):
 
     else:
         return HttpResponseNotFound("task_id not found in POST request")
-
-    print("error: %s" %(error))
 
     # not succeed
     if error == '1':
