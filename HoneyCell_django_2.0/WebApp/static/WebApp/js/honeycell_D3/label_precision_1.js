@@ -20,12 +20,24 @@ var yAxis = d3.svg.axis()
     .orient("left")
     .tickFormat(formatPercent);
 
+var tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .direction('n')
+      .offset([-10, 2])
+      .html(function(d) {
+        return "<strong>Precision:</strong> <span style='color:red'>" + 
+                d.Precision + "</span>";
+    });
+
 var svg = d3.select("#label_precision")
-	.append("svg")
+	  .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
+
 
 
 var task_id = document.getElementById("task_id").value;
@@ -75,7 +87,10 @@ d3.json("/get_json_result/" + task_id, function(error, json_data) {
       .attr("x", function(d) { return x(d.Labels); })
       .attr("width", x.rangeBand())
       .attr("y", function(d) { return y(d.Precision); })
-      .attr("height", function(d) { return height - y(d.Precision); });
+      .attr("height", function(d) { return height - y(d.Precision); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+      ;
 
   d3.select("#precison_sort").on("change", change);
 

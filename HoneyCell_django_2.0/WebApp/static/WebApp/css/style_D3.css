@@ -1,8 +1,5 @@
 
 
-
-
-
 /* D3: label_detail */
 .chart .legend {
   fill: black;
@@ -60,6 +57,10 @@
 .precision_bar {
   fill: steelblue;
   fill-opacity: .9;
+}
+
+.precision_bar:hover {
+  fill: brown;
 }
 
 .x.axis path {
