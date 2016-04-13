@@ -674,6 +674,8 @@ from django.db.models import Count
 
 import os.path
 
+import csv
+
 # function to load json file
 def get_json_result(request):
 
@@ -682,19 +684,16 @@ def get_json_result(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # json_url = 'WebApp/JSON/12345678.json'
-    json_url = 'WebApp/static/WebApp/json/data.tsv'
+    json_url = 'WebApp/static/WebApp/json/honeycomb.json'
 
     print(os.path.join(BASE_DIR, json_url))
 
     json_data = open(os.path.join(BASE_DIR, json_url))
+    data = json_data.read()
+    # print(data)
 
-    print(json_data)
+    return JsonResponse((data), safe=False)
 
-    print("%" * 30)
-    print(json_data)
-    print("%" * 30)
-
-    return JsonResponse(list(json_data), safe=False)
 
 
 # view to update task

@@ -1,13 +1,13 @@
 
-var data;
-d3.json("/get_json_result", function (error, json_data) {
+// var data;
+// d3.json("/get_json_result", function (error, json_data) {
 
-    // console.log(json_data);
-    data = json_data;
+//     // console.log(json_data);
+//     data = json_data;
 
-});
+// });
 
-console.log(data);
+// console.log(data);
 
 var data = {
 labels: [

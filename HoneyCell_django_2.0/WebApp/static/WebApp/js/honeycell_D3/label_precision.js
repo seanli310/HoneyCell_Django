@@ -75,10 +75,6 @@ svg.selectAll("rect")
         
     })
     .on('mouseover', tip.show)
-    .on("mouseout", function() {
-        //Remove the tooltip
-        d3.select("#tooltip").classed("hidden", true);
-    })  
     .on('mouseout', tip.hide)
     ;
 
