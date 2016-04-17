@@ -44,7 +44,7 @@
 .d3-tip {
         line-height: 1;
         font-weight: bold;
-        padding: 2px;
+        padding: 5px;
         background: rgba(255,152,0,0.87);
         color: #fff;
         border-radius: 2px;
