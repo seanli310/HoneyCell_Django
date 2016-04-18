@@ -178,6 +178,9 @@ def historyTask(request):
 
     context['tasks'] = tasks
 
+    if len(tasks) == 0:
+        context['empty'] = True
+
     context['LABEL_CHOICES'] = LABEL_CHOICES
     context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
     context['STATUS_CHOICES'] = STATUS_CHOICES
@@ -997,6 +1000,9 @@ def important_tasks(request):
     except EmptyPage:
         tasks = paginator.page(paginator.num_pages)
     context['tasks'] = tasks
+
+    if len(tasks) == 0:
+        context['empty'] = True
 
     context['LABEL_CHOICES'] = LABEL_CHOICES
     context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
