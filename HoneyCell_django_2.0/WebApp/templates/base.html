@@ -77,14 +77,14 @@
                         <div class="row">
                           <div class="col-sm-6 border-right">
                             <div class="description-block">
-                              <h5 class="description-header">{{ user.Followship}}</h5>
-                              <span class="description-text">FOLLOWERS</span>
+                              <h5 class="description-header">{{ num_followers_self }}</h5>
+                              <span class="description-text"><a href="{% url 'followers' %}">FOLLOWERS</a></span>
                             </div><!-- /.description-block -->
                           </div><!-- /.col -->
                           <div class="col-sm-6">
                             <div class="description-block">
-                              <h5 class="description-header">35</h5>
-                              <span class="description-text">FOLLOWINGS</span>
+                              <h5 class="description-header">{{num_followings_self}}</h5>
+                              <span class="description-text"><a href="{% url 'followings' %}">FOLLOWINGS</a></span>
                             </div><!-- /.description-block -->
                           </div><!-- /.col -->
                         </div><!-- /.row -->

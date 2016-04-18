@@ -68,15 +68,31 @@
                                          alt="User Avatar">
                                 {% endif %}
                             </div>
-                            <h3 class="widget-user-username"><a href="#">{{ follower.follower.username }}</a></h3>
-                            <h5 class="widget-user-desc"><a
-                                    href="#">{{ follower.follower.first_name }} {{ follower.follower.last_name }}</a>
-                            </h5>
-                            <h5 class="widget-user-desc">{{ follower.follower.email }}</h5>
-                            <h5 class="widget-user-desc">{{ follower.follower.profile.company }}</h5>
-                            <h5 class="widget-user-desc">{{ follower.follower.profile.location }}</h5>
-                            <h5 class="widget-user-desc">{{ follower.follower.profile.website }}</h5>
-                            <h5 class="widget-user-desc">{{ follower.follower.short_introduction }}</h5>
+                            <h3 class="widget-user-username"><a href="{% url 'other_profile' follower.follower.id %}">{{ follower.follower.username }}</a></h3>
+
+                            {% if follower.follower.first_name %}
+                             <h5 class="widget-user-desc"><strong> Name: </strong>{{ follower.follower.first_name }} {{ follower.follower.last_name }}</h5>
+                            {% endif %}
+
+                            {% if follower.follower.email %}
+                            <h5 class="widget-user-desc"><strong>Email: </strong>{{ follower.follower.email }}</h5>
+                            {% endif %}
+
+                            {% if follower.follower.profile.company %}
+                            <h5 class="widget-user-desc"><strong> Company: </strong>{{ follower.follower.profile.company }}</h5>
+                            {% endif %}
+
+                            {% if follower.follower.profile.location %}
+                            <h5 class="widget-user-desc"><strong>Location: </strong>{{ follower.follower.profile.location }}</h5>
+                            {% endif %}
+
+                            {% if follower.follower.profile.website %}
+                            <h5 class="widget-user-desc"><strong>Website: </strong>{{ follower.follower.profile.website }}</h5>
+                            {% endif %}
+
+                            {% if follower.follower.profile.short_introduction %}
+                            <h5 class="widget-user-desc"><strong>Introduction: </strong>{{ follower.follower.short_introduction }}</h5>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

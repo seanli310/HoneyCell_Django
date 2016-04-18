@@ -108,6 +108,13 @@ def index(request):
     user = request.user
     context['user'] = user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
+
     return render(request, 'WebApp/index.html', context)
 
 
@@ -118,6 +125,12 @@ def newTask(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
 
     folders = Folder.objects.filter(user=user)
     context['folders'] = folders
@@ -144,6 +157,12 @@ def historyTask(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
 
     tasks = Task.objects.filter(user=request.user).order_by("id").reverse().order_by("id").reverse()
 
@@ -177,6 +196,12 @@ def fileManage(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
 
     all_folders = Folder.objects.filter(user=request.user)
     context['all_folders'] = all_folders
@@ -212,6 +237,13 @@ def fileManage_tasks(request, folder_id):
     user = request.user
     context['user'] = user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
+
     folders = Folder.objects.filter(user=request.user)
     context['folders'] = folders
 
@@ -244,6 +276,12 @@ def profile_allFollowers(request):
     user = request.user
     context['user'] = user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
     activities = Activity.objects.all()
     context['activities'] = activities
 
@@ -260,6 +298,12 @@ def profile_allFollowings(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
 
     activities = Activity.objects.all()
     context['activities'] = activities
@@ -448,6 +492,13 @@ def settings(request):
     user = request.user
     context['user'] = user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
+
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
@@ -466,6 +517,13 @@ def global_page(request):
 
     users = User.objects.all()
     context['users'] = users
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -672,6 +730,13 @@ def taskDetail(request, task_id):
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -905,6 +970,13 @@ def important_tasks(request):
     context = {}
     context['user'] = request.user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
+
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
@@ -938,6 +1010,12 @@ def warning_tasks(request):
     print("in the warning_tasks function.")
     context = {}
     context['user'] = request.user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -973,6 +1051,13 @@ def information_tasks(request):
     print("in the information_tasks function.")
     context = {}
     context['user'] = request.user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -1010,6 +1095,13 @@ def followers(request):
     context = {}
     context['user'] = request.user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
+
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
@@ -1026,6 +1118,13 @@ def followings(request):
     print("in the followings function.")
     context = {}
     context['user'] = request.user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -1045,6 +1144,13 @@ def profile(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -1099,6 +1205,13 @@ def other_profile(request, user_id):
     print("in the other_profile function.")
     context = {}
     context['user'] = request.user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -1319,6 +1432,13 @@ def profile_comment(request, recent_tab):
     user = request.user
     context['user'] = user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
+
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
@@ -1423,6 +1543,13 @@ def other_profile_comment(request, user_id):
 
     context = {}
     context['user'] = request.user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
