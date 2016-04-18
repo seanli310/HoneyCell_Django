@@ -1129,8 +1129,12 @@ def followings(request):
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
-    followings = Followship.objects.filter(follower=request.user)
+    followings = Followship.objects.filter(following=request.user)
     context['followings'] = followings
+
+    print("%" * 30)
+    print(followings)
+    print("%" * 30)
 
     return render(request, 'WebApp/profile_allFollowings.html', context)
 

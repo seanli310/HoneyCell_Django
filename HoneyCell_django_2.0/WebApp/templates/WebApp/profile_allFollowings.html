@@ -59,19 +59,19 @@
                     <div class="box box-widget widget-user-2">
                         <div class="followship-header">
                             <div class="widget-user-image">
-                                {% if following.following.profile.image %}
-                                    <img class="img-circle" src="{% url "get_user_picture" following.following.id %}" alt="User Avatar">
+                                {% if following.follower.profile.image %}
+                                    <img class="img-circle" src="{% url "get_user_picture" following.follower.id %}" alt="User Avatar">
                                 {% else %}
                                     <img class="img-circle" src="{% static "WebApp/img/anonymous_user.jpg" %}" alt="User Avatar">
                                 {% endif %}
                             </div>
-                            <h3 class="widget-user-username"><a href="#">{{ following.following.username }}</a></h3>
-                            <h5 class="widget-user-desc">{{ following.following.first_name }} {{ following.following.last_name }}</h5>
-                            <h5 class="widget-user-desc">{{ following.following.email }}</h5>
-                            <h5 class="widget-user-desc">{{ following.following.profile.company }}</h5>
-                            <h5 class="widget-user-desc">{{ following.following.profile.location }}</h5>
-                            <h5 class="widget-user-desc">{{ following.following.profile.website }}</h5>
-                            <h5 class="widget-user-desc">{{ following.following.profile.short_introduction }}</h5>
+                            <h3 class="widget-user-username"><a href="#">{{ following.follower.username }}</a></h3>
+                            <h5 class="widget-user-desc">{{ following.follower.first_name }} {{ following.follower.last_name }}</h5>
+                            <h5 class="widget-user-desc">{{ following.follower.email }}</h5>
+                            <h5 class="widget-user-desc">{{ following.follower.profile.company }}</h5>
+                            <h5 class="widget-user-desc">{{ following.follower.profile.location }}</h5>
+                            <h5 class="widget-user-desc">{{ following.follower.profile.website }}</h5>
+                            <h5 class="widget-user-desc">{{ following.follower.profile.short_introduction }}</h5>
                         </div>
                     </div>
                 </div>
