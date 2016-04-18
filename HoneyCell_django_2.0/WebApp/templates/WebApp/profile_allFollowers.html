@@ -60,38 +60,38 @@
                     <div class="box box-widget widget-user-2">
                         <div class="followship-header">
                             <div class="widget-user-image">
-                                {% if follower.follower.profile.image %}
-                                    <img class="img-circle" src="{% url "get_user_picture" follower.follower.id %}"
+                                {% if follower.following.profile.image %}
+                                    <img class="img-circle" src="{% url "get_user_picture" follower.following.id %}"
                                          alt="User Avatar">
                                 {% else %}
                                     <img class="img-circle" src="{% static "WebApp/img/anonymous_user.jpg" %}"
                                          alt="User Avatar">
                                 {% endif %}
                             </div>
-                            <h3 class="widget-user-username"><a href="{% url 'other_profile' follower.follower.id %}">{{ follower.follower.username }}</a></h3>
+                            <h3 class="widget-user-username"><a href="{% url 'other_profile' follower.following.id %}">{{ follower.following.username }}</a></h3>
 
-                            {% if follower.follower.first_name %}
-                             <h5 class="widget-user-desc"><strong> Name: </strong>{{ follower.follower.first_name }} {{ follower.follower.last_name }}</h5>
+                            {% if follower.following.first_name %}
+                             <h5 class="widget-user-desc"><strong> Name: </strong>{{ follower.following.first_name }} {{ follower.following.last_name }}</h5>
                             {% endif %}
 
-                            {% if follower.follower.email %}
-                            <h5 class="widget-user-desc"><strong>Email: </strong>{{ follower.follower.email }}</h5>
+                            {% if follower.following.email %}
+                            <h5 class="widget-user-desc"><strong>Email: </strong>{{ follower.following.email }}</h5>
                             {% endif %}
 
-                            {% if follower.follower.profile.company %}
-                            <h5 class="widget-user-desc"><strong> Company: </strong>{{ follower.follower.profile.company }}</h5>
+                            {% if follower.following.profile.company %}
+                            <h5 class="widget-user-desc"><strong> Company: </strong>{{ follower.following.profile.company }}</h5>
                             {% endif %}
 
-                            {% if follower.follower.profile.location %}
-                            <h5 class="widget-user-desc"><strong>Location: </strong>{{ follower.follower.profile.location }}</h5>
+                            {% if follower.following.profile.location %}
+                            <h5 class="widget-user-desc"><strong>Location: </strong>{{ follower.following.profile.location }}</h5>
                             {% endif %}
 
-                            {% if follower.follower.profile.website %}
-                            <h5 class="widget-user-desc"><strong>Website: </strong>{{ follower.follower.profile.website }}</h5>
+                            {% if follower.following.profile.website %}
+                            <h5 class="widget-user-desc"><strong>Website: </strong>{{ follower.following.profile.website }}</h5>
                             {% endif %}
 
-                            {% if follower.follower.profile.short_introduction %}
-                            <h5 class="widget-user-desc"><strong>Introduction: </strong>{{ follower.follower.short_introduction }}</h5>
+                            {% if follower.following.profile.short_introduction %}
+                            <h5 class="widget-user-desc"><strong>Introduction: </strong>{{ follower.following.short_introduction }}</h5>
                             {% endif %}
                         </div>
                     </div>

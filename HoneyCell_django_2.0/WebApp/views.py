@@ -1105,7 +1105,7 @@ def followers(request):
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
-    followers = Followship.objects.filter(following=request.user)
+    followers = Followship.objects.filter(follower=request.user)
     context['followers'] = followers
 
 
