@@ -14,7 +14,7 @@
         <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Tasks</span>
-            <span class="label label-primary pull-right">4</span>
+            <!-- <span class="label label-primary pull-right">4</span> -->
         </a>
         <ul class="treeview-menu">
             <li><a href="#"><i class="fa fa-circle-o"></i> New Task</a></li>
@@ -50,11 +50,12 @@
 {% block content_area %}
     <section class="content content-top">
         <div class="row">
-            {% for following in followings %}
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                 </div>
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                 <div class="box box-primary">
+                
+                {% for following in followings %}
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="box box-widget widget-user-2">
                         <div class="followship-header">
