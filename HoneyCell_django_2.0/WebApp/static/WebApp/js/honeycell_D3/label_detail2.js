@@ -34,11 +34,11 @@ var svg = d3.select("#label_detail").append("svg")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var data = [];
-var url = "/get_json_result";
+var url = '/get_json_result.json';
 d3.json(url, function(apidata) {
  var object = {};
   for(var i = apidata["LabelNum"]-1; i >= 0; i--) {
-    object["labels"+i] = {
+    object["labels "+i] = {
       "F1Measure" : apidata["Labels"][i].F1Measure,
       "Recall" : apidata["Labels"][i].Recall,
       "Precision" : apidata["Labels"][i].Precision
@@ -74,30 +74,30 @@ d3.json(url, function(apidata) {
       .attr("y", height+5)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("# of Places");
 
-  var totals = svg.selectAll(".total_bar")
-      .data(data, function(d){ return d.name; })
-    .enter().append("rect")
-      .attr("class", "total_bar")
-      .attr("height", y0.rangeBand())
-      .attr("x", 2) 
-      .attr("y", function(d) { return y0(d.name); })
-      .attr("width", 0);
+
+  // var totals = svg.selectAll(".total_bar")
+  //     .data(data, function(d){ return d.name; })
+  //   .enter().append("rect")
+  //     .attr("class", "total_bar")
+  //     .attr("height", y0.rangeBand())
+  //     .attr("x", 2) 
+  //     .attr("y", function(d) { return y0(d.name); })
+  //     .attr("width", 0);
   
-  totals.transition()
-    .duration(600)
-      .ease("linear")
-        .attr("width", function(city) {
-          return x(d3.sum(city.categories, function(d) { return d.value; }));
-        });
+  // totals.transition()
+  //   .duration(600)
+  //     .ease("linear")
+  //       .attr("width", function(city) {
+  //         return x(d3.sum(city.categories, function(d) { return d.value; }));
+  //       });
 
-  var zero=d3.format(".4s");
+  // var zero=d3.format(".4s");
 
-  totals.append("title")
-    .text(function(city){
-      return "Total: " + zero(d3.sum(city.categories, function(d) { return d.value; }))
-    })
+  // totals.append("title")
+  //   .text(function(city){
+  //     return "Total: " + zero(d3.sum(city.categories, function(d) { return d.value; }))
+  //   })
 
   var cities = svg.selectAll(".city")
       .data(data, function(d){ return d.name; })
@@ -120,10 +120,10 @@ d3.json(url, function(apidata) {
       .ease("linear")
         .attr("width", function(d) { return x(d.value)});
 
-  bars.append("title")
-    .text(function(d){
-      return zero(d.value)
-    })
+  // bars.append("title")
+  //   .text(function(d){
+  //     return zero(d.value)
+  //   })
  
   var legend = svg.selectAll(".legend")
       .data(categories.concat(["total"]))
