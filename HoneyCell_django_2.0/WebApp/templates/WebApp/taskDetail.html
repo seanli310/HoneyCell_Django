@@ -3,9 +3,10 @@
 
 
 {% block javascript_header %}
-    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!-- <script src="{% static "WebApp/js/honeycell_D3/d3_tip.js" %}" type="text/javascript"></script> -->
     <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 {% endblock javascript_header %}
 
 
@@ -33,13 +34,13 @@
         <a href="{% url 'fileManage' %}"><i class="fa fa-folder"></i> <span>File Management </span></a>
     </li>
     <li>
-        <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
+        <a href="{% url 'profile' %}"><i class="fa fa-th"></i> <span>Profile</span></a>
     </li>
     <li>
         <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
     </li>
     <li>
-        <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
+        <a href="{% url 'settings' %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
     </li>
 {% endblock %}
 
@@ -78,6 +79,11 @@
                         <strong><i class="fa fa-map-marker margin-r-5"></i> Created Date </strong>
                         <p class="text-muted text-overflow ">{{ task.task_time_created }}</p>
                         <strong><i class="fa fa-envelope margin-r-5"></i> Status </strong>
+                        {% if task_status == 'Pending' %}
+                            {% elif task_status == '541548' %}
+                            {% elif task_status %}
+                        {% endif %}
+                        
                         <p class="text-muted text-overflow ">{{ task_status }}</p>
                         <strong><i class="fa fa-envelope margin-r-5"></i> Label </strong>
                         <p class="text-muted text-overflow ">{{ task_label }}</p>
@@ -100,16 +106,28 @@
                 <div class="nav-tabs-custom">
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs pull-right">
-                        <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                        <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
+                        <li ><a href="#label_detail" data-toggle="tab">Label Detail</a></li>
+                        <li class="active"><a href="#label_precision" data-toggle="tab">Label Precision</a></li>
+                        <li><a href="#confusion_matrix" data-toggle="tab">Confusion Matrix</a></li>
                         <li class="pull-left header"><i class="fa fa-inbox"></i> D3.js</li>
                     </ul>
                     <div class="tab-content no-padding">
                         <!-- Morris chart - D3.js -->
+                        <div class="chart tab-pane " id="label_detail"
+                             style="position: relative; height: 400px;"></div>
                         <div class="chart tab-pane active" id="label_precision"
-                             style="position: relative; height: 400px;"></div>
+                             style="position: relative; height: 400px;">
+                             <label class="label_precision_checkbox"><input type="checkbox" id="precison_sort"> Sort values</label>
+                             <!-- <button id="sort" onclick="sortBars()">Sort</button> -->
+                             <!-- <button id="reset" onclick="reset()">Reset</button> -->
+                        </div>
                         <div class="chart tab-pane" id="confusion_matrix"
-                             style="position: relative; height: 400px;"></div>
+                             style="position: relative; height: 400px;">
+                            <div id="dashboard"></div>
+                        </div>
+
+                        <input id='task_id' type="hidden" value="{{ task_id }}"/>
+
                     </div>
                 </div>
             </div><!-- /.nav-tabs-custom -->
@@ -118,11 +136,19 @@
     </div>
 {% endblock %}
 
+
+
 {% block javascript_footer %}
 
-    <script src="{% static "WebApp/js/honeycell_D3/label_precision.js" %}" type="text/javascript">
 
-    </script>
+    <script src="{% static "WebApp/js/honeycell_D3/label_detail.js" %}" type="text/javascript"></script>
+    <!-- <script src="{% static "WebApp/js/honeycell_D3/label_precision.js" %}" type="text/javascript"></script> -->
+    <script src="{% static "WebApp/js/honeycell_D3/label_precision_1.js" %}" type="text/javascript"></script>
+
+    <script src="{% static "WebApp/js/honeycell_D3/interactiveConfusionMatrix.js" %}" type='text/javascript'></script>
+
 
 
 {% endblock javascript_footer %}
+
+

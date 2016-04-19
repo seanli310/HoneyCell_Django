@@ -22,6 +22,8 @@ from WebApp.models import *
 
 import requests
 
+import threading
+
 
 # registration is normal route, and login is login is "django.contrib.views.login"
 def registration(request):
@@ -85,50 +87,50 @@ def registration(request):
     new_folder_instance.save()
     print("Already save new_folder_instance.")
 
-
-    # new_status_completed_instance = Status(user=new_user,
-    #                                        status_name="Completed",
-    #                                        status_description="This task is completed.")
-    # new_status_completed_instance.save()
-    # print("Already save new_status_completed_instance.")
-    # new_status_pending_instance = Status(user=new_user,
-    #                                        status_name="Pending",
-    #                                        status_description="This task is pending.")
-    # new_status_pending_instance.save()
-    # print("Already save new_status_pending_instance.")
-    # new_status_denied_instance = Status(user=new_user,
-    #                                        status_name="Denied",
-    #                                        status_description="This task is denied.")
-    # new_status_denied_instance.save()
-    # print("Already save new_status_denied_instance.")
-
     # using 'login' function
     login(request, new_user)
 
     # using 'redirect' function
     return redirect(reverse('index'))
 
+
 # def logout view
 def my_logout(request):
     logout(request)
     return redirect(reverse('index'))
 
+
+# go to index page
 @login_required
 def index(request):
     print("in the index function")
     context = {}
     user = request.user
     context['user'] = user
-    # print(request.get_host())
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     return render(request, 'WebApp/index.html', context)
 
+
+# go to new task page
 @login_required
 def newTask(request):
     print("in the newTask function")
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
 
     folders = Folder.objects.filter(user=user)
     context['folders'] = folders
@@ -148,6 +150,7 @@ def newTask(request):
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+# go to task history page
 @login_required
 def historyTask(request):
     print("in the historyTask function")
@@ -155,9 +158,15 @@ def historyTask(request):
     user = request.user
     context['user'] = user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
     tasks = Task.objects.filter(user=request.user).order_by("id").reverse().order_by("id").reverse()
 
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
 
     try:
@@ -169,6 +178,9 @@ def historyTask(request):
 
     context['tasks'] = tasks
 
+    if len(tasks) == 0:
+        context['empty'] = True
+
     context['LABEL_CHOICES'] = LABEL_CHOICES
     context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
     context['STATUS_CHOICES'] = STATUS_CHOICES
@@ -179,6 +191,8 @@ def historyTask(request):
 
     return render(request, 'WebApp/historyTask.html', context)
 
+
+# go to file manage page
 @login_required
 def fileManage(request):
     print("in the fileManage function")
@@ -186,11 +200,17 @@ def fileManage(request):
     user = request.user
     context['user'] = user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
     all_folders = Folder.objects.filter(user=request.user)
     context['all_folders'] = all_folders
 
     folders = Folder.objects.filter(user=request.user)
-    paginator = Paginator(folders, 3)
+    paginator = Paginator(folders, 8)
     page = request.GET.get('page')
     try:
         folders = paginator.page(page)
@@ -211,12 +231,21 @@ def fileManage(request):
 
     return render(request, 'WebApp/fileManage.html', context)
 
+
+# go to file management task page.
 @login_required
 def fileManage_tasks(request, folder_id):
     print("in the fileManage_tasks function")
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     folders = Folder.objects.filter(user=request.user)
     context['folders'] = folders
@@ -225,7 +254,7 @@ def fileManage_tasks(request, folder_id):
     context['folder'] = folder
 
     tasks = Task.objects.filter(task_folder=folder)
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
 
     try:
@@ -242,13 +271,19 @@ def fileManage_tasks(request, folder_id):
 
     return render(request, 'WebApp/fileManage_tasks.html', context)
 
-
+# go to the profile to show all followers
 @login_required
 def profile_allFollowers(request):
     print("in the profile_allFollowers function.")
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
 
     activities = Activity.objects.all()
     context['activities'] = activities
@@ -258,12 +293,20 @@ def profile_allFollowers(request):
 
     return render(request, 'WebApp/profile_allFollowers.html', context)
 
+
+# go to profile to show all followings
 @login_required
 def profile_allFollowings(request):
     print("in the profile_allFollowings function.")
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
 
     activities = Activity.objects.all()
     context['activities'] = activities
@@ -275,6 +318,7 @@ def profile_allFollowings(request):
 from WebApp.forms import *
 from django.utils import timezone
 
+# create new task
 @login_required
 def create_new_task(request):
     print("in the create_new_task function")
@@ -393,42 +437,70 @@ def create_new_task(request):
     new_activity_instance.save()
     print("Already save new_activity_instance.")
 
-    # return HttpResponseRedirect(reverse('newTask'))
 
     backend_url = 'http://128.2.7.38:32768/'
     address_prefix = '/home/honeycomb/DEMODAY/honeycell/HoneyCell_Django/HoneyCell_django_2.0/media/documents/' + str(context['user']) + '/' + str(context['task_folder'])
     tranining_address = address_prefix+'/trainings/'+str(training_docfile)
     testing_address = address_prefix+'/testings/'+str(testing_docfile)
 
-    print ''
-    print 'preparing to send task creation request to honey'
-    print 'user: ' + str(context['user'])
-    print 'task_id: ' + str(new_task_instance.id)
-    print 'training data address: ' + tranining_address
-    print 'testing data address: ' + testing_address
-    print 'sending task creation request to: ' + backend_url
-    print ''
+    print ('')
+    print ('preparing to send task creation request to honey')
+    print ('user: ' + str(context['user']))
+    print ('task_id: ' + str(new_task_instance.id))
+    print ('training data address: ' + tranining_address)
+    print ('testing data address: ' + testing_address)
+    print ('sending task creation request to: ' + backend_url)
+    print ('')
+
+    
+    print ('sending task creation request to: ' + backend_url)
+    print ('')
 
     my_json = {'task_id':new_task_instance.id, 'train_address': tranining_address, 'test_address': testing_address}
-    r_call_backend = requests.post(backend_url, data=my_json)
-    print 'sending task creation request to: ' + backend_url
-    print(r_call_backend.content)
-    print ''
+
+    # create a new thread to request for HoneyComb
+    # new_thread = threading.Thread(target = new_thread_for_new_task, kwargs={'my_json': my_json})
+    # new_thread.daemon = True
+    # new_thread.start()
 
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
 
 
+import time
+
+def new_thread_for_new_task(my_json):
+
+    print("in the new_thread_for_new_task function.")
+
+    backend_url = 'http://128.2.7.38:32768/'
+    r_call_backend = requests.post(backend_url, data=my_json)
+    print(r_call_backend.content)
+    # time.sleep(5)
+    print("new_thread_for_new_task Done")
+
+
+
+
+# go to guide page
 @login_required
 def guide(request):
     print("in the guide function")
     return render(request, 'WebApp/guide.html')
 
+# go to settings page
 @login_required
 def settings(request):
     print("in the settings function")
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -439,6 +511,7 @@ def settings(request):
     return render(request, 'WebApp/settings.html', context)
 
 
+# go to global page
 @login_required
 def global_page(request):
     print("in the global function.")
@@ -447,6 +520,13 @@ def global_page(request):
 
     users = User.objects.all()
     context['users'] = users
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -470,31 +550,10 @@ def global_page(request):
         print(comment.text)
     print("%" * 30)
 
-
     return render(request, 'WebApp/global_page.html', context)
 
 
-# @login_required
-# def other_user(request, user_id):
-#     print("in the other_user function.")
-#     print(request)
-#     print(user_id)
-#     context = {}
-#     context['user'] = request.user
-#     other_user = User.objects.get(id=user_id)
-#     context['other_user'] = other_user
-#
-#     if len(Followship.objects.filter(following=request.user,
-#                                      follower=other_user)):
-#         is_followed = True
-#         context['is_followed'] = is_followed
-#     else:
-#         is_followed = False
-#         context['is_followed'] = is_followed
-#
-#     return render(request, 'WebApp/other_user.html', context)
-
-
+# view to follow other user
 @login_required
 def follow(request, user_id):
     print("in the follow function.")
@@ -521,8 +580,15 @@ def follow(request, user_id):
     new_followship_instance.save()
     print("Already save new_followship_instance.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = "User: " + request.user.username + " follow user: " + other_user.username
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse("other_profile", kwargs={'user_id': other_user.id}))
 
+
+# view to unfollow other user
 @login_required
 def unfollow(request, user_id):
     print("in the unfollow function.")
@@ -539,6 +605,11 @@ def unfollow(request, user_id):
                                         follower=other_user)
     followship.delete()
     print("The Followship object already delete.")
+
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = "User: " + request.user.username + " unfollow user: " + other_user.username
+    new_activity_instance.save()
+
 
     return HttpResponseRedirect(reverse("other_profile", kwargs={'user_id': other_user.id}))
 
@@ -562,6 +633,7 @@ def get_user_picture(request, user_id):
     return HttpResponse(profile.image, content_type=content_type)
 
 
+# view to update profile information
 @login_required
 def update_profile(request):
     print("in the update_profile function.")
@@ -585,7 +657,6 @@ def update_profile(request):
     else:
         user_image = profile.image
 
-
     request.user.first_name = first_name
     request.user.last_name = last_name
     request.user.email = email
@@ -598,9 +669,15 @@ def update_profile(request):
     profile.save()
     print("Already update the profile.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " update the profile."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('profile'))
 
 
+# view to change_password
 @login_required
 def change_password(request):
     print("in the change_password function.")
@@ -633,6 +710,11 @@ def change_password(request):
         user.set_password(new_password1)
         user.save()
         print("Already reset the password.")
+
+        new_activity_instance = Activity(user=request.user)
+        new_activity_instance.description = request.user.username + " change the password."
+        new_activity_instance.save()
+
         user = authenticate(username = user.username,
                             password = new_password1,)
         login(request, user)
@@ -643,12 +725,21 @@ def change_password(request):
 import os.path
 from django.http import JsonResponse
 
+
+# go to task detail page
 @login_required
 def taskDetail(request, task_id):
     print("in the taskDetail function")
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -662,42 +753,10 @@ def taskDetail(request, task_id):
 
     print(task)
 
-    # url_output = task.output_file_address
-    # if not url_output:
-    #     return render(request, 'WebApp/taskDetail.html', context)
-
-    # url_output = 'static/WebApp/json/data.tsv'
-    # print(url_output)
-    # # with open(url_output) as json_file:
-    # #     obj = json_file.read()
-    # #     json_data = json.loads(obj)
-    # # # return JsonResponse(obj)
-    # # print(json_data)
-    # # context['json_data'] = json_data
-
-    # # context['url_output'] = url_output
-
-    # BASE = os.path.dirname(os.path.abspath(__file__))
-
-    # data = open(os.path.join(BASE, url_output))
-    # json_data = data.read()
-    # print(json_data)
-
-    # # context['json_data'] = JsonResponse(json_data, safe=False)
-    # context['json_data'] = json_data
-
+    context['task_id'] = task_id
 
     return render(request, 'WebApp/taskDetail.html', context)
 
-
-# # function to laod the html template
-# def graph(request):
-#     print("in the graph function.")
-
-#     context = {}
-#     context['user'] = request.user
-
-#     return render(request, 'WebApp/graph.html')
 
 
 from django.db import connections
@@ -706,33 +765,57 @@ from django.db.models import Count
 
 import os.path
 
+import csv
+
 # function to load json file
-def get_json_result(request):
+def get_json_result(request, task_id):
+
+    print(task_id)
 
     print("in the get_json_result function.")
 
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-    # json_url = 'WebApp/JSON/12345678.json'
-    json_url = 'WebApp/static/WebApp/json/data.tsv'
-
-    print(os.path.join(BASE_DIR, json_url))
-
-    json_data = open(os.path.join(BASE_DIR, json_url))
-
-    print(json_data)
-
-    print("%" * 30)
-    print(json_data)
-    print("%" * 30)
+    # try:
+    finished_task = Task.objects.get(id = task_id)
 
 
+    json_url = ""
 
-    return JsonResponse(list(json_data), safe=False)
+    print(finished_task)
+
+    if finished_task.output_file_address:
+        json_url = finished_task.output_file_address
+    
+    print(json_url)
+
+    # task does not exist
+    # except ObjectDoesNotExist:
+    if json_url != "":
+        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+        try:
+            json_data = open(os.path.join(BASE_DIR, json_url))
+            data = json_data.read()
+            # print(data)
+            return JsonResponse((data), safe=False)
+        except (OSError, IOError) as e:
+            pass
+
+    # hard code
+    else:
+        json_url = 'WebApp/static/WebApp/json/honeycomb.json'
+        try:
+            BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            json_data = open(os.path.join(BASE_DIR, json_url))
+            data = json_data.read()
+
+            # print(data)
+            return JsonResponse((data), safe=False)
+        except (OSError, IOError) as e:
+            pass 
 
 
 
-
+# view to update task
 @login_required
 def update_task(request, task_id):
     print("in the update_task function.")
@@ -770,10 +853,15 @@ def update_task(request, task_id):
     task.save()
     print("Already update task's information.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " update " + task.task_name + "'s information."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': task_id}))
 
 
-
+# go to new folder page
 @login_required
 def new_folder(request):
     print("in the new_folder function.")
@@ -800,10 +888,15 @@ def new_folder(request):
     new_folder_instance.save()
     print("Already save the new_folder_instance.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " create a new folder."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('fileManage'))
 
 
-
+# view to update folder information
 @login_required
 def update_folder(request, folder_id):
     print("in the update_folder function.")
@@ -829,16 +922,15 @@ def update_folder(request, folder_id):
         return HttpResponseRedirect(reverse('fileManage'))
 
 
-    # if ( (folder.folder_description != folder_description) and len(Folder.objects.filter(folder_description=folder_description)) ):
-        # The way to return back the error message needs to be changed later
-        # errors.append("The folder description already exists, please type in another folder description.")
-        # print("The folder description already exists, please type in another folder description.")
-        # return HttpResponseRedirect(reverse('fileManage'))
-
     folder.folder_name = folder_name
     # folder.folder_description = folder_description
     folder.save()
     print("Already update folder's information")
+
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " change folder name to " + folder.folder_name + "."
+    new_activity_instance.save()
+
 
     return HttpResponseRedirect(reverse('fileManage'))
 
@@ -856,6 +948,8 @@ def delete_folder(request, folder_id):
     folder = Folder.objects.get(id=folder_id)
     context['folder'] = folder
 
+    folder_name = folder.folder_name
+
     tasks_inside_folder = Task.objects.filter(task_folder=folder)
 
     for task in tasks_inside_folder:
@@ -865,6 +959,11 @@ def delete_folder(request, folder_id):
     folder.delete()
     print("Successfully delete the folder.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " delete folder " + folder_name + "."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('fileManage'))
 
 
@@ -873,6 +972,13 @@ def important_tasks(request):
     print("in the important_tasks function.")
     context = {}
     context['user'] = request.user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -885,7 +991,7 @@ def important_tasks(request):
     task_label_important_index = LABEL_CHOICES[1][0]
 
     tasks = Task.objects.filter(user=request.user, task_label=task_label_important_index).order_by("id").reverse()
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
     try:
         tasks = paginator.page(page)
@@ -894,6 +1000,9 @@ def important_tasks(request):
     except EmptyPage:
         tasks = paginator.page(paginator.num_pages)
     context['tasks'] = tasks
+
+    if len(tasks) == 0:
+        context['empty'] = True
 
     context['LABEL_CHOICES'] = LABEL_CHOICES
     context['ALGORITHM_CHOICES'] = ALGORITHM_CHOICES
@@ -908,6 +1017,12 @@ def warning_tasks(request):
     context = {}
     context['user'] = request.user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
@@ -919,7 +1034,7 @@ def warning_tasks(request):
     task_label_warning_index = LABEL_CHOICES[2][0]
 
     tasks = Task.objects.filter(user=request.user, task_label=task_label_warning_index).order_by("id").reverse()
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
     try:
         tasks = paginator.page(page)
@@ -943,6 +1058,13 @@ def information_tasks(request):
     context = {}
     context['user'] = request.user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
+
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
@@ -954,7 +1076,7 @@ def information_tasks(request):
     task_label_information_index = LABEL_CHOICES[3][0]
 
     tasks = Task.objects.filter(user=request.user, task_label=task_label_information_index).order_by("id").reverse()
-    paginator = Paginator(tasks, 3)
+    paginator = Paginator(tasks, 8)
     page = request.GET.get('page')
     try:
         tasks = paginator.page(page)
@@ -979,11 +1101,31 @@ def followers(request):
     context = {}
     context['user'] = request.user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+
+
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
-    followers = Followship.objects.filter(following=request.user)
+    followers = Followship.objects.filter(follower=request.user)
+
+    paginator = Paginator(followers, 5)
+    page = request.GET.get('page')
+    try:
+        followers = paginator.page(page)
+    except PageNotAnInteger:
+        followers = paginator.page(1)
+    except EmptyPage:
+        followers = paginator.page(paginator.num_pages)
+
     context['followers'] = followers
+
+    if len(followers) == 0:
+        context['empty'] = True;
 
 
     return render(request, 'WebApp/profile_allFollowers.html', context)
@@ -996,11 +1138,33 @@ def followings(request):
     context = {}
     context['user'] = request.user
 
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
+
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
 
-    followings = Followship.objects.filter(follower=request.user)
+    followings = Followship.objects.filter(following=request.user)
+
+    paginator = Paginator(followings, 5)
+    page = request.GET.get('page')
+    try:
+        followings = paginator.page(page)
+    except PageNotAnInteger:
+        followings = paginator.page(1)
+    except EmptyPage:
+        followings = paginator.page(paginator.num_pages)
+
+
     context['followings'] = followings
+
+
+    if len(followings) == 0:
+        context['empty'] = True;
 
     return render(request, 'WebApp/profile_allFollowings.html', context)
 
@@ -1014,6 +1178,13 @@ def profile(request):
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -1068,6 +1239,13 @@ def other_profile(request, user_id):
     print("in the other_profile function.")
     context = {}
     context['user'] = request.user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -1145,6 +1323,11 @@ def add_comment(request, activity_id):
     new_comment_instance.save()
     print("Successfully save new_comment_instance.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " add a comment to " + activity.description + "."
+    new_activity_instance.save()
+
+
 
     return HttpResponseRedirect(reverse('global_page'))
 
@@ -1159,18 +1342,34 @@ def task_finished(request):
 
 
     # check POST content
+    if 'error' in request.POST:
+        error = str(request.POST['error'])
+        print (type(error))
+
+    else:
+        return HttpResponseNotFound("task_id not found in POST request")
+
+    # not succeed
+    if error == '1':
+        return HttpResponseNotFound("Has error in honeycomb")
+
+
+    # check POST content
     if 'task_id' in request.POST:
         task_id = request.POST['task_id']
     else:
         return HttpResponseNotFound("task_id not found in POST request")
 
+    # check POST content
     if 'result_address' in request.POST:
         result_address = request.POST['result_address']
     else:
         return HttpResponseNotFound("result_address not found in POST request")
 
-
+    
     print("task_id: %s" %(task_id))
+
+
 
     try:
         task = Task.objects.get(id=task_id)
@@ -1230,11 +1429,12 @@ def task_finished_ajax_check_database(request):
 
         # detect task complete flag
         for t in completed_tasks:
-            temp = '<h2> Your task <a href=" {% ' 
-            temp += "url " + "'taskDetail'"
-            temp += " %d " %(t.task.id)
-            temp += ' %}"' + '> %s </a> has been completed. <h2> \n' %(t.task.task_name)
-            # temp = '<h2> Your task %s has been completed </h2>'
+            # temp = '<h2> Your task <a href=" {% ' 
+            # temp += "url " + "'taskDetail'"
+            # temp += " %d " %(t.task.id)
+            # temp += ' %}"' + '> %s </a> has been completed. <h2> \n' %(t.task.task_name)
+            temp = '<h2> Your task "' 
+            temp += '%s" has been completed. <h2> \n' %(t.task.task_name)
             messageString += temp
 
         print("messageString: \n %s") %(messageString)
@@ -1265,6 +1465,13 @@ def profile_comment(request, recent_tab):
     context = {}
     user = request.user
     context['user'] = user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -1352,6 +1559,11 @@ def profile_add_comment(request, activity_id):
     new_comment_instance.save()
     print("Successfully save new_comment_instance.")
 
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " add a comment to " + activity.description + "."
+    new_activity_instance.save()
+
+
     return HttpResponseRedirect(reverse('profile_comment', kwargs={'recent_tab': context['recent_tab']}))
 
 
@@ -1365,6 +1577,13 @@ def other_profile_comment(request, user_id):
 
     context = {}
     context['user'] = request.user
+
+    # user Control Sidebar in base.html
+    num_followers_self = len(Followship.objects.filter(follower=request.user))
+    num_followings_self = len(Followship.objects.filter(following=request.user))
+    context['num_followers_self'] = num_followers_self
+    context['num_followings_self'] = num_followings_self
+    
 
     profile = Profile.objects.get(user=request.user)
     context['profile'] = profile
@@ -1421,6 +1640,11 @@ def other_profile_add_comment(request, activity_id):
                                    text=comment_text)
     new_comment_instance.save()
     print("Successfully save new_comment_instance.")
+
+    new_activity_instance = Activity(user=request.user)
+    new_activity_instance.description = request.user.username + " add a comment to " + activity.description + "."
+    new_activity_instance.save()
+
 
     return HttpResponseRedirect(reverse('other_profile_comment', kwargs={'user_id': other_user_id}))
 

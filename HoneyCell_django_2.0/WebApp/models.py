@@ -12,9 +12,8 @@ class Folder(models.Model):
     folder_time_created = models.DateTimeField(auto_now_add=True)
     folder_time_changed = models.DateTimeField(auto_now=True)
 
-# class Label(models.Model):
-#     label_name = models.CharField(max_length=100)
-#     label_description = models.TextField(max_length=1000)
+
+
 
 LABEL_CHOICES = (
     (1, 'None'),
@@ -37,16 +36,8 @@ ALGORITHM_CHOICES = (
 )
 
 
-# Later we need to change this status, not bind to user
-# class Status(models.Model):
-#     user = models.ForeignKey(User)
-#     status_name = models.CharField(max_length=100)
-#     status_description = models.CharField(max_length=1000)
 
-# Later we need to change this status, not bind to user
-# class Algorithm(models.Model):
-#     algorithm_name = models.CharField(max_length=100)
-#     algorithm_description = models.TextField(max_length=1000)
+
 
 def generate_training_filename(self, filename):
     url = 'documents/%s/%s/trainings/%s' %(self.user.username, self.task_folder.folder_name, filename)
@@ -114,6 +105,7 @@ class Profile(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
     time_changed = models.DateTimeField(auto_now=True)
 
+
 class Comment(models.Model):
     user = models.ForeignKey(User)
     activity = models.ForeignKey(Activity)
@@ -129,5 +121,9 @@ class Followship(models.Model):
 
     def __unicode__(self):
         return "%s follows %s at %s" %(self.following, self.follower, self.follow_datetime)
+
+
+
+
 
 

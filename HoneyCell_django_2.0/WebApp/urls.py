@@ -131,7 +131,7 @@ urlpatterns = [
     # url(r'^graph/$', 'WebApp.views.graph', name='graph'),
 
     # function to load json file
-    url(r'^get_json_result/$', 'WebApp.views.get_json_result', name='get_json_result'),
+    url(r'^get_json_result/(?P<task_id>\d+)$', 'WebApp.views.get_json_result', name='get_json_result'),
 
 
 

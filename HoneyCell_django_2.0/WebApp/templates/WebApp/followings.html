@@ -10,14 +10,14 @@
         </a>
     </li>
 
-    <li class="active treeview">
+    <li class="treeview">
         <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Tasks</span>
             <span class="label label-primary pull-right">4</span>
         </a>
         <ul class="treeview-menu">
-            <li class="active"><a href="#"><i class="fa fa-circle-o"></i> New Task</a></li>
+            <li><a href="{% url "newTask" %}"><i class="fa fa-circle-o"></i> New Task</a></li>
             <li><a href="{% url "historyTask" %}"><i class="fa fa-circle-o"></i> History Tasks</a></li>
         </ul>
     </li>
@@ -31,17 +31,78 @@
         <a href="{% url 'global_page' %}"><i class="fa fa-book"></i> <span>Global</span></a>
     </li>
     <li>
-        <a href="{% url "settings" %}"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
+        <a href="#"><i class="fa fa-pie-chart"></i> <span>Settings</span></a>
     </li>
 {% endblock %}
 
 
 
 {% block content_header %}
-    New Task
+    All Followers
 {% endblock content_header %}
 
 {% block content_breadcrumb %}
     <li><a href="{% url "index" %}"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Followings</li>
+    <li class="active">Followers</li>
 {% endblock content_breadcrumb %}
+
+
+
+{% block content_area %}
+    <!-- Main content -->
+    <section class="newTask-content content-top ">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tr>
+                                <th>User Name</th>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>User email</th>
+                            </tr>
+                            {% for follower in followers %}
+                                <tr>
+                                    <td>{{ follower.username }}</td>
+                                    <td>{{ follower.first_name }}</td>
+                                    <td>{{ follower.last_name }}</td>
+                                    <td>{{ follower.email }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div><!-- /.box-body -->
+
+
+                    <div class="box-footer clearfix">
+
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            {% if tasks.has_previous %}
+                                <li><a href="?page={{ tasks.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li><a href="">&laquo;</a></li>
+                            {% endif %}
+
+                            {% for num in tasks.paginator.page_range %}
+                                {% ifequal num tasks.number %}
+                                    <li class="current"><a href="#"><b>{{ num }}</b></a></li>
+                                {% else %}
+                                    <li><a href="?page={{ num }}"> {{ num }}</a></li>
+                                {% endifequal %}
+                            {% endfor %}
+
+                            {% if tasks.has_next %}
+                                <li><a href="?page={{ tasks.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li><a href="#">&raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                </div><!-- /.box -->
+            </div>
+        </div>
+    </section><!-- /.content -->
+{% endblock %}
+
+

@@ -21,7 +21,7 @@
         </ul>
     </li>
     <li>
-        <a href="{% url 'fileManage'%}"><i class="fa fa-folder"></i> <span>File Management </span></a>
+        <a href="{% url 'fileManage' %}"><i class="fa fa-folder"></i> <span>File Management </span></a>
     </li>
     <li>
         <a href="{% url "profile" %}"><i class="fa fa-th"></i> <span>Profile</span></a>
@@ -66,6 +66,7 @@
                                 <th>Modified Date</th>
                             </tr>
                             {% for task in tasks %}
+
                                 {% if task.task_status == 1 %}
                                     <tr>
                                         <td><a href="{% url 'taskDetail' task.id %}">{{ task.id }}</a></td>
@@ -103,6 +104,13 @@
                                     <!-- Nothing show -->
                                 {% endif %}
 
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6">
+                                        <h3 align="center">Currently, there is no task.</h3>
+                                    </td>
+                                </tr>
+
                             {% endfor %}
                         </table>
                     </div><!-- /.box-body -->
@@ -110,27 +118,33 @@
 
                     <div class="box-footer clearfix">
 
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            {% if tasks.has_previous %}
-                                <li><a href="?page={{ tasks.previous_page_number }}">&laquo;</a></li>
-                            {% else %}
-                                <li><a href="">&laquo;</a></li>
-                            {% endif %}
-
-                            {% for num in tasks.paginator.page_range %}
-                                {% ifequal num tasks.number %}
-                                    <li class="current"><a href="#"><b>{{ num }}</b></a></li>
+                        {% if empty %}
+                            <!-- if empty, no pagination to show -->
+                        {% else %}
+                            <ul class="pagination pagination-sm no-margin pull-right">
+                                {% if tasks.has_previous %}
+                                    <li><a href="?page={{ tasks.previous_page_number }}">&laquo;</a></li>
                                 {% else %}
-                                    <li><a href="?page={{ num }}"> {{ num }}</a></li>
-                                {% endifequal %}
-                            {% endfor %}
+                                    <li><a href="">&laquo;</a></li>
+                                {% endif %}
 
-                            {% if tasks.has_next %}
-                                <li><a href="?page={{ tasks.next_page_number }}">&raquo;</a></li>
-                            {% else %}
-                                <li><a href="#">&raquo;</a></li>
-                            {% endif %}
-                        </ul>
+                                {% for num in tasks.paginator.page_range %}
+                                    {% ifequal num tasks.number %}
+                                        <li class="current"><a href="#"><b>{{ num }}</b></a></li>
+                                    {% else %}
+                                        <li><a href="?page={{ num }}"> {{ num }}</a></li>
+                                    {% endifequal %}
+                                {% endfor %}
+
+                                {% if tasks.has_next %}
+                                    <li><a href="?page={{ tasks.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                    <li><a href="#">&raquo;</a></li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+
+
                     </div>
 
                 </div><!-- /.box -->
