@@ -459,9 +459,9 @@ def create_new_task(request):
     my_json = {'task_id':new_task_instance.id, 'train_address': tranining_address, 'test_address': testing_address}
 
     # create a new thread to request for HoneyComb
-    new_thread = threading.Thread(target = new_thread_for_new_task, kwargs={'my_json': my_json})
-    new_thread.daemon = True
-    new_thread.start()
+    # new_thread = threading.Thread(target = new_thread_for_new_task, kwargs={'my_json': my_json})
+    # new_thread.daemon = True
+    # new_thread.start()
 
     return HttpResponseRedirect(reverse('taskDetail', kwargs={'task_id': new_task_instance.id}))
 
@@ -772,12 +772,7 @@ def get_json_result(request, task_id):
 
     print(task_id)
 
-<<<<<<< Updated upstream
     print("in the get_json_result function.")
-=======
-    # json_url = 'WebApp/JSON/12345678.json'
-    json_url = 'WebApp/static/WebApp/json/honeycomb.json'
->>>>>>> Stashed changes
 
     # try:
     finished_task = Task.objects.get(id = task_id)
