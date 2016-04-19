@@ -1112,7 +1112,20 @@ def followers(request):
     context['profile'] = profile
 
     followers = Followship.objects.filter(follower=request.user)
+
+    paginator = Paginator(followers, 5)
+    page = request.GET.get('page')
+    try:
+        followers = paginator.page(page)
+    except PageNotAnInteger:
+        followers = paginator.page(1)
+    except EmptyPage:
+        followers = paginator.page(paginator.num_pages)
+
     context['followers'] = followers
+
+    if len(followers) == 0:
+        context['empty'] = True;
 
 
     return render(request, 'WebApp/profile_allFollowers.html', context)
@@ -1136,11 +1149,22 @@ def followings(request):
     context['profile'] = profile
 
     followings = Followship.objects.filter(following=request.user)
+
+    paginator = Paginator(followings, 5)
+    page = request.GET.get('page')
+    try:
+        followings = paginator.page(page)
+    except PageNotAnInteger:
+        followings = paginator.page(1)
+    except EmptyPage:
+        followings = paginator.page(paginator.num_pages)
+
+
     context['followings'] = followings
 
-    print("%" * 30)
-    print(followings)
-    print("%" * 30)
+
+    if len(followings) == 0:
+        context['empty'] = True;
 
     return render(request, 'WebApp/profile_allFollowings.html', context)
 
@@ -1320,7 +1344,7 @@ def task_finished(request):
     # check POST content
     if 'error' in request.POST:
         error = str(request.POST['error'])
-        print type(error)
+        print (type(error))
 
     else:
         return HttpResponseNotFound("task_id not found in POST request")
